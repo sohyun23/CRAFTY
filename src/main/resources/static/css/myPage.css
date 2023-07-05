@@ -1,0 +1,213 @@
+body {
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+.header {
+    height: 100px;
+    background-color: #444444;
+    text-align: center;
+    font-size: 60;
+}
+.main-container {
+    display: flex;
+    margin: auto;
+}
+/* 사이드 메뉴 */
+.dashboard {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+hr {
+    width: 200px;
+    text-align: left;
+    margin: 0px;
+}
+.side-menu {
+    width: 220px;
+    float: left;
+    margin-top: 25px;
+    margin-left: 50px;
+    border-right: 
+}
+.menu {
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    font-size: 28px;
+    font-weight: 600;
+}
+.menu-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.menu-container>ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.menu-container>ul>li {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+#current-title {
+    font-weight: 600;
+}
+.line {
+    width: 0px;
+    border: 1px solid #918f8f;
+    margin-top: 25px;
+}
+/* 테이블 본문 */ 
+.main-content {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: left;
+    margin-top: 25px;
+}
+
+.title {
+    display: block;
+    margin-left: 45px;
+    margin-bottom: 12px;
+    font-size: 34px;
+    font-weight: 600;
+}
+/* 테이블 설정 */
+table {
+    margin-left: 45px;
+    margin-right: 45px;
+    border-collapse: collapse;
+    text-align: center;
+}
+thead {
+    font-size: 20px;
+    font-weight: 600;
+}
+td, th {
+    border-bottom: 1px solid #444444;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+/* admin-goodsManagement 테이블 */
+.goodsManagement-name {
+    width: 460px;
+}
+.goodsManagement-seller {
+    width: 200px;
+}
+.goodsManagement-amount {
+    width: 150px;
+}
+.goodsManagement-payList, .goodsManagement-adjustmentDate, .goodsManagement-adjustmentBtn {
+    width: 130px;
+}
+.pay-dropdown {
+    margin-right: 50px;
+    margin-bottom: 10px;
+}
+
+/* admin-registerRequest 테이블 */
+.registerRequest-goodsName {
+    width: 800px;
+}
+.registerRequest-requestDate {
+    width: 250px;
+}
+.registerRequest-allow {
+    width: 150px;
+}
+
+/* admin-deleteRequest 테이블 */
+.deleteRequest-goodsName {
+    width: 600px;
+}
+.deleteRequest-requestDate {
+    width: 300px;
+}
+.deleteRequest-requestReason {
+    width: 150px;
+    text-decoration: underline;
+}
+.deleteRequest-allow {
+    width: 150px;
+}
+
+/* registeredGoods 테이블 */
+.registeredGoods-goodsName {
+    width: 500px;
+}
+.registeredGoods-createDate {
+    width: 200px;
+}
+.registeredGoods-status {
+    width: 100px;
+}
+.registeredGoods-detail {
+    width: 100px;
+}
+
+/* attendedGoods 테이블 */
+.attendedGoods-goodsName {
+    width: 500px;
+}
+.attendedGoods-paymentDate {
+    width: 200px;
+}
+.attendedGoods-status {
+    width: 100px;
+}
+.attendedGoods-detail {
+    width: 100px;
+}
+
+/* 페이지네이션 */
+.pagination-box {
+    display: flex;
+    justify-content: center;
+}
+.pagination-nav {
+	margin: auto;
+}
+
+.pagination>ul {
+	display: inline-block;
+	justify-content: center;
+}
+.pagination>li {
+	color: black;
+	float: left;
+    text-decoration: none;
+}
+
+.pagination a {
+    color: black;
+    padding: 6px 10px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+}
+ 
+.pagination a.active {
+    background-color: #D9E6FF;
+    color: black;
+    border: 1px solid #D9E6FF;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
