@@ -1,0 +1,231 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+
+body {
+  text-align: center;
+  font-family: "NanumGothic";
+}
+
+div {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.divLeft {
+  text-align: left;
+}
+
+h1 {
+  font-size: 20px;
+  text-align: left;
+}
+#goodsName {
+  width: 600px;
+}
+#goodsNameInput {
+  width: 400px;
+  height: 40px;
+
+  background-color: white;
+  font-size: 16px;
+  /* border: none; */
+  border: 1px solid grey;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+#goodsNameInput:hover {
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+input {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#goodsIntroInput {
+  width: 400px;
+  height: 40px;
+  background-color: white;
+  font-size: 16px;
+  color: grey;
+  border: 1px solid grey;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+/* select
+- 물품 카테고리
+- 은행 카테고리
+*/
+select {
+  width: 200px;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#categorySubmit {
+  width: 80px;
+  height: 40px;
+  font-size: 16px;
+  /* border: none; */
+  border: 1px solid grey;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  &:hover {
+    color: white;
+    background: grey;
+  }
+}
+/* 모금기간 */
+.date {
+  width: 200px;
+  height: 30px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid grey;
+  margin-right: 95px;
+  font-family: "NanumGothic";
+}
+#dateTxt {
+  display: flex;
+}
+#startDateTxt {
+  width: 200px;
+  text-align: left;
+  margin-left: 0px;
+}
+#endDateTxt {
+  width: 200px;
+  text-align: left;
+}
+#periodInput {
+  text-align: left;
+}
+
+/* 이미지 등록 btn */
+button {
+  display: inline-block;
+  text-align: center;
+  width: 600px;
+  height: 40px;
+  font-size: 18px;
+  background-color: #efefef;
+  border: solid 1px grey;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: grey;
+  }
+}
+
+/* 상품정보입력 */
+#itemInfoForm {
+  background-color: rgb(213, 213, 213);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+#itemInputBox {
+  background-color: rgb(232, 232, 232);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  width: 500px;
+}
+.itemForm {
+  width: 400px;
+  height: 40px;
+  background-color: white;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 13px;
+}
+.ness {
+  color: rgb(225, 0, 0);
+}
+#itemSubmit {
+  margin-left: 470px;
+}
+#itemSubmitInput {
+  width: 70px;
+  height: 40px;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background: grey;
+  }
+}
+
+/* 계좌 */
+#bankAccountNumber {
+  width: 400px;
+  height: 40px;
+  background-color: white;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+/* 상품 구성 리스트 */
+ul {
+  list-style-type: none;
+  background-color: rgb(213, 213, 213);
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+li {
+  color: grey;
+}
+.items {
+  width: 400px;
+  height: 40px;
+  background-color: white;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+.itemdelete {
+  border: 1px solid grey;
+  width: 40px;
+  height: 43px;
+}
+#item {
+  text-align: left;
+}
+
+/* 목표금액 */
+#targetAmountInput {
+  width: 400px;
+  height: 40px;
+  background-color: white;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+/* 정산받을 계좌 정보 */
+#bankAccountNumber {
+  width: 390px;
+}
+
+/* 굿즈 만들기 */
+#registGoodsBtn {
+  background-color: grey;
+  border: none;
+  color: rgb(40, 40, 40);
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  &:hover {
+    color: white;
+    background: rgb(0, 153, 255);
+  }
+}
