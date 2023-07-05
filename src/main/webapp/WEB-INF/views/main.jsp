@@ -7,8 +7,5 @@
 <title>Insert title here</title>
 </head>
 <body>
-</body>
-<script>
 
-</script>
 </html>
