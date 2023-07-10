@@ -149,7 +149,7 @@
                     This grid is an attempt to make something nice that works on touch devices. Ignoring hover states when they're not available etc.
                   </div>
               </div>
-              
+               
                 <div class="card">
                   <div class="card-image-holder">
                     <img class="card-image" src="https://source.unsplash.com/300x225/?mountain" alt="mountain" />
