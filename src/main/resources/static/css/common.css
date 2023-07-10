@@ -14,6 +14,7 @@ header {
 	margin : 0 auto;
 	height : 100px;
 	width : 1440px;
+	
 	position: relative;
 }
 
@@ -34,44 +35,65 @@ header {
 
 
 
-
-
-
 .main-dropdown {
  	position: absolute;
+ 	
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	
-	left : 90%;
- 	width : 150px;
+ 	
+	left : 93%;
+ 	height : 65px;
 }
 
 .main-dropdown-button {
-	border:none;
+	border:1px solid #3D56B2;
   	border-radius:50%;
   	width: 50px;
   	height: 50px;
+  	
   	overflow: hidden;    
   	cursor:pointer;
 }
 
-
-.profile-image {
-	width: 50px;
-    height: 50px;
+.profile-image{
+	width : 50px;
+	height : 50px;
 }
-
 
 .dropdown-options {
 	display: none;
 	position: absolute;
 	right : 0%;
 	width : 130px;
-	background-color:#9F8772;
+	background-color:#ffffff;
 	border-radius:5px;
 	box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+	
+	z-index : 1;
 }
+
+.dropdown-item {
+	font-weight : 600;
+}
+
+
+.dropdown-options .dropdown-item{
+  display : block;
+  text-decoration : none;
+  color : rgb(37, 37, 37);
+  font-size: 12px;
+  padding : 12px 20px;
+}
+
+.main-dropdown:hover .dropdown-options {
+  display: block;
+}
+
+.dropdown-item:hover{
+  background-color : #ececec
+}
+
 
 /* =======================================body========================================*/
 
@@ -98,7 +120,7 @@ footer {
 	text-align: center;
 	text-decoration : none;
 	color: #686868;
-	font-size: 22px;
+	font-size: 18px;
 }
 
 .footer-image {
@@ -231,5 +253,49 @@ select {
 }
 
 
+/* =======================================dropdown(select)========================================*/
 
+select {
+    background-size: 20px;
+    padding: 3px 6px 3px 6px;
+    border: 1px solid #444444;
+    border-radius: 5px;
+    outline: 0 none;
+    margin-left: 3px;
+    color: #444444;
+    background-color: #ffffff;
+}
 
+/* =======================================table========================================*/
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+thead {
+    color:    white;
+    font-size: 22px;
+    font-weight: 600;
+    background-color: #3D56B2;
+}
+tbody {
+    font-size: 18px;
+}
+td, th {
+    border-bottom: 1px solid #444444;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+/* =======================================a========================================*/
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    color : #3D56B2;
+    font-weight: 600;
+}
