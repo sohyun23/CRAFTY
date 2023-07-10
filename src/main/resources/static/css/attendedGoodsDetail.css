@@ -1,0 +1,88 @@
+
+/* 본문 */
+.main-content {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: left;
+    margin-top: 25px;
+	margin-left: 50px;
+}
+.title {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 34px;
+    font-weight: 600;
+}
+
+/* 썸네일, 굿즈명, 버튼 영역 */
+.top {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+/* 썸네일 */
+.left {
+    display: flex;
+    width: 220px;
+    height: 220px;
+    justify-content: center; 
+    align-items: center;
+    overflow: hidden;
+}
+#goods-link {
+    display: flex; /* 내부 컨텐츠를 가로로 정렬하기 위해 flex 사용 */
+    height: 100%; /* 부모 요소의 높이에 맞춰주기 위해 100% 설정 */
+}
+#goods-thumbnail {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 굿즈명, 버튼 */
+.right {
+    width: 500px;
+    margin-left: 50px;
+}
+#goods-name {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+/* 주문 정보 영역 */
+.bottom {
+    display: flex;
+    flex-direction: row;
+    margin-left: 45px;
+    margin-top: 10px;
+    font-size: 22px;
+}
+.info-container {
+    width: 500px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+.info-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.info-item {
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+.info-container>hr {
+    width: 450px;
+    height: 0px;
+    background-color: black;
+    text-align: left;
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+.item-total-price {
+	font-size: 22px;
+}
