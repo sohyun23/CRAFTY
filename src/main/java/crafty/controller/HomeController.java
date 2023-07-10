@@ -9,4 +9,9 @@ public class HomeController {
 	public String main() {
 		return "registerGoods";
 	}
+	
+	@GetMapping("/main")
+	public String mainPage() {
+		return "main";
+	}
 }

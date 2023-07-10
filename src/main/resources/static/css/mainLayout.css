@@ -1,0 +1,303 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
+.main-total-container {
+	margin : auto;
+	width : 1440px;
+}
+
+/* search box */
+.main-search {
+	margin-right : 6%
+}
+
+
+.search-container{
+	width: 200px;
+}
+
+input#search-bar{
+	margin: 0 auto;
+	width: 100%;
+	height: 45px;
+	padding: 0 20px;
+	font-size: 1rem;
+	border: 2px solid #3D56B2;
+	border-radius:10px;
+	background-color : #ffffff;
+	outline: none;
+	
+	&:focus{
+		border: 1px solid #3D56B2;
+		transition: 0.35s ease;
+		color: #3D56B2;
+		&::-webkit-input-placeholder{
+			transition: opacity 0.45s ease; 
+			opacity: 0;
+		}
+		&::-moz-placeholder {
+			transition: opacity 0.45s ease; 
+			opacity: 0;
+		 }
+		&:-ms-placeholder {
+			transition: opacity 0.45s ease; 
+			opacity: 0;
+		 }    
+	}
+}
+
+.search-icon{
+	position: relative;
+	float: right;
+	width: 75px;
+	height: 75px;
+	top: -62px;
+	right: -45px;
+}
+
+
+
+
+/* category-bar */
+
+.main-search-category-container {
+	display : flex;
+	justify-content : center;
+	
+	background-color : #efefef;
+	
+	height : 49px;
+	
+	padding-top : 10px;
+	padding-bottom : 10px;
+}
+
+.main-search-category-bundle {
+	width : 1440px;
+	
+	display : flex;
+	justify-content : space-between;
+}
+
+
+.main-category {
+	margin-top : 0px;
+	display : flex;
+	
+}
+
+.main-category-container {
+	display : flex;
+	justify-content: space-between;
+	align-items : center;
+}
+
+
+.main-category-list {
+	display : flex;
+	justify-content: space-between;
+	align-items : center;
+	width : 900px;
+	height : 45px;
+	
+	/*border : 1px solid #3D56B2;*/
+	border-radius : 5px;
+}
+
+.main-category-cell {
+
+	border-radius : 5px;
+	width : 130px;
+	height : 30px;
+	
+	color: #3D56B2;
+	font-size : 24px;
+	font-weight : 600;
+	
+	display : flex;
+	justify-content: center;
+	align-items : center;	
+}
+
+
+
+/* main-bar */
+.main-bar {
+	margin : 20px 0px;	
+	width:inherit;
+	height : 50px;
+	
+	display : flex;
+	justify-content:space-between;
+}
+
+.main-bar-title {
+	margin-left : 2%;
+	
+	display : flex;
+	justify-content : center;
+	align-items : center;	
+	
+}
+
+.main-bar-dropdown-bundle {
+	display : flex;
+	justify-content : center;
+	align-items : center;	
+	margin-right : 3%;
+}
+
+
+.main-bar-dropdown-bundle .main-bar-dropdown {
+	width : 100px;
+	height : 30px;
+
+	margin-left : 40px;
+	cursor: pointer;
+	
+}
+
+.main-bar-dropdown-option {
+	display : flex;
+	justify-content: center;
+	align-items : center;
+}
+
+select {
+	border : 1px solid #000000;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: #ffffff;
+	color : #000000;
+	font-weight : 400;
+}
+
+
+
+
+/* card-btn */
+.main-card-btn {
+	background: #005691;
+	border-radius: 5px;
+	box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.25);
+	color: #ffffff;
+	display: inline-block;
+	position: relative;
+	text-decoration: none;
+	transition: all 0.1s 0s ease-out;
+}
+  
+.main-card-btn:active {
+	/* 클릭하면 변하는 색 */
+	background: #3D56B2;
+	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.25);
+	transform: translate3d(0, 1px, 0);
+	transition: all 0.025s 0s ease-out;
+}
+  
+.main-cards {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+  
+.main-card {
+	background: #ffffff;
+	
+	display: inline-block;
+	
+	margin : 0px 25px 20px 25px;
+	
+	max-width: 300px;
+	position: relative;
+	text-align: left;
+	transition: all 0.3s 0s ease-in;
+	width: 300px;
+	z-index: 1;
+}
+
+.card img {
+	max-width: 300px;
+}
+
+.main-card-image-holder {
+	overflow : hidden;
+	
+	display : flex;
+	justify-content : center;
+	align-items : center;
+}
+
+
+.main-card-title-contianer-total{
+	border-left : 1px solid #d3d3d3;
+	border-right : 1px solid #d3d3d3;
+	border-bottom : 1px solid #d3d3d3;	
+}
+
+.main-card-title-container {
+	display : flex;
+	
+	background: #ffffff;
+	position: relative;
+	z-index: 0;
+	
+	padding-top : 10px
+  }
+  
+.main-card-title {
+	padding-left : 10px;
+	width : 250px;
+}
+
+.main-card-title-big {
+	font-weight : 700;
+	font-size : 24px;
+}
+
+.main-card-title-small {
+	font-weight : 500;
+	font-size : 15px;
+}
+
+.main-card-btn-container {
+	margin-right : 10px;
+	width : 50px;
+}
+  
+.main-card-btn {
+	width : 45px;
+	height : 45px;
+	
+	border-radius : 50%;
+	
+	display : flex;
+	justify-content : center;
+	align-items : center;
+}
+  
+
+.main-card-description {
+	margin : 10px 0px;
+	padding: 0 10px;
+	font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
