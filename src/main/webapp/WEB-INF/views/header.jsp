@@ -11,7 +11,9 @@
 		
 		<div class="main-dropdown">
 			<div class="main-dropdown-button">
-				<img alt="profile-image" src="${profile.imgPath}" class="profile-image">
+				<div class="main-dropdown-profile-image">
+					<img alt="profile-image" src="${profile.imgPath}" class="profile-image">
+				</div>
 				<div class="dropdown-options">
 					<a href="#" class="dropdown-item">굿즈 등록</a>
 					<a href="#" class="dropdown-item">프로필</a>
