@@ -5,10 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <link href="/css/profileEdit.css" rel="stylesheet" type="text/css" />
+<link href="/css/common.css" rel="stylesheet" type="text/css" />
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <title>ProfileEdit</title>
 </head>
 <body>
+ <%@ include file="header.jsp" %>
 <div class="main-container">
         <div class="side-menu">
             <div class="menu-container">
@@ -16,10 +18,10 @@
                     	굿즈
                 </div>
                 <ul>
-                    <li><a href="#">참여 굿즈 내역</a></li>
-                    <li id="current-title"><a href="#">등록 굿즈 관리</a></li>
-                    <li><a href="#">좋아요한 굿즈</a></li>
-                    <li><a href="#">알림 신청한 굿즈</a></li>
+                    <li><a href="/attendedGoods">참여 굿즈 내역</a></li>
+                    <li id="current-title"><a href="/registeredGoods">등록 굿즈 관리</a></li>
+                    <li><a href="/likedGoods">좋아요한 굿즈</a></li>
+                    <li><a href="/alarmedGoods">알림 신청한 굿즈</a></li>
                 </ul>
             </div>
             <div class="menu-container">
@@ -27,7 +29,7 @@
                    	 내 정보
                 </div>
                 <ul>
-                    <li><a href="#">프로필 편집</a></li>
+                    <li><a href="/profileEdit">프로필 편집</a></li>
                 </ul>
             </div>
         </div>

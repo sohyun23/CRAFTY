@@ -1,23 +1,11 @@
 @charset "UTF-8";
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css");
 .title {
   display: block;
   margin-left: 45px;
   margin-bottom: 12px;
   font-size: 34px;
   font-weight: 600;
-}
-body {
-  font-family: "Pretendard Variable";
-}
-
-/* codepen */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
-
-.body {
-  /* custom fonts, etcetera can go here */
-  /* font-family: "NanumGothic"; */
 }
 
 .jumbotron-flat {
@@ -84,40 +72,31 @@ body {
   width: 250px;
   height: 200px;
 }
-/* .personal-info {
-  margin-left: 50px;
-} */
+
+
 .main-body {
   margin-left: 50px;
 }
 
+
 button {
-  width: 80px;
-  height: 40px;
-  font-size: 13px;
-  /* border: none; */
-  color: black;
-  border: 1px solid grey;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  &:hover {
-    color: white;
-    background: grey;
-  }
+  width: 100px;
+  height: 43px;
+
 }
+
 .personal-info input.btn {
   color: black;
   width: 100px;
   &:hover {
     color: white;
-    background-color: #4db8ff;
-    border: none;
+    background-color: #3D56B2;
   }
 }
 
 #form-btn-right {
   text-align: right;
-  /* margin-right: 50px; */
+
 }
 #aleady-nickname {
   display: hidden;
@@ -130,13 +109,12 @@ p {
 }
 
 #edit-save-btn {
-  color: black;
   width: 150px;
-  border: 1px solid grey;
   &:hover {
     color: white;
-    background-color: #4db8ff;
-    border: none;
+    background-color: #3D56B2;
+     border: 1px solid #3D56B2;
+
   }
 }
 
