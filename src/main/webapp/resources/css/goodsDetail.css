@@ -1,0 +1,135 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
+
+li{
+    list-style-type: none;
+}
+body{
+    width:1000px;
+    text-align : center;
+    margin:0 auto;
+    flex-direction:column;
+    font-family: 'Pretendard Variable';
+}
+div{
+	border:1px solid;
+}
+div.top-row{
+    display:flex;
+    justify-content: space-between;
+}
+div.top-left{
+    width:400px;
+}
+div.top-right{
+    width:600px;
+    text-align : left;
+    margin-left: 20px;
+    font-size:22px;
+}
+#goods-name{
+	font-size:46px;
+	margin-bottom:30px;
+}
+#goods-cart>li{
+    margin-left: -40px;
+}
+select{
+	width:560px;
+	height:40px;
+    font-size: 20px;
+}
+.item-box{
+	display:flex;
+	flex-direction: row;
+	align-items:center;
+}
+.items{
+	width:500px;
+	height:30px;
+    font-size:16px;
+    margin-right:5px;
+    margin-bottom:5px;
+    border:1px solid #3d56b2;
+    background-color: transparent;
+    border-radius:4px;
+}
+.item-delete{
+	height:32px;
+}
+#thumbnail-box{
+	width:400px;
+	height:400px;
+	display:flex;
+	justify-content:center;
+	align-items: center;
+	overflow:hidden;
+}
+#thumbnail{
+	max-width:100%;
+    max-height: 100%;
+}
+#detail{
+    width:400px;
+    border:1px solid #3d56b2;
+    font-size:20px;
+    margin-top:10px;
+    border-radius:4px;
+    height:auto;
+    text-align: left;
+}
+#row>#left>#detail{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+#goods-explanation{
+    border:1px solid;
+}
+
+#cal-name{
+    width:500px;
+    height:30px;
+    border: 1px solid;
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+#total-goods{
+	width:290px;
+}
+#total-price{
+	width:290px;
+}
+#API-icon{
+    border:1px solid;
+}
+.option-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.option-item-name-price {
+    display: flex;
+    flex-direction: column;
+}
+#expname{
+    text-align: left;
+}
+#seller-container{
+	height:40px;
+}
+#profile{
+	float:left;
+    width:30px;
+    height:30px;
+    margin-right:5px;
+}
+#seller-name{
+    text-align: left;
+    font-size: 150%; 
+    margin-bottom:20px;
+}
+#goods-explanation{
+    width:1000px;
+    text-align: center;
+}
