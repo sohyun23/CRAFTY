@@ -1,0 +1,58 @@
+.dashboard-container {
+	width : 1800px;
+	display: flex;
+    margin: 0 auto;
+}
+
+/* 본문 */ 
+.main-content {
+    width: 1600px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: left;
+    margin-top: 25px;
+    margin-left: 50px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.hr-container {
+	width: 182px;
+	text-align: left;
+}
+
+/* goodsManagement 테이블 */
+.goods-num {
+	width: 100px;
+}
+.goods-name {
+    width: 600px;
+}
+.goods-seller {
+    width: 160px;
+}
+.total-amount, .adjustment-amount {
+    width: 160px;
+}
+.adjustment-date {
+	width: 150px;
+}
+.attend-list, .adjustment-status {
+    width: 110px;
+}
+
+.attend-list>a {
+	text-decoration: underline;
+}
+
+.attend-list>a:hover {
+	color : #3D56B2;
+	font-weight: 600;
+}

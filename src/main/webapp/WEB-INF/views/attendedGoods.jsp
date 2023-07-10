@@ -4,12 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Crafty</title>
-<link href="/css/myPage.css" rel="stylesheet" type="text/css"/>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script> -->
+	<meta charset="UTF-8">
+	<title>Crafty</title>
+	<link href="/css/attendedGoods.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+	<%@ include file="header.jsp" %>
+	
 	<div class="main-container">
         <div class="side-menu">
             <div class="menu-container">
@@ -17,10 +19,10 @@
                 	굿즈
             	</div>
                 <ul>
-                    <li id="current-title"><a href="#">참여 굿즈 내역</a></li>
-                    <li><a href="#">등록 굿즈 관리</a></li>
-                    <li><a href="#">좋아요한 굿즈</a></li>
-                    <li><a href="#">알림 신청한 굿즈</a></li>
+                    <li id="current-title"><a href="/attendedGoods">참여 굿즈 내역</a></li>
+                    <li><a href="/registeredGoods">등록 굿즈 관리</a></li>
+                    <li><a href="/likedGoods">좋아요한 굿즈</a></li>
+                    <li><a href="/alarmedGoods">알림 신청한 굿즈</a></li>
                 </ul>
             </div>
             <div class="menu-container">
@@ -28,7 +30,7 @@
                     	내 정보
                 </div>
                 <ul>
-                    <li><a href="#">프로필 수정</a></li>
+                    <li><a href="/profileEdit">프로필 수정</a></li>
                 </ul>
             </div>
         </div>
@@ -38,36 +40,29 @@
                 	참여 굿즈 내역
             </div>
             <table class="goods-table">
-                <thead>
+                <thead >
                     <tr>
-                        <td class="attendedGoods-goodsName">굿즈명</td>
-                        <td class="attendedGoods-paymentDate">결제 일자</td>
-                        <td class="attendedGoods-status">상태</td>
-                        <td class="attendedGoods-detail"></td>
+                        <td class="goods-name">굿즈명</td>
+                        <td class="payment-date">결제 일자</td>
+                        <td class="status">상태</td>
+                        <td class="detail"></td>
                     </tr>
                 </thead>
                 <tbody>
-                	<c:if test="${empty requestScope.goodsList}">    
-						<tr>
-					        <td colspan="5">
-					            <p align="center"><b><span style="font-size:12pt;">참여한 굿즈가 없습니다!</span></b></p>
-					        </td>
-					    </tr>
-					</c:if>
 					<!-- 반복 출력 -->
 					<c:forEach items="${requestScope.goodsList}" var="goods">
 	                    <tr>
-	                        <td class="attendedGoods-goodsName"><a href="#">굿즈명</a></td>
-	                        <td class="attendedGoods-paymentDate">결제 일자</td>
-	                        <td class="attendedGoods-status">상태</td>
-	                        <td class="attendedGoods-detail"><button id="attended-goods-detail-btn" onclick="location.href='#'">상세</button></td>
+	                        <td class="goods-name"><a href="/goodsDetail">굿즈명</a></td>
+	                        <td class="payment-date">결제 일자</td>
+	                        <td class="status">상태</td>
+	                        <td class="detail"><button class="detail-btn" onclick="location.href='/attendedGoodsDetail'">상세</button></td>
 	                    </tr>
 	                </c:forEach>
 	                <tr>
-                        <td class="attendedGoods-goodsName">Goods1</td>
-                        <td class="attendedGoods-paymentDate">2023-06-22 15:00:24</td>
-                        <td class="attendedGoods-status">모금중</td>
-                        <td class="attendedGoods-detail"><button id="attended-goods-detail-btn" onclick="location.href='#'">상세</button></td>
+                        <td class="goods-name"><a href="/goodsDetail">Goods1</a></td>
+                        <td class="payment-date">2023-06-22 15:00:24</td>
+                        <td class="status">모금중</td>
+                        <td class="detail"><button class="detail-btn" onclick="location.href='/attendedGoodsDetail'">상세</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -94,5 +89,7 @@
             </div>
         </div>
     </div>
+    
+    <%@ include file="footer.jsp" %>
 </body>
 </html>
