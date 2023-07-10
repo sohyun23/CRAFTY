@@ -1,0 +1,36 @@
+
+/* 테이블 본문 */ 
+.main-content {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: left;
+    margin-top: 25px;
+    margin-left: 50px;
+}
+
+.title {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 34px;
+    font-weight: 600;
+}
+
+/* attendedGoods 테이블 */
+.goods-name {
+    width: 650px;
+}
+.payment-date {
+    width: 240px;
+}
+.status {
+    width: 130px;
+}
+.detail {
+    width: 130px;
+}
+
+.detail-btn {
+	font-size: 16px;
+}
