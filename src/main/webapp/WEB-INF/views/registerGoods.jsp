@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
+    <link href="/css/common.css" rel="stylesheet" type="text/css" />
     <title>Document</title>
   </head>
   <link
@@ -13,9 +14,14 @@
     rel="stylesheet"
   />
   <body>
-    <div id="crafty">crafty</div>
-    <div id="regist-Goods-Body">
+  <%@ include file="header.jsp" %>
+  
+  
+  	<div> </div>
+    <div class="main-container">
+    	
       <div id="thumnail">
+      	<h1>이미지 등록</h1>
         <button id="thumnailBtn">이미지 등록</button>
       </div>
 
@@ -221,6 +227,7 @@
         <button id="registGoodsBtn">굿즈 만들기</button>
       </div>
     </div>
+     <%@ include file="footer.jsp" %>
   </body>
 
   <script>

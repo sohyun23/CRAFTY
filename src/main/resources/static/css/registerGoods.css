@@ -1,9 +1,16 @@
 @charset "UTF-8";
-@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css");
 
+/*
 body {
-  text-align: center;
-  font-family: "NanumGothic";
+ 
+   font-family: "Pretendard Variable";
+}
+*/
+.main-container{
+	/*background-color: red;*/
+	flex-direction: column;
+	
 }
 
 div {
@@ -19,37 +26,35 @@ h1 {
   font-size: 20px;
   text-align: left;
 }
+input{
+	color : black;
+	border : 1px solid #3D56B2;
+	border-radius : 5px;
+	background-color : #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
 #goodsName {
   width: 600px;
 }
 #goodsNameInput {
   width: 400px;
   height: 40px;
-
-  background-color: white;
   font-size: 16px;
-  /* border: none; */
-  border: 1px solid grey;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
 }
 #goodsNameInput:hover {
   border: 1px solid grey;
   border-radius: 5px;
 }
-input {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
+
 
 #goodsIntroInput {
   width: 400px;
   height: 40px;
   background-color: white;
   font-size: 16px;
-  color: grey;
-  border: 1px solid grey;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  
 }
 /* select
 - 물품 카테고리
@@ -59,22 +64,20 @@ select {
   width: 200px;
   height: 40px;
   font-size: 16px;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  font-size: 16px;
+  
 }
 
 #categorySubmit {
   width: 80px;
   height: 40px;
   font-size: 16px;
-  /* border: none; */
-  border: 1px solid grey;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	
   &:hover {
-    color: white;
-    background: grey;
-  }
+   color : #ffffff;
+	background-color : #3D56B2;
+}
 }
 /* 모금기간 */
 .date {
@@ -85,6 +88,7 @@ select {
   border: 1px solid grey;
   margin-right: 95px;
   font-family: "NanumGothic";
+  color : black;
 }
 #dateTxt {
   display: flex;
@@ -93,42 +97,38 @@ select {
   width: 200px;
   text-align: left;
   margin-left: 0px;
+  
 }
+
 #endDateTxt {
   width: 200px;
   text-align: left;
 }
-#periodInput {
+#salePeriod {
   text-align: left;
+  background-color: white;
+  font-size: 16px;
+   color : black;
 }
 
 /* 이미지 등록 btn */
 button {
-  display: inline-block;
-  text-align: center;
   width: 600px;
   height: 40px;
-  font-size: 18px;
-  background-color: #efefef;
-  border: solid 1px grey;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  &:hover {
-    color: white;
-    background: grey;
-  }
+
 }
+
 
 /* 상품정보입력 */
 #itemInfoForm {
-  background-color: rgb(213, 213, 213);
+  background-color: #7788c9;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 #itemInputBox {
-  background-color: rgb(232, 232, 232);
+  background-color: #EFF0F4;
+  opacity: 1.0;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -154,13 +154,18 @@ button {
   width: 70px;
   height: 40px;
   font-size: 16px;
-  border: 1px solid grey;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
+	color : #3D56B2;
+	font-weight : 400;
+	display: inline-block;
+    text-align: center;
+	border : 1px solid #3D56B2;
+	border-radius : 5px;
+	background-color : #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
   &:hover {
-    color: white;
-    background: grey;
+   color :#3D56B2;
+	background-color : #ffffff;
   }
 }
 
@@ -177,17 +182,19 @@ button {
 /* 상품 구성 리스트 */
 ul {
   list-style-type: none;
-  background-color: rgb(213, 213, 213);
+  background-color: #7788c9;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   padding: 20px;
 }
 li {
-  color: grey;
+  background-color: #415F9D;
+  
 }
 .items {
   width: 400px;
   height: 40px;
+   color: black;
   background-color: white;
   font-size: 16px;
   border: 1px solid grey;
@@ -206,26 +213,35 @@ li {
 #targetAmountInput {
   width: 400px;
   height: 40px;
-  background-color: white;
   font-size: 16px;
-  border: 1px solid grey;
-  border-radius: 5px;
+  color : #3D56B2;
+	border : 1px solid #3D56B2;
+	border-radius : 5px;
+	background-color : #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* 정산받을 계좌 정보 */
 #bankAccountNumber {
   width: 390px;
+  color : #3D56B2;
+	border : 1px solid #3D56B2;
+	border-radius : 5px;
+	background-color : #ffffff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* 굿즈 만들기 */
 #registGoodsBtn {
-  background-color: grey;
-  border: none;
-  color: rgb(40, 40, 40);
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  background-color: #3D56B2;
+  border:  1px solid white;
+  color: white;
   &:hover {
-    color: white;
-    background: rgb(0, 153, 255);
+    color: #3D56B2;
+    background: white;
   }
 }
+
+
+
+
