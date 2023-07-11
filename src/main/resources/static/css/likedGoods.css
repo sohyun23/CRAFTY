@@ -1,0 +1,129 @@
+/* 본문 */ 
+.main-content {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    align-items: left;
+    margin-top: 25px;
+    margin-left: 50px;
+}
+
+.title {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 34px;
+    font-weight: 600;
+}
+
+.card-container {
+	height: 500px;
+	border: 1px solid black;
+}
+
+/* card-btn */
+.main-card-btn {
+	background: #005691;
+	border-radius: 5px;
+	box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.25);
+	color: #ffffff;
+	display: inline-block;
+	position: relative;
+	text-decoration: none;
+	transition: all 0.1s 0s ease-out;
+}
+  
+.main-card-btn:active {
+	/* 클릭하면 변하는 색 */
+	background: #3D56B2;
+	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.25);
+	transform: translate3d(0, 1px, 0);
+	transition: all 0.025s 0s ease-out;
+}
+  
+.main-cards {
+	max-width: 1440px;
+	margin: 0 auto;
+}
+  
+.main-card {
+	background: #ffffff;
+	
+	display: inline-block;
+	
+	margin : 0px 25px 20px 25px;
+	
+	max-width: 300px;
+	position: relative;
+	text-align: left;
+	transition: all 0.3s 0s ease-in;
+	width: 300px;
+	z-index: 1;
+}
+
+.card img {
+	max-width: 300px;
+}
+
+.main-card-image-holder {
+	overflow : hidden;
+	
+	display : flex;
+	justify-content : center;
+	align-items : center;
+}
+
+
+.main-card-title-contianer-total{
+	border-left : 1px solid #d3d3d3;
+	border-right : 1px solid #d3d3d3;
+	border-bottom : 1px solid #d3d3d3;	
+}
+
+.main-card-title-container {
+	display : flex;
+	
+	background: #ffffff;
+	position: relative;
+	z-index: 0;
+	
+	padding-top : 10px
+  }
+  
+.main-card-title {
+	padding-left : 10px;
+	width : 250px;
+}
+
+.main-card-title-big {
+	font-weight : 700;
+	font-size : 24px;
+}
+
+.main-card-title-small {
+	font-weight : 500;
+	font-size : 15px;
+}
+
+.main-card-btn-container {
+	margin-right : 10px;
+	width : 50px;
+}
+  
+.main-card-btn {
+	width : 45px;
+	height : 45px;
+	
+	border-radius : 50%;
+	
+	display : flex;
+	justify-content : center;
+	align-items : center;
+}
+  
+
+.main-card-description {
+	margin : 10px 0px;
+	padding: 0 10px;
+	font-size: 14px;
+}
