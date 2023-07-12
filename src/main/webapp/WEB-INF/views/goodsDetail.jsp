@@ -5,17 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>goodsDetail</title>
-    <link href="/resources/css/goodsDetail.css" rel="stylesheet" type="text/css" />
+    <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/css/goodsDetail.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<div id="main-container">
-	<!-- action, method -->
+	<%@ include file="header.jsp" %>
+	<div class="main-container">
+		<!-- action, method -->
 		<div class="top-row">
-			<div id="top-left">
+			<div class="top-left">
 				<div id="thumbnail-box">
-					<img class="thumbnail" alt="thumbnail" src="/resources/images/image1.png" />
+					<img class="thumbnail" alt="thumbnail" src="/img/image1.png" />
 				</div>
 				<div id="detail">
 					ddddddddddd
@@ -30,11 +32,12 @@
 				<div id="block1">
 					<div id="goods-name">굿즈 이름</div>
 
-					<form action="/goodsDetail" medthod="POST">
+					<form action="/goodsDetail" method="POST">
 						<select name="goods-list" id="goods-list" onchange="plusList()">
 							<option>---------선택해주세요---------</option>
 							<option>감자도리 2500</option>
 							<option>구마 1000</option>
+							<option>새 1500</option>
 						</select>
 						<!-- <input id="listSubmit" type="button" onclick="plusList()" value="확인"> -->
 					</form>
@@ -72,8 +75,10 @@
 						</div>
 						<!--db에서 받아온 정보를 더하기-->
 					</div>
-					<div id="API-icon">
-						<span>aaa</span>
+					<div>
+						<a href="#">
+							<img id="API-icon" src="\img\payicon.png" alt="결제">
+						<a>
 					</div>
 				</div>
 		
@@ -84,15 +89,16 @@
 		
 		<div id="expbottom">
 			<div id="seller-container">
-				<img id="profile" alt="프로필사진" src="/resources/images/profile.png">
+				<img id="profile" alt="프로필사진" src="/img/profile.png">
 				<div id="seller-name">판매자 닉네임</div>
 			</div>
 			<!-- 상품설명 -->
 			<div id="goods-explanation">
-				<figure><img src="/resources/images/image1.png" alt=""></figure>
+				<figure><img src="/img/image1.png" alt=""></figure>
 			</div>
 		</div>
-</div>
+	</div>
+	<%@ include file="footer.jsp" %>
 </body>
 <script>
 function hello(){
@@ -105,7 +111,7 @@ const itemPrice = document.getElementById("item-price");
 // const itemComposition = document.getElementById("itemComposition");
 const itemQuantity = document.getElementById("item-quantity");
 
-const itemList = document.getElementById("item-list");
+//const itemList = document.getElementById("item-list");
  
 const goodsList = document.getElementById("goods-list");
 const goodsCart = document.getElementById("goods-cart");
@@ -122,12 +128,15 @@ const goodsCart = document.getElementById("goods-cart");
 */
 let totalPrice = 0;
 let totalPayPrice = 0;
+let itemIndex = 0; //변수 선언
 const totalPriceElement = document.getElementById('total-price');
 const deliveryElement = document.getElementById('delivery-price');
 let totalPayPriceElement = document.getElementById('total-pay-amount-price');
+//해당 ID를 가진 곳에서 요소 들고오기. const는 변하지 않을 값, let은 변할 값
+
 function plusList(){
 	const value = (goodsList.options[goodsList.selectedIndex].value);//goodsList 에서 선택된 option의 value를 지정
-	let items = document.getElementsByClassName('items') // 135번 줄에서 생성된 class가 items인 모든 노드를 전부 가져오기
+	let items = document.getElementsByClassName('items') // class가 items인 모든 노드를 전부 가져오기
 
 	for(i=0; i<items.length; i++){ 
 		if($('#goods-list').val() == items[i].value){ //goodsList에서 가져온 value를 items에 있는 value 들과 일치하는지 비교
@@ -138,40 +147,65 @@ function plusList(){
 
 	const createitem = document.createElement("li");
 	//createitem 이라는 id의 li 요소를 생성할 것
-	
-	createitem.innerHTML = `<span class="item-box">
-							<input class="items" value='${value}' type="text" disabled/>
-							<button class="item-delete" id="delete-btn" onclick="deleteitem(event)">삭제</button>
-							<span>`;
-	goodsCart.appendChild(createitem); 
-
 	let price = (goodsList.options[goodsList.selectedIndex].value);
-	let deliver = parseInt(deliveryElement.getAttribute('value'));
+	//price 변수는 굿즈리스트의 select 목록 값을 가져옴
+	
+	createitem.innerHTML = '<span class="item-box">' +
+							'<input class="items" id="selected-items" value="" type="text" disabled/>'+
+							'<button class="item-delete" id="delete-btn" onclick="deleteitem(' + itemIndex + ')">삭제</button>'+
+							'<span>';
+	goodsCart.appendChild(createitem); 
+	
+	itemIndex = (++itemIndex)%(goodsList.options.length-1);
+	//변수값 1 증가시킨 뒤, 이것을 goodsList~length-1로 나눈 나머지 값을 itemIndex에 할당함 
+	
+	
+	let delivery = parseInt(deliveryElement.getAttribute('value'));
 	let totalPayPrice = parseInt(totalPayPriceElement.getAttribute('value'));
+	//각 변수 Element의 value값을 가져와서 숫자만 추출함
 	
 	totalPrice += parseInt(price.split(' ')[1]);
+	//공백에서 첫번쨰 글자부터 가격값을 정수로 변환하여 totalPrice 변수에 더함
 
-	totalPriceElement.innerHTML = totalPrice;
+	totalPriceElement.innerHTML = totalPrice + "원";
+	//totalPrice를 문자열로 변환, 원과 연결, total~ 요소의 내용으로 설정. innerHTML은 요소 내용 결정하는 것
 	
+	let index = document.getElementsByClassName("items").length -1;
+	//클래스가 items인 것들을 고르고 .length 개수 나타낸 뒤 1 빼고 index 변수에 해당 값 할당
+	document.getElementsByClassName("items")[index].setAttribute("value",price);
+	//index value 속성을 price 값으로 설정
+	
+	
+	console.log(price);
+	
+	totalPayPrice = totalPrice + delivery;
+
+	//console.log(typeof(delivery));
 	console.log(totalPrice);
 	
-	
-	
-	totalPayPrice = totalPrice + deliver;
-
-	console.log(typeof(deliver));
-	
-	totalPayPriceElement.innerHTML = totalPayPrice;
+	totalPayPriceElement.innerHTML = totalPayPrice + "원";
 
 }
 
-function deletegoods(event) {
-	  console.log(event.target);
-
-	  console.log(event.target.parentElement);
-	  const removingOne = event.target.parentElement.parentElement;
-	  alert(removingOne);
-	  removingOne.remove();
+function deleteitem(itemIndex) {
+	
+	let itemPrice = goodsList.options[itemIndex].value;
+	let price = parseInt(itemPrice.split(' ')[1]);
+	
+	let totalPayPrice = parseInt(totalPayPriceElement.getAttribute('value'));
+	
+	console.log(event.target);
+	console.log(event.target.parentElement);
+	const removingOne = event.target.parentElement.parentElement;
+	removingOne.remove();
+	
+	
+	
+	console.log("totalPayPrice: ", totalPayPrice);
+	console.log("price: ", price);
+	totalPayPrice = totalPrice - price;
+	totalPayPriceElement.innerHTML = totalPayPrice;
+	
 }
 
 
