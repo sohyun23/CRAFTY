@@ -131,7 +131,7 @@ let totalPayPrice = 0;
 let itemIndex = 0; //변수 선언
 const totalPriceElement = document.getElementById('total-price');
 const deliveryElement = document.getElementById('delivery-price');
-const totalPayPriceElement = document.getElementById('total-pay-amount-price');
+let totalPayPriceElement = document.getElementById('total-pay-amount-price');
 //해당 ID를 가진 곳에서 요소 들고오기. const는 변하지 않을 값, let은 변할 값
 
 function plusList(){
@@ -160,7 +160,7 @@ function plusList(){
 	//변수값 1 증가시킨 뒤, 이것을 goodsList~length-1로 나눈 나머지 값을 itemIndex에 할당함 
 	
 	
-	const delivery = parseInt(deliveryElement.getAttribute('value'));
+	let delivery = parseInt(deliveryElement.getAttribute('value'));
 	let totalPayPrice = parseInt(totalPayPriceElement.getAttribute('value'));
 	//각 변수 Element의 value값을 가져와서 숫자만 추출함
 	
@@ -171,12 +171,11 @@ function plusList(){
 	//totalPrice를 문자열로 변환, 원과 연결, total~ 요소의 내용으로 설정. innerHTML은 요소 내용 결정하는 것
 	
 	let index = document.getElementsByClassName("items").length -1;
-	//클래스가 items인 것들을 고르고 .length 개수 나타낸 뒤 1 빼고 index 변수에 해당 값 할당, 더하기 식에 관여
+	//클래스가 items인 것들을 고르고 .length 개수 나타낸 뒤 1 빼고 index 변수에 해당 값 할당
 	document.getElementsByClassName("items")[index].setAttribute("value",price);
 	//index value 속성을 price 값으로 설정
 	
 	
-	console.log('---');
 	console.log(price);
 	
 	totalPayPrice = totalPrice + delivery;
@@ -184,40 +183,29 @@ function plusList(){
 	//console.log(typeof(delivery));
 	console.log(totalPrice);
 	
-	totalPayPriceElement.setAttribute("value", totalPayPrice);
 	totalPayPriceElement.innerHTML = totalPayPrice + "원";
+
 }
 
 function deleteitem(itemIndex) {
 	
-	let itemPrice = goodsList.options[itemIndex + 1].value;//goodsList options에서 itemIndex 값들 가져옴
-	console.log("----")
-	console.log(itemPrice)
-	//goods-list가 아니라 total-price 아래의 것으로 해야함
-	
-	let price = parseInt(itemPrice.split(' ')[1]);//공백 뒤에서부터 숫자 들고 옴
+	let itemPrice = goodsList.options[itemIndex].value;
+	let price = parseInt(itemPrice.split(' ')[1]);
 	
 	let totalPayPrice = parseInt(totalPayPriceElement.getAttribute('value'));
 	
-	//total~Element의 value값 가져와서 정수변환
 	console.log(event.target);
 	console.log(event.target.parentElement);
-	const removingOne = event.target.parentElement.parentElement;//이벤트 발생한 요소의 부모요소의 부모 선택
-	removingOne.remove();//removingOne 제거
+	const removingOne = event.target.parentElement.parentElement;
+	removingOne.remove();
 	
-	totalPrice -= price;
-	totalPriceElement.setAttribute("value", totalPrice);
-	totalPriceElement.innerHTML = totalPrice + "원";
+	
 	
 	console.log("totalPayPrice: ", totalPayPrice);
 	console.log("price: ", price);
-	totalPayPrice -= price;
+	totalPayPrice = totalPrice - price;
+	totalPayPriceElement.innerHTML = totalPayPrice;
 	
-	console.log("totalPayPrice: ", totalPayPrice);
-	totalPayPriceElement.setAttribute("value", totalPayPrice);
-	totalPayPriceElement.innerHTML = totalPayPrice + "원";
-	//totalPayPrice : 0, price : NaN, totalPayPrice : NaN
-	//처음 0 공통, price는 NaN->2500->1000 순으로 변화, totaLPayPrice2는 NaN->2500->4000으로 변화
 }
 
 
