@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class paymentInfo {
+public class PaymentInfo {
 	private int		paymentId;
 	private int		orderId;
 	private String	impUid;
