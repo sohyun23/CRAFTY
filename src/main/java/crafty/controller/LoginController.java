@@ -22,7 +22,7 @@ public class LoginController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginForm(@RequestParam("id") String id, 
 							@RequestParam("pw") String pw,
 							HttpSession session,
