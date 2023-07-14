@@ -9,6 +9,7 @@ import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
 import crafty.mapper.GoodsMapper;
+import crafty.pagination.dto.MainCard;
 import crafty.pagination.dto.PageRequestDTO;
 
 @Service
@@ -57,6 +58,16 @@ public class GoodsService {
 		int totalCnt = goodsMapper.getRegisterRequestGoodsCount();
 		
 		return totalCnt;
+	}
+
+	public List<MainCard> getMainGoods(PageRequestDTO pageRequest) {
+		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest);
+		return goodsList;
+	}
+
+	public int getMainGoodsTotalCount(PageRequestDTO pageRequest) {
+		int result = goodsMapper.getMainGoodsTotalCount(pageRequest);
+		return result;
 	}
 	
 }

@@ -1,17 +1,17 @@
 package crafty.pagination.dto;
 
-import lombok.Builder;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class MainCard {
-	private String cardImgPath;
-	private String cardInfo;
-	
-	@Builder
-	public MainCard(String cardImgPath, String cardInfo) {
-		super();
-		this.cardImgPath = cardImgPath;
-		this.cardInfo = cardInfo;
-	}
+	private int goodsId;
+	private String goodsName;
+	private int aggrement;
+	private String introduction;
+	private String imgPath;
+	private String imgOriginalName;
+	private String category;
 }

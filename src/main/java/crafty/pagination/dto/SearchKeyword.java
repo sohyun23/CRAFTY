@@ -9,7 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SearchKeyword {
 	private String keyWord;
-	private String dropDownProgress;
-	private String dropDownSortBy;
-	private String category;
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
+import crafty.pagination.dto.MainCard;
 import crafty.pagination.dto.PageRequestDTO;
 
 @Mapper
@@ -26,5 +27,10 @@ public interface GoodsMapper {
 	public List<ResponseRegisterRequest> getRegisterRequestGoods(PageRequestDTO pageRequest);
 
 	public int getRegisterRequestGoodsCount();
+	
+	
+	public List<MainCard> getMainGoods(PageRequestDTO pageRequest);
+
+	public int getMainGoodsTotalCount(PageRequestDTO pageRequest);
 	
 }

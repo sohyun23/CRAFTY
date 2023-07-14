@@ -18,8 +18,10 @@ import crafty.dto.Orders;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
+import crafty.pagination.dto.MainCard;
 import crafty.pagination.dto.PageRequestDTO;
 import crafty.pagination.dto.PageResponseDTO;
+import crafty.pagination.dto.SearchKeyword;
 import crafty.service.GoodsService;
 import crafty.service.OrdersService;
 
@@ -33,28 +35,25 @@ public class GoodsController {
 	OrdersService ordersService;
 	
 	@GetMapping(value="/main")
-	public String main() {
+	public String main(@ModelAttribute PageRequestDTO pageRequest, Model model) {		
+		pageRequest.setAmount(1);		
+		List<MainCard> goodsList = goodsService.getMainGoods(pageRequest);		
+		int total = goodsService.getMainGoodsTotalCount(pageRequest);		
+		PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
+		model.addAttribute("goodsList", goodsList);
+		model.addAttribute("pageInfo", pageResponse);
 		
 		return "main";
 	}
-	
-	@GetMapping(value="/main?ongoing={ongoing}&order={order}")
-	public String mainOrderBy(@RequestParam("ongoing") int ongoing, @RequestParam("order") int order) {
-		
-		return "main";
-	}
-	
-	@GetMapping(value="/main/search?keyword={keyword}")
-	public String search(@RequestParam("keyword") String keyword) {
-		
-		return "main";
-	}
-	
-	@GetMapping(value="/main/search?keyword={keyword}&ongoing={ongoing}&order={order}")
-	public String searchOrderBy(@RequestParam("keyword") String keyword,
+
+	@GetMapping(value="/main/search?keyword={keyword}&ongoing={ongoing}&order={order}&pageNum={pageNum}&amount={amount}")
+	public String searchOrderBy(@RequestParam("keyword") SearchKeyword keyword,
 								@RequestParam("ongoing") int ongoing,
-								@RequestParam("order") int order) {
+								@RequestParam("order") int order,
+								@RequestParam("pageNum") int pageNum,
+								@RequestParam("amount") int amount) {
 		
+
 		return "main";
 	}
 	
