@@ -15,10 +15,10 @@
 					<img alt="profile-image" src="${profile.imgPath}" class="profile-image">
 				</div>
 				<div class="dropdown-options">
-					<a href="#" class="dropdown-item">굿즈 등록</a>
-					<a href="#" class="dropdown-item">프로필</a>
-					<a href="#" class="dropdown-item">참여 현황</a>
-					<a href="#" class="dropdown-item">로그아웃</a>
+					<a href="/register" class="dropdown-item">굿즈 등록</a>
+					<a href="/profile/1" class="dropdown-item">프로필</a>
+					<a href="/goods/attended" class="dropdown-item">참여 현황</a>
+					<a href="/logout" class="dropdown-item">로그아웃</a>
 				</div>			
 			</div>
         </div>   

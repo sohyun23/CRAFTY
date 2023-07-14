@@ -7,6 +7,7 @@
     <title>Crafty</title>
     <meta charset="UTF-8">
     <meta name="css" content="width=device-width, initial-scale=1">
+	<link href="/css/common.css" rel="stylesheet" type="text/css">  
     <link href="/css/profile.css" rel="stylesheet" type="text/css">     
 </head>
 
@@ -28,7 +29,7 @@
     
                     <h1 class="profile-user-name" id="nickname" name="nickname">POJO</h1>
                     
-                    <button class="btn profile-edit-btn" action="" value="">프로필 수정</button>
+                    <button class="btn profile-edit-btn" onclick="location.href='/profile/edit'">프로필 수정</button>
                     <!-- 이 부분에 업로드 받은 자기소개 출력(200자) --> 
                     <!-- <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button> -->
     
@@ -46,32 +47,20 @@
 			                        외로움을 던지는 노래
 			                        몇고개 몇고개의
 			                        파도를 넘어야 하나
-			
-			                        소금기 머금은 바람
-			                        입술 겉을 적신다
-			                        난 손발이 모두 묶여도
-			                        자유하는 법을 알아
-			
-			                        뱃노래 뱃노래
-			                        외로움을 던지는 노래
-			                        몇고개 몇고개의
-			                        파도를 넘어야 하나
-                        </p>
+                     </p>
     
                 </div>
     
             </div>
-            </div>
-            <!-- End of profile section -->
-    
         </div>
+            <!-- End of profile section -->
         <!-- End of container -->
         
       </header>
       <main class="main-container">
           <hr style="border: solid px black;">
           <div class="dropdown">
-            </br>
+            <br>
                 <div>
                     <!-- form id는 메인페이지 진행중, 종료 확인 -->
                     <form >
@@ -89,7 +78,6 @@
                         <!-- <option value="">진행중</option>
                         <option value="">종료</option> -->
                       </select>
-                      <span>
                     </form>
                 </div>
                 <script>
@@ -102,7 +90,7 @@
                       }
                     }
                   </script>
-                </br>
+                <br>
                 <!-- 이 부분에 카드 넣을 겁니다. -->
                 <!-- End of card -->
         
@@ -112,7 +100,8 @@
           </div>
             <!-- End of container -->
           <ul class="cards">
-                <div class="card">
+          	<li>
+          		<div class="card">
                   <div class="card-image-holder">
                     <img class="card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
                   </div>
@@ -130,6 +119,8 @@
                       This grid is an attempt to make something nice that works on touch devices. Ignoring hover states when they're not available etc.
                     </div>
                 </div>
+          	</li>
+                
               
                 <div class="card">
                   <div class="card-image-holder">
@@ -231,15 +222,15 @@
 					<ul class="pagination">
 						
 						<c:if test="${pageInfo.prev}">
-							<li><a aria-label="Previous" href="/링크?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a></li>
+							<li><a aria-label="Previous" href="/profile/${memberId}?pageNum=${pageInfo.startPage - 1}">Prev</a></li>
 						</c:if>
 						
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-							<li class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}"><a href="/링크?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a></li>
+							<li class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}"><a href="/profile/${memberId}?pageNum=${num}">${num}</a></li>
 						</c:forEach>
 						
 						<c:if test="${pageInfo.next}">
-							<li><a aria-label="next" href="/링크?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a></li>
+							<li><a aria-label="next" href="/profile/${memberId}?pageNum=${pageInfo.endPage + 1}">Next</a></li>
 						</c:if>
 					
 					</ul>
@@ -247,8 +238,5 @@
 			</div>
 <%@ include file="footer.jsp" %>
 </main>
-
-
-
 </body>
 </html>

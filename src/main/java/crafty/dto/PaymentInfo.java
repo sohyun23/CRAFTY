@@ -12,7 +12,8 @@ public class PaymentInfo {
 	private int		orderId;
 	private String	impUid;
 	private int		payAmount;
+	private String	paymentMean;	// 추가
 	private	String	status;
-	private Date	orderCreatedAt;
-	private	Date	orderUpdatedAt;
+	private Date	payCreatedAt;
+	private	Date	payUpdatedAt;
 }

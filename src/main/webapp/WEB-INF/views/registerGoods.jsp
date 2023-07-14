@@ -5,8 +5,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
     <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
     <title>Document</title>
   </head>
   <link
@@ -224,7 +224,7 @@
       <hr />
       <br />
       <div id="registGoods">
-        <button id="registGoodsBtn">굿즈 만들기</button>
+        <button id="registGoodsBtn" onclick="location.href ='/main'">굿즈 만들기</button>
       </div>
     </div>
      <%@ include file="footer.jsp" %>

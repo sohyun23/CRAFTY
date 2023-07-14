@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Crafty</title>
-    <link href="/css/registeredGoodsSalesByItem.css" rel="stylesheet" type="text/css" />
     <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/css/registeredGoodsSalesByItem.css" rel="stylesheet" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
 </head>
 <body>
@@ -17,8 +17,8 @@
 	    <div class="side-menu">
 	        <div class="menu-container">
 	            <ul>
-	                <li><a href="/registeredGoodsDetail">참여 내역</a></li>
-	                <li id="current-title"><a href="/registeredGoodsSalesByItem">품목별 판매량</a></li>
+	                <li><a href="/goods/registered/1">참여 내역</a></li>
+	                <li  id="current-title"><a href="/goods/registered/sales/1">품목별 판매량</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -26,13 +26,13 @@
 	    <div class="main-content">
 	        <div class="top">
 	            <div class="left">
-	                <a id="goods-link" href="/goodsDetail">
+	                <a id="goods-link" href="/goods/${goods.goodsId}">
 	                    <img id="goods-thumbnail" src="/img/mushroom.jpg" alt=""/>
 	                </a>
 	            </div>
 	            <div class="right">
 	                <div id="goods-name">
-	                    <a href="/goodsDetail">감자도리와 구마</a>
+	                    <a href="/goods/${goods.goodsId}">감자도리와 구마</a>
 	                </div>
 	                <div id="goods-period">
 	                	기간 : 1111-11-11 - 9999-99-99

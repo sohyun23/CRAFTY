@@ -6,8 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Crafty</title>
-	<link href="/css/alarmedGoods.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/alarmedGoods.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -19,10 +19,10 @@
                 	굿즈
             	</div>
                 <ul>
-                    <li><a href="/attendedGoods">참여 굿즈 내역</a></li>
-                    <li><a href="/registeredGoods">등록 굿즈 관리</a></li>
-                    <li><a href="/likedGoods">좋아요한 굿즈</a></li>
-                    <li id="current-title"><a href="/alarmedGoods">알림 신청한 굿즈</a></li>
+                    <li><a href="/goods/attended">참여 굿즈 내역</a></li>
+                    <li><a href="/goods/registered">등록 굿즈 관리</a></li>
+                    <li><a href="/likes">좋아요한 굿즈</a></li>
+                    <li id="current-title"><a href="/alarm">알림 신청한 굿즈</a></li>
                 </ul>
             </div>
             <div class="menu-container">
@@ -30,7 +30,7 @@
                     	내 정보
                 </div>
                 <ul>
-                    <li><a href="/profileEdit">프로필 수정</a></li>
+                    <li><a href="/profile/edit">프로필 수정</a></li>
                 </ul>
             </div>
         </div>
@@ -39,100 +39,43 @@
             <div class="title">
             	알림 신청한 굿즈
             </div>
-            <div class="main-cards">
-				<div class="main-card">
+            <c:forEach items="${requestScope.goodsList}" var="goods">
+            	<div class="main-card">
 					<div class="main-card-image-holder">
 						<img class="main-card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
 					</div>
 					<div class="main-card-title-contianer-total">
 						<div class="main-card-title-container">
 							<div class ="main-card-title">
-								<div class = "main-card-title-big">Card title</div>
-								<div class = "main-card-title-small">여기에 카테고리 또는 달성률 기입</div>
+								<div class = "main-card-title-big"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></div>
+								<div class = "main-card-title-small"></div>
 							</div>
 							<div class = "main-card-btn-container">
 								<a href="#" class="main-card-btn">ASD</a>
 							</div>
 						</div>
 						<div class="main-card-description">
-							This grid is an attempt to make something nice that works on touch devices. Ignoring hover states when they're not available etc.
+							${goods.introduction}
 						</div>
 					</div>
 				</div>
-				<div class="main-card">
-					<div class="main-card-image-holder">
-						<img class="main-card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
-					</div>
-					<div class="main-card-title-contianer-total">
-						<div class="main-card-title-container">
-							<div class ="main-card-title">
-								<div class = "main-card-title-big">Card title</div>
-								<div class = "main-card-title-small">여기에 카테고리 또는 달성률 기입</div>
-							</div>
-							<div class = "main-card-btn-container">
-								<a href="#" class="main-card-btn">ASD</a>
-							</div>
-						</div>
-						<div class="main-card-description">
-							This grid is an attempt to make something nice that works on touch devices. Ignoring hover states when they're not available etc.
-						</div>
-					</div>
-				</div>
-				<div class="main-card">
-					<div class="main-card-image-holder">
-						<img class="main-card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
-					</div>
-					<div class="main-card-title-contianer-total">
-						<div class="main-card-title-container">
-							<div class ="main-card-title">
-								<div class = "main-card-title-big">Card title</div>
-								<div class = "main-card-title-small">여기에 카테고리 또는 달성률 기입</div>
-							</div>
-							<div class = "main-card-btn-container">
-								<a href="#" class="main-card-btn">ASD</a>
-							</div>
-						</div>
-						<div class="main-card-description">
-							This grid is an attempt to make something nice that works on touch devices. Ignoring hover states when they're not available etc.
-						</div>
-					</div>
-				</div>
-				<div class="main-card">
-					<div class="main-card-image-holder">
-						<img class="main-card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
-					</div>
-					<div class="main-card-title-contianer-total">
-						<div class="main-card-title-container">
-							<div class ="main-card-title">
-								<div class = "main-card-title-big">Card title</div>
-								<div class = "main-card-title-small">여기에 카테고리 또는 달성률 기입</div>
-							</div>
-							<div class = "main-card-btn-container">
-								<a href="#" class="main-card-btn">ASD</a>
-							</div>
-						</div>
-						<div class="main-card-description">
-							This grid is an attempt to make something nice that works on touch devices. Ignoring hover states when they're not available etc.
-						</div>
-					</div>
-				</div>
-			</div>
+            </c:forEach>
           	<div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a aria-label="Previous" href="/attendedGoods?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a aria-label="Previous" href="/alarm?pageNum=${pageInfo.startPage - 1}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a href="/attendedGoods?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+								<a href="/alarm?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a aria-label="next" href="/attendedGoods?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a aria-label="next" href="/alarm?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>

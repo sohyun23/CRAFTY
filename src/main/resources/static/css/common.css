@@ -107,10 +107,10 @@ body {
 	width : 1440px;
 	display: flex;
     margin: 0 auto;
+    min-height: calc(100% - 120px);
 }
 
 /* =======================================footer========================================*/
-
 footer {
 /*   background-color: #462c91; */
 	font-family: "Pretendard Variable";

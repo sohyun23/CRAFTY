@@ -14,6 +14,7 @@ public class Orders {
 	private int		itemTotalAmount;
 	private int		deliveryFee;
 	private int		totalAmount;
+	private String 	paymentMean;	// 추가
 	private String	deliveryNum;
 	private String	deliveryCompany;
 	private String	deliveryStatus;

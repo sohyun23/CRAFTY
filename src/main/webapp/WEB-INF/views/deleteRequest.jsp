@@ -6,8 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Crafty</title>
-	<link href="/css/deleteRequest.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/deleteRequest.css" rel="stylesheet" type="text/css"/>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -26,9 +26,9 @@
                     	굿즈 관리
                 </div>
                 <ul>
-                    <li><a href="/goodsManagement">등록 굿즈</a></li>
-                    <li><a href="/registerRequest">등록 신청 굿즈</a></li>
-                    <li id="current-title"><a href="/deleteRequest">비공개 신청 굿즈</a></li>
+                    <li><a href="/admin/goods">등록 굿즈</a></li>
+                    <li><a href="/admin/request/register">등록 신청 굿즈</a></li>
+                    <li id="current-title"><a href="/admin/request/nondisclosure">비공개 신청 굿즈</a></li>
                 </ul>
             </div>
         </div>
@@ -49,30 +49,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                	<c:forEach items="${requestScope.List}" var="goods">
+                	<c:forEach items="${requestScope.goodsList}" var="goods">
                     	<tr>
-                    		<td class="goods-num">${goods.num}</td>
-	                        <td class="goods-name"><a href="/goodsDetail">${goods.name}</a></td>
-	                        <td class="goods-applicant"><a href="/profile">${goods.applicant}</a></td>
-	                        <td class="request-date">${goods.requestDate}</td>
-	                        <td class="request-reason"><a href="#">보기</a></td>
+                    		<td class="goods-num">${goods.goodsId}</td>
+	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
+	                        <td class="goods-applicant"><a href="/profile/${goods.memberId}">${goods.nickname}</a></td>
+	                        <td class="request-date">${goods.nondisclosureCreatedAt}</td>
+	                        <td class="request-reason">${goods.nondisclosureReason}</td>
 	                        <td class="allow-btn">
 	                            <button class="allowBtn" onclick="allow()">허가</button>
 	                            <button class="disallowBtn" onclick="disallow()">불허</button>
 	                        </td>
                     	</tr>
                     </c:forEach>
-                    <tr>
-                    	<td class="goods-num">2324496</td>
-                        <td class="goods-name"><a href="/goodsDetail">감자도리와 구마</a></td>
-                        <td class="goods-applicant"><a href="/profile">감자도리사랑단</a></td>
-                        <td class="request-date">2023-06-17</td>
-                        <td class="request-reason"><a href="#">보기</a></td>
-                        <td class="allow-btn">
-                            <button class="allowBtn" onclick="allow()">허가</button>
-	                        <button class="disallowBtn" onclick="disallow()">불허</button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <div class="pagination-box">
@@ -80,17 +69,17 @@
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a class="paging-num" aria-label="Previous" href="/?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a class="paging-num" aria-label="Previous" href="admin/request/nondisclosure/?pageNum=${pageInfo.startPage - 1}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a class="paging-num" href="/?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+								<a class="paging-num" href="admin/request/nondisclosure/?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a class="paging-num" aria-label="next" href="/?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a class="paging-num" aria-label="next" href="admin/request/nondisclosure/?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>

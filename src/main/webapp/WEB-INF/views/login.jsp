@@ -5,7 +5,8 @@
 <head>
     <title>Crafty</title>
     <meta charset="UTF-8">
-    <meta name="css" content="width=device-width, initial-scale=1">
+    <meta name="css" content="width=device-width, initial-scale=1">    
+    <link href="/css/common.css" rel="stylesheet" type="text/css"> 
     <link href="/css/login.css" rel="stylesheet" type="text/css"> 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
