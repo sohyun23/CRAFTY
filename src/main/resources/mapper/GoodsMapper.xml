@@ -83,4 +83,64 @@
 		WHERE g.registration_status != 1
 	</select>
 	
+	
+	<!-- getNoticeWithPageRequest -->
+	<select id="getMainGoods"
+			parameterType="crafty.pagination.dto.PageRequestDTO"
+			resultType="crafty.pagination.dto.MainCard">
+
+			SELECT *
+			FROM (  
+					SELECT *
+			        FROM (
+			        		SELECT *
+							FROM (
+									SELECT A.goods_id, goods_name, aggrement, introduction, img_path, img_original_name, category
+									FROM GOODS A
+									INNER JOIN GOODS_DESCRIPTION_IMG B
+									ON A.goods_id = B.goods_id
+									WHERE img_original_name LIKE '%'||'thb'||'%'
+							)
+							<trim prefix="WHERE" prefixOverrides="AND |OR">
+								<if test="keyword != null and keyword !=''">
+								 	AND goods_name LIKE '%'||#{keyword}||'%'
+								</if>
+							</trim>
+	        		)
+	        		<![CDATA[
+			        WHERE goods_id <= #{pageNum} * #{amount}
+			        ]]> 
+	    	)
+	    	<![CDATA[
+			WHERE goods_id > (#{pageNum} - 1) *  #{amount}
+			]]>
+
+	</select>
+	
+	<select id="getMainGoodsTotalCount"
+			parameterType="crafty.pagination.dto.PageRequestDTO" 
+			resultType="_int">
+			SELECT COUNT(*)
+			FROM GOODS
+			<trim prefix="WHERE" prefixOverrides="AND |OR">
+				<if test="keyword != null and keyword !=''">
+			 		AND goods_name LIKE '%'||#{keyword}||'%'
+				</if>
+			</trim>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
  </mapper>
