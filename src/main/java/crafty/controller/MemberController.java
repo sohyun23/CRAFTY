@@ -75,7 +75,7 @@ public class MemberController {
         return  "likedGoods";
     }
 
-    @GetMapping(value = "/goods/alarm")
+    @GetMapping(value = "/alarm")
     public String showAlarmSettings(Model model) {
         // 알림 확인 페이지 로직 구현
         // id를 이용하여 해당 멤버의 알림 확인 페이지 반환
