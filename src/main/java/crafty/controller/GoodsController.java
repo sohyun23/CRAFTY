@@ -21,8 +21,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import crafty.dto.Goods;
 import crafty.dto.GoodsResponse;
+import crafty.dto.Item;
 import crafty.dto.ItemResponse;
 import crafty.dto.Orders;
+import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
@@ -32,6 +34,7 @@ import crafty.pagination.dto.PageResponseDTO;
 import crafty.pagination.dto.SearchKeyword;
 import crafty.service.GoodsDescriptionImgService;
 import crafty.service.GoodsService;
+import crafty.service.ItemService;
 import crafty.service.OrdersService;
 
 @Controller
@@ -45,6 +48,9 @@ public class GoodsController {
 	
 	@Autowired
 	OrdersService ordersService;
+	
+	@Autowired
+	ItemService itemService;
 	
 	@GetMapping(value="/main")
 	public String main(@ModelAttribute PageRequestDTO pageRequest, Model model) {		
@@ -69,8 +75,17 @@ public class GoodsController {
 		return "main";
 	}
 	
-	@GetMapping(value="/goods/{goodsNum}")
-	public String goodsDetail(@PathVariable("goodsNum") int goodsNum) {
+	@GetMapping(value="/goods/{goodsId}")
+	public String goodsDetail(@PathVariable("goodsId") int goodsId, Model model) {
+		ResponseGoodsDetail goods = goodsService.getGoodsByGoodsId(goodsId);
+		String thumbnailImgName = goodsService.getGoodsThumbnailImgNameByGoodsId(goodsId);
+		String contentImgName = goodsService.getGoodsContentImgNameByGoodsId(goodsId);
+		List<Item> itemList = itemService.getItemsByGoodsId(goodsId);
+		
+		model.addAttribute("goods", goods);
+		model.addAttribute("thumbnailImgName", thumbnailImgName);
+		model.addAttribute("contentImgName", contentImgName);
+		model.addAttribute("itemList", itemList);
 		
 		return "goodsDetail";
 	}

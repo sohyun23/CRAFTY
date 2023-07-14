@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import crafty.dto.GoodsResponse;
 import crafty.dto.ItemResponse;
+import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
@@ -76,6 +77,27 @@ public class GoodsService {
 	public void registGoods(GoodsResponse goodsResponse, List<ItemResponse> itemList, MultipartFile thumbnailFile,
 			MultipartFile descriptionFile) {
 		
+	}
+	
+	// 굿즈 상세 정보
+	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) {
+		ResponseGoodsDetail goods = goodsMapper.getGoodsByGoodsId(goodsId);
+		
+		return goods;
+	}
+	
+	// 굿즈 썸네일 
+	public String getGoodsThumbnailImgNameByGoodsId(int goodsId) {
+		String thumbnailImgName = goodsMapper.getGoodsThumbnailImgNameByGoodsId(goodsId);
+				
+		return thumbnailImgName;
+	}
+	
+	// 굿즈 본문 이미지
+	public String getGoodsContentImgNameByGoodsId(int goodsId) {
+		String contentImgName = goodsMapper.getGoodsContentImgNameByGoodsId(goodsId);
+		
+		return contentImgName;
 	}
 	
 }

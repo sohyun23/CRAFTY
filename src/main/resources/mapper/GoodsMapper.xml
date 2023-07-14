@@ -129,18 +129,23 @@
 			</trim>
 	</select>
 	
+	<select id="getGoodsByGoodsId" resultType="crafty.dto.ResponseGoodsDetail">
+		SELECT g.goods_id, g.goods_name, g.introduction, m.member_id, m.nickname, m.profile_img
+		FROM GOODS g
+		JOIN MEMBER m on m.member_id = g.member_id
+		WHERE g.goods_id = #{goodsId}
+	</select>
 	
+	<select id="getGoodsThumbnailImgNameByGoodsId" resultType="string">
+		SELECT img_name
+		FROM GOODS_DESCRIPTION_IMG
+		WHERE goods_id = #{goodsId} AND img_position = 1
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<select id="getGoodsContentImgNameByGoodsId" resultType="string">
+		SELECT img_name
+		FROM GOODS_DESCRIPTION_IMG
+		WHERE goods_id = #{goodsId} AND img_position = 0
+	</select>
 	
  </mapper>

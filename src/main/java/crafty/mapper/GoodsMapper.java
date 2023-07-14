@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
@@ -28,9 +29,15 @@ public interface GoodsMapper {
 
 	public int getRegisterRequestGoodsCount();
 	
-	
+	// 메인 페이지
 	public List<MainCard> getMainGoods(PageRequestDTO pageRequest);
 
 	public int getMainGoodsTotalCount(PageRequestDTO pageRequest);
 	
+	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId);
+	
+	public String getGoodsThumbnailImgNameByGoodsId(int goodsId);
+	
+	public String getGoodsContentImgNameByGoodsId(int goodsId);
+
 }
