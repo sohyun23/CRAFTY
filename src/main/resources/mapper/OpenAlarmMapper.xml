@@ -5,4 +5,11 @@
   
  <mapper namespace="crafty.mapper.OpenAlarmMapper">
  	
+ 	<select id="getGoodsByMemberId" resultType="crafty.dto.Goods">
+ 		SELECT * 
+		FROM GOODS 
+		WHERE goods_id IN (SELECT goods_id 
+		                    FROM OPEN_ALARM
+		                    WHERE member_id = #{memberId})
+ 	</select>
  </mapper>

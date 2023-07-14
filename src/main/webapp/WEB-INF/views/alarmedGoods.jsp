@@ -39,7 +39,7 @@
             <div class="title">
             	알림 신청한 굿즈
             </div>
-            <c:forEach items="${requestScope.goodsList}" var="goods">
+            <c:forEach items="${sessionScope.goodsList}" var="goods">
             	<div class="main-card">
 					<div class="main-card-image-holder">
 						<img class="main-card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
