@@ -3,10 +3,12 @@ package crafty.dto;
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class Goods {
 	private int		goodsId;
 	private int		memberId;

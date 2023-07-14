@@ -12,8 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import crafty.dto.Goods;
+import crafty.dto.GoodsResponse;
+import crafty.dto.ItemResponse;
 import crafty.dto.Orders;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
@@ -22,6 +30,7 @@ import crafty.pagination.dto.MainCard;
 import crafty.pagination.dto.PageRequestDTO;
 import crafty.pagination.dto.PageResponseDTO;
 import crafty.pagination.dto.SearchKeyword;
+import crafty.service.GoodsDescriptionImgService;
 import crafty.service.GoodsService;
 import crafty.service.OrdersService;
 
@@ -30,6 +39,9 @@ public class GoodsController {
 	
 	@Autowired
 	GoodsService goodsService;
+	
+	@Autowired
+	GoodsDescriptionImgService goodsImgService;
 	
 	@Autowired
 	OrdersService ordersService;
@@ -71,12 +83,49 @@ public class GoodsController {
 	}
 	
 	// 굿즈 등록 페이지 전환 메서드
-	@PostMapping(value="/register/goods")
-	public String registerGoods(@ModelAttribute Goods newGoods) {
-		// 등록한 굿즈 정보 db에 저장
-	
-		return "main";
-	}
+		//[{"itemName":"1","itemPrice":"1","itemComposition":"1","itemQuantity":"1"},{"itemName":"2","itemPrice":"2","itemComposition":"2","itemQuantity":"2"}]
+		@PostMapping(value="/register/goods")
+		public String registerGoods(@RequestParam("thumbnailFile") MultipartFile thumbnailFile,
+									@RequestParam("descriptionFile") MultipartFile descriptionFile,
+									@ModelAttribute GoodsResponse goodsResponse){
+			// 등록한 굿즈 정보 db에 저장
+//			System.out.println(thumbnailFile);
+//			System.out.println(goodsResponse.getGoodsName());
+//			System.out.println(goodsResponse.getGoodsIntro());
+//			System.out.println(goodsResponse.getGoodsCategory());
+//			System.out.println(goodsResponse.getStartDate());
+//			System.out.println(goodsResponse.getEndDate());
+//			System.out.println(descriptionFile);
+//			System.out.println(goodsResponse.getItemList());
+//			System.out.println(goodsResponse.getTargetAmount());
+//			System.out.println(goodsResponse.getPostDate());
+//			System.out.println(goodsResponse.getBankCategory());
+//			System.out.println(goodsResponse.getBankAccountNumber());
+
+			try {
+				
+				// itemList : json to Object
+				String jsonItemListStr = goodsResponse.getItemList();
+				ObjectMapper objectMapper = new ObjectMapper();
+				List<ItemResponse> itemList;
+				itemList = objectMapper.readValue(jsonItemListStr, new TypeReference<List<ItemResponse>>() {});
+				System.out.println(itemList);
+				
+				goodsImgService.registGoodsImg(thumbnailFile, descriptionFile);
+				
+				goodsService.registGoods(goodsResponse, itemList, thumbnailFile, descriptionFile );
+				
+				
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+
+			
+
+			return "registerGoods";
+		}
 	
 	@GetMapping(value="/goods/attended")
 	public String attendedGoods() {

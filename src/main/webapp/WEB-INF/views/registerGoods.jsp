@@ -1,23 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/common.css" rel="stylesheet" type="text/css" />
     <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
-    <title>Crafty</title>
-</head>
-
-<body>
+    <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+  </head>
+  <link
+    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css"
+    rel="stylesheet"
+  />
+  <body>
   <%@ include file="header.jsp" %>
+  
+ <!-- <form action="/test" method="POST" enctype="multipart/form-data"> -->
+  	<div> </div>
     <div class="main-container">
     	
       <div id="thumnail">
       	<h1>이미지 등록</h1>
+      	<input type="file" name="thumbnailFile" id="thumnailBtn"/>
+        <!-- 
         <button id="thumnailBtn">이미지 등록</button>
+       -->
       </div>
 
       <div id="goodsName">
@@ -27,6 +36,7 @@
             id="goodsNameInput"
             placeholder="굿즈 명을 입력해주세요."
             name="goodsName"
+            type="text"
             maxlength="30"
           />
         </div>
@@ -46,19 +56,24 @@
       <div id="goodsCategory">
         <h1>카테고리</h1>
         <div class="divLeft">
-          <form id="goodsCategoryForm">
-            <select name="selectGoodsCategory">
-              <option value="food">푸드</option>
-              <option value="stuff">잡화</option>
-              <option value="beauty">뷰티</option>
-              <option value="child">유아</option>
-              <option value="pet">반려동물</option>
-              <option value="etc">기타</option>
+        <div id= "goodsCategoryForm">
+          <!-- <form id="goodsCategoryForm"> -->
+            <select id= "GoodsCategorySelect" name="selectGoodsCategory">
+              <option value="푸드">푸드</option>
+              <option value="잡화">잡화</option>
+              <option value="뷰티">뷰티</option>
+              <option value="유아">유아</option>
+              <option value="반려동물">반려동물</option>
+              <option value="기타">기타</option>
             </select>
             <span>
+            <!-- 
               <input id="categorySubmit" type="submit" value="submit" />
             </span>
-          </form>
+            
+             -->
+          <!-- </form>-->
+          </div>
         </div>
       </div>
 
@@ -66,7 +81,7 @@
         <h1>모금 기간</h1>
         <div id="dateTxt">
           <div id="startDateTxt">
-            	시작일
+            시작일
             <input
               class="date"
               id="startDateInput"
@@ -75,7 +90,7 @@
             />
           </div>
           <div id="endDateTxt">
-          		종료일
+            종료일
             <input class="date" id="endDateInput" type="date" value="endDate" />
           </div>
         </div>
@@ -83,13 +98,15 @@
 
       <div id="goodsDescription">
         <h1>상세 설명</h1>
-        <button id="descriptionBtn">이미지 등록</button>
+        <input type="file" id="descriptionBtn"/>
+        <!-- <button id="descriptionBtn">이미지 등록</button> -->
       </div>
 
       <div id="itemInfo">
         <h1>상품 정보 입력</h1>
         <div class="divLeft">
-          <form id="itemInfoForm">
+         <!--  <form id="itemInfoForm">--> 
+         <div id= itemInfoForm>
             <div id="itemInputBox">
               상품명<span class="ness">*</span>
               <div>
@@ -150,7 +167,8 @@
                 value="등록"
               />
             </div>
-          </form>
+            </div>
+           <!--  </form>-->
         </div>
       </div>
 
@@ -183,8 +201,11 @@
 
         <div id="goodsCategory">
           <h1>정산받을 계좌 정보</h1>
+          <!-- 
           <form id="bankCategoryForm">
-            <select id="bank-category" name="bankCategory">
+             -->
+             <div id="bankCategoryForm">
+            <select id="bankCategorySelect"name="bankCategory">
               <option value="sinhan">신한</option>
               <option value="kb">국민</option>
               <option value="kakao">카카오</option>
@@ -201,7 +222,9 @@
                 min="0"
               />
             </span>
-          </form>
+            </div>
+            <!--
+          </form>-->
         </div>
       </div>
 
@@ -219,21 +242,18 @@
       <hr />
       <br />
       <div id="registGoods">
-        <button id="registGoodsBtn" onclick="location.href ='/main'">굿즈 만들기</button>
+        <button id="registGoodsBtn" type="submit" onclick="addItem()">굿즈 만들기</button>
       </div>
     </div>
-	<%@ include file="footer.jsp" %>
-</body>
+    <!-- </form> -->
+     <%@ include file="footer.jsp" %>
+  </body>
 
-<script>
+  <script>
     const itemName = document.getElementById("itemName");
     const itemPrice = document.getElementById("itemPrice");
     const itemComposition = document.getElementById("itemComposition");
     const itemQuantity = document.getElementById("itemQuantity");
-
-    function test() {
-      alert("dd");
-    }
 
     const itemList = document.getElementById("itemList");
     function itemInfoList() {
@@ -248,24 +268,100 @@
         itemQuantity.value = "";
       } else {
         const createitem = document.createElement("li");
-
-        createitem.innerHTML = `<div class="item" >
-                            <input class="items" value='${itemName.value}, ${itemPrice.value}원 , ${itemQuantity.value}개' type="text"></input>
-                            <button class="itemdelete" id="deleteBtn" onclick="deleteitem(event)">x</button>
-                            <div>`;
+        createitem.innerHTML = '<div class="item">' +
+        							'<input class="listItemName" value= ' + itemName.value + ' type="text"></input>'+  
+        							'<input class= "listItemPrice" value= ' + itemPrice.value + ' type= "hidden"></input>' +
+        							'<input class= "listItemComposition" value= ' + itemComposition.value + ' type= "hidden"></input>' +
+        							'<input class= "listItemQuantity" value= ' + itemQuantity.value + ' type= "hidden"></input>' +
+	                            	'<button class="itemdelete" id="deleteBtn" onclick="deleteitem(event)">x</button>'+
+                            	'<div>';
         itemList.appendChild(createitem);
-
+		
         itemName.value = "";
         itemPrice.value = "";
         itemComposition.value = "";
         itemQuantity.value = "";
+
       }
     }
+    
     function deleteitem(event) {
-      console.log(event.target.parentElement);
-      const removingOne = event.target.parentElement.parentElement;
-      alert(removingOne);
-      removingOne.remove();
+        removingOne.remove();
+      }
+    
+    
+    //let itemListPayload = [{name: "name1", price: 1}, {name: "name2", price: 2} ....]; 
+    let itemListPayload = [];
+    function addItem(){
+
+    if(itemList.hasChildNodes()){
+
+    	let children = itemList.childNodes;
+
+    	for(let i = 0; i < children.length;i++){ //아이템의 개수
+
+    		let currentItemJson = {};
+    		
+    		let listItemName = children[i].getElementsByClassName('listItemName')[0].value;
+    		let listItemPrice = children[i].getElementsByClassName('listItemPrice')[0].value;
+    		let listItemComposition = children[i].getElementsByClassName('listItemComposition')[0].value;
+    		let listItemQuantity = children[i].getElementsByClassName('listItemQuantity')[0].value;
+        	
+    		currentItemJson['itemName'] = listItemName; 
+    		currentItemJson['itemPrice'] = listItemPrice;
+    		currentItemJson['itemComposition'] = listItemComposition;
+    		currentItemJson['itemQuantity'] = listItemQuantity;
+    		itemListPayload.push(currentItemJson);
+    		
+    		
+   		 }
+   	 }
     }
-</script>
+   
+   
+    const registGoodsBtn = document.getElementById('registGoodsBtn');
+    registGoodsBtn.addEventListener('click', () => {
+    		const thumbnailFile = document.getElementById('thumnailBtn').files[0];
+    		const goodsNameInput = document.getElementById('goodsNameInput').value;
+    	    const goodsIntroInput = document.getElementById('goodsIntroInput').value;
+    	    const goodsCategorySelect = document.getElementById('GoodsCategorySelect').value;
+    	    const startDateInput = document.getElementById('startDateInput').value;
+    	    const endDateInput = document.getElementById('endDateInput').value;
+    	    const descriptionFile = document.getElementById('descriptionBtn').files[0];
+    	    const targetAmountInput = document.getElementById('targetAmountInput').value;
+    	    const postDateInput = document.getElementById('postDateInput').value;
+    	    const bankCategorySelect = document.getElementById('bankCategorySelect').value;
+    	    const bankAccountNumberInput = document.getElementById('bankAccountNumber').value;
+
+
+      const formData = new FormData();
+      formData.append('thumbnailFile', thumbnailFile);
+      formData.append('goodsName', goodsNameInput);
+      formData.append('goodsIntro', goodsIntroInput);
+      formData.append('goodsCategory', goodsCategorySelect);
+      formData.append('startDate', startDateInput);
+      formData.append('endDate', endDateInput);
+      formData.append('descriptionFile', descriptionFile);
+      formData.append('targetAmount', targetAmountInput);
+      formData.append('postDate', postDateInput);
+      formData.append('bankCategory', bankCategorySelect);
+      formData.append('bankAccountNumber', bankAccountNumberInput);
+      formData.append('itemList', JSON.stringify(itemListPayload));
+
+      axios({
+        method: 'post',
+        url: '/register/goods',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formData
+      }).then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.log(error);
+      });
+    });
+
+    
+  </script>
 </html>
