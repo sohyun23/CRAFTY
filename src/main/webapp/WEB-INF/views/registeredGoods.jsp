@@ -6,8 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Crafty</title>
-	<link href="/css/registeredGoods.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/registeredGoods.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -19,10 +19,10 @@
                     	굿즈
                 </div>
                 <ul>
-                    <li><a href="/attendedGoods">참여 굿즈 내역</a></li>
-                    <li id="current-title"><a href="/registeredGoods">등록 굿즈 관리</a></li>
-                    <li><a href="/likedGoods">좋아요한 굿즈</a></li>
-                    <li><a href="/alarmedGoods">알림 신청한 굿즈</a></li>
+                    <li><a href="/goods/attended">참여 굿즈 내역</a></li>
+                    <li id="current-title"><a href="/goods/registered">등록 굿즈 관리</a></li>
+                    <li><a href="/likes">좋아요한 굿즈</a></li>
+                    <li><a href="/alarm">알림 신청한 굿즈</a></li>
                 </ul>
             </div>
             <div class="menu-container">
@@ -30,7 +30,7 @@
                    	 내 정보
                 </div>
                 <ul>
-                    <li><a href="/profileEdit">프로필 수정</a></li>
+                    <li><a href="/profile/edit">프로필 수정</a></li>
                 </ul>
             </div>
         </div>
@@ -52,17 +52,17 @@
 					<!-- 반복 출력 -->
 					<c:forEach items="${requestScope.goodsList}" var="goods">
 	                    <tr>
-	                        <td class="goods-name"><a href="/goodsDetail">굿즈명</a></td>
-	                        <td class="create-date">작성 일자</td>
-	                        <td class="status">상태</td>
-	                        <td class="detail"><button class="detail-btn" onclick="location.href='/registeredGoodsDetail'">상세</button></td>
+	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">굿즈명</a></td>
+	                        <td class="create-date">${goods.goodsCreatedAt}</td>
+	                        <td class="status">${goods.goodsStatus}</td>
+	                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/registered/${goods.goodsId}'">상세</button></td>
 	                    </tr>
 	                </c:forEach>
 	                <tr>
-                        <td class="goods-name"><a href="/goodsDetail">굿즈명</a></td>
-                        <td class="create-date">작성 일자</td>
+                        <td class="goods-name"><a href="/goods/1">굿즈명</a></td>
+                        <td class="create-date">22-06-30</td>
                         <td class="status">상태</td>
-                        <td class="detail"><button class="detail-btn" onclick="location.href='/registeredGoodsDetail'">상세</button></td>
+                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/registered/1'">상세</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -71,17 +71,17 @@
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a aria-label="Previous" href="/paging?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a aria-label="Previous" href="/goods/registered?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a href="/paging?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+								<a href="/goods/registered?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a aria-label="next" href="/paging?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a aria-label="next" href="/goods/registered?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>

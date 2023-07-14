@@ -20,10 +20,7 @@
 					<img class="thumbnail" alt="thumbnail" src="/img/image1.png" />
 				</div>
 				<div id="detail">
-					ddddddddddd
-					qwdqqqqqqqqqqq
-					qwdqqqqqqqqqqq
-					qwdqqqqqqqqqqq
+					칫솔만 들면 도망가는 우리 댕댕이 양치하기 참 힘들었다.. 이젠 물고 뜯고 즐기는 허니콤케어로 쉽게 케어하세요.
 				</div>
 				<!-- input 빼고 div안에 삽입되도록 -->
 			</div>
@@ -77,7 +74,7 @@
 					</div>
 					<div>
 						<a href="#">
-							<img id="API-icon" src="\img\payicon.png" alt="결제">
+							<img id="API-icon" src="/craftyimg/payicon.png" alt="결제">
 						<a>
 					</div>
 				</div>
@@ -90,7 +87,7 @@
 		<div id="expbottom">
 			<div id="seller-container">
 				<img id="profile" alt="프로필사진" src="/img/profile.png">
-				<div id="seller-name">판매자 닉네임</div>
+				<div id="seller-name"><a href="/profile/${goods.nickname}"></a>판매자 닉네임</div>
 			</div>
 			<!-- 상품설명 -->
 			<div id="goods-explanation">

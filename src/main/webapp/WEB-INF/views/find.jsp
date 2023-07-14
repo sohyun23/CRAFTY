@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="css" content="width=device-width, initial-scale=1">
     <link href="/css/find.css" rel="stylesheet" type="text/css"> 
+    <link href="/css/common.css" rel="stylesheet" type="text/css"> 
 </head>
 <!-- #362bd4 -->
 <body>
@@ -23,8 +24,6 @@
                 <button>
                     	비밀번호 찾기
                 </button>
-                
-                
             </form>
         </div>
 
@@ -39,8 +38,6 @@
                 <button>
                     	아이디 찾기
                 </button>
-                
-                
             </form>
         </div>
 

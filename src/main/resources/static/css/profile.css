@@ -1,95 +1,18 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
-
 body {
-font-family: 'Pretendard Variable';
 min-height: 100vh;
-background-color: #EFF0F4;
 color: #000000;
 padding-bottom: 3rem;
 }
+
 :root {
 font-size: 10px;
 /* font-family: Arial, sans-serif; */
-font-family: "Pretendard Variable";
 }
 
 *,
 *::before,
 *::after {
 box-sizing: border-box;
-}
-
-header {
-	font-family: "Pretendard Variable";
-}
-
-/* Header */
-.header {
-	display : flex;
-	justify-content: center;
-	align-items: center;
-	
-	background: #FFFFFF;
-	margin : 0 auto;
-	height : 100px;
-	width : 1440px;
-	position: relative;
-}
-
-.header a {
-	text-decoration: none;
-}
-
-.centered {
-	position: absolute;
-    left: 42%;
-}
-
-.main-title {
-	color: #3D56B2;
-	font-size: 60px;
-	font-weight : 600;
-}
-
-
-
-
-
-
-.main-dropdown {
- 	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	
-	left : 90%;
- 	width : 150px;
-}
-
-.main-dropdown-button {
-	border:none;
-  	border-radius:50%;
-  	width: 50px;
-  	height: 50px;
-  	overflow: hidden;    
-  	cursor:pointer;
-}
-
-
-.profile-image {
-	width: 50px;
-    height: 50px;
-}
-
-
-.dropdown-options {
-	display: none;
-	position: absolute;
-	right : 0%;
-	width : 130px;
-	background-color:#9F8772;
-	border-radius:5px;
-	box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
 }
 
 

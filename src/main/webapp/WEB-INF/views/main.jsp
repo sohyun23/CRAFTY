@@ -8,8 +8,8 @@
 <title>main</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
-<link href="css/mainLayout.css" rel="stylesheet" type="text/css">
 <link href="css/common.css" rel="stylesheet" type="text/css">
+<link href="css/mainLayout.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 	.main-search-category-container {
 		width : 100%;
@@ -93,15 +93,15 @@
 				<ul class="pagination">
 					
 					<c:if test="${pageInfo.prev}">
-						<li><a aria-label="Previous" href="/링크?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a></li>
+						<li><a aria-label="Previous" href="/main?pageNum=${pageInfo.startPage - 1}">Prev</a></li>
 					</c:if>
 					
 					<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-						<li class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}"><a href="/링크?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a></li>
+						<li class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}"><a href="/main?pageNum=${num}">${num}</a></li>
 					</c:forEach>
 					
 					<c:if test="${pageInfo.next}">
-						<li><a aria-label="next" href="/링크?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a></li>
+						<li><a aria-label="next" href="/main?pageNum=${pageInfo.endPage + 1}">Next</a></li>
 					</c:if>
 				
 				</ul>
@@ -122,7 +122,6 @@
 	  detailForm.submit();
 	}
 	
-	for 
 
 
 	

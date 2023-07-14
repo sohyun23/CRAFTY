@@ -26,9 +26,9 @@
                     	굿즈 관리
                 </div>
                 <ul>
-                    <li id="current-title"><a href="/goodsManagement">등록 굿즈</a></li>
-                    <li><a href="/registerRequest">등록 신청 굿즈</a></li>
-                    <li><a href="/deleteRequest">비공개 신청 굿즈</a></li>
+                    <li id="current-title"><a href="/admin/goods">등록 굿즈</a></li>
+                    <li><a href="/admin/request/register">등록 신청 굿즈</a></li>
+                    <li><a href="/admin/request/nondisclosure">비공개 신청 굿즈</a></li>
                 </ul>
             </div>
         </div>
@@ -37,11 +37,8 @@
             <div class="title">
                	 등록 굿즈
                	<div>
-	                <select>
-	                    <option value="">전체</option>
-	                    <option value="">정산 완료</option>
-	                    <option value="">모금중</option>
-	                </select>
+	                <button onclick="location.href='/admin/goods'">전체</button>
+	                <button onclick="location.href='/admin/goods?endAdj=Y'">정산 완료</button>
 	            </div>
             </div>            
             <table>
@@ -53,52 +50,55 @@
                         <td class="total-amount">모금액</td>
                         <td class="attend-list">참여자</td>
                         <td class="adjustment-date">정산일</td>
-                        <td class="adjustment-status">정산</td>
                         <td class="adjustment-amount">정산 금액</td>
+                        <td class="adjustment-status">정산</td>
                     </tr>
                 </thead>
                 <tbody>
-					<!-- 반복 출력 -->
+					<!-- 굿즈 리스트 출력 -->
 					<c:forEach items="${requestScope.goodsList}" var="goods">
 	                    <tr>
-	                    	<td class="goods-num">${goods.num}</td>
-	                        <td class="goods-name"><a href="/goodsDetail">${goods.name}</a></td>
-	                        <td class="goods-seller"><a href="profile">${goods.seller}</a></td>
-	                        <td class="total-amount">${goods.totalAmount}</td>
-	                        <td class="attend-list"><a href="/purchaserList">확인</a></td>
-	                        <td class="adjustment-date">${goods.adjustmentDate}</td>
-	                        <td class="adjustment-status">${goods.adjustmentStatus}</td>
-	                        <td class="adjustment-amount">${goods.adjustmentAmount}</td>
+	                    	<td class="goods-num">${goods.goodsId}</td>
+	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
+	                        <td class="goods-seller"><a href="/profile/${goods.memberId}">${goods.nickname}</a></td>
+	                        <td class="total-amount">${goods.amount}</td>
+	                        <td class="attend-list"><a href="/admin/goods/${goods.goodsId}">확인</a></td>
+	                        <td class="adjustment-date">
+	                        	<c:if test="${goods.adjustmentCreatedAt ne '1111-11-11'}">
+	                        		${goods.adjustmentCreatedAt}
+	                        	</c:if>
+	                        </td>
+	                        <td class="adjustment-amount">
+	                        	<c:if test="${goods.lastTotalAmount ne 0}">
+	                        		${goods.lastTotalAmount}
+	                        	</c:if>
+	                        </td>
+	                        <td class="adjustment-status">
+	                        	<c:if test="${goods.lastTotalAmount ne 0}">
+	                        		정산 완료
+	                        	</c:if>
+	                        </td>
 	                    </tr>
 	                </c:forEach>
-	                <tr>
-	                	<td class="goods-num">882125</td>
-                        <td class="goods-name"><a href="/goodsDetail">드라마 한니발 레시피북 FEEDING HANNIBAL</a></td>
-                        <td class="goods-seller"><a href="/profile">세기말풋사과보습</a></td>
-                        <td class="total-amount">423000000</td>
-                        <td class="attend-list"><a href="/purchaserList">확인</a></td>
-                        <td class="adjustment-date">2022-06-21</td>
-                        <td class="adjustment-status">정산 완료</td>
-	                        <td class="adjustment-amount">401850</td>
-                    </tr>
                 </tbody>
             </table>
+            <!-- 페이지네이션 -->
             <div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a aria-label="Previous" href="/paging?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a aria-label="Previous" href="/admin/goods?pageNum=${pageInfo.startPage - 1}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a href="/paging?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+							<li class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
+								<a href="/admin/goods?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a aria-label="next" href="/paging?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a aria-label="next" href="/admin/goods?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>
@@ -110,14 +110,6 @@
     <%@ include file="footer.jsp" %>
 </body>
 <script>
-	function adjustment(){
-	    var result = confirm("정산하시겠어요?");
 	
-	    if(result) {
-	    	// axios 사용해서 해당 상품 정보 넘기고 정산 테이블에 추가 
-	    	
-	    	window.location.href = "http://localhost:8081/adminTest2";
-	    }
-	};
 </script>
 </html>

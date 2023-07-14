@@ -4,5 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="crafty.mapper.OrdersMapper">
+ 
+ 	<select id="getOrdersByGoodsId" parameterType="hashmap" resultType="crafty.dto.ResponsePurchaserList">
+ 		SELECT order_id, member_id, nickname, order_created_at, payment_mean, total_amount
+ 		FROM (
+ 			SELECT ROWNUM AS rn, o.order_id, o.member_id, m.nickname, o.order_created_at, o.payment_mean, o.total_amount
+			FROM ORDERS o
+			JOIN MEMBER m ON m.member_id = o.member_id
+			WHERE o.goods_id = #{goodsId}
+			ORDER BY o.order_created_at DESC
+ 		)
+		<![CDATA[
+			WHERE rn > (#{pageRequest.pageNum} - 1) * #{pageRequest.amount}
+			  AND rn <= #{pageRequest.pageNum} * #{pageRequest.amount}
+		]]>
+	</select>
+	
+	<select id="getPurchaserListCount" resultType="_int">
+		SELECT COUNT(o.order_id)
+		FROM ORDERS o
+		JOIN MEMBER m ON m.member_id = o.member_id
+		WHERE o.goods_id = #{goodsId}
+	</select>
  	
  </mapper>

@@ -7,8 +7,8 @@
 	<meta charset="UTF-8">
 	<title>Crafty</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
-	<link href="/css/registeredGoodsDetail.css" rel="stylesheet" type="text/css" />
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/registeredGoodsDetail.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -17,8 +17,8 @@
 	    <div class="side-menu">
 	        <div class="menu-container">
 	            <ul>
-	                <li id="current-title"><a href="/registeredGoodsDetail">참여 내역</a></li>
-	                <li><a href="/registeredGoodsSalesByItem">품목별 판매량</a></li>
+	                <li id="current-title"><a href="/goods/registered/1">참여 내역</a></li>
+	                <li><a href="/goods/registered/sales/1">품목별 판매량</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -26,13 +26,13 @@
 	    <div class="main-content">
 	        <div class="top">
 	            <div class="left">
-	                <a id="goods-link" href="/goodsDetail">
+	                <a id="goods-link" href="/goods/1">
 	                    <img id="goods-thumbnail" src="/img/mushroom.jpg" alt=""/>
 	                </a>
 	            </div>
 	            <div class="right">
 	                <div id="goods-name">
-	                    <a href="/goodsDetail">감자도리와 구마</a>
+	                    <a href="/goods/1">감자도리와 구마</a>
 	                </div>
 	                <div id="goods-period">
 	                	기간 : 1111-11-11 - 9999-99-99
@@ -59,14 +59,14 @@
 	                	<c:forEach items="${requestScope.orderList}" var="order">
 	                		<tr>
 		                        <td class="order-num">${order.orderNum}</td>
-		                        <td class="order-date">${order.orderDate}</td>
+		                        <td class="order-date">${order.orderCreatedAt}</td>
 		                        <td class="order-item">
 		                            <c:forEach items="${requestScope.itemList}" var="item">
-		                            	<div>${item.name}</div>
+		                            	<div>${item.itemName}</div>
 		                            </c:forEach>
 		                        </td>
 		                        <td class="order-total-price">${order.orderTotalPrice}</td>
-		                        <td class="order-nickname">${order.orderNickname}</td>
+		                        <td class="order-nickname">${order.nickname}</td>
 		                        <td class="delivery-info">
 		                        	<c:if test="${not empty order.deliveryNum}">
 		                        		<div id="delivery-num">${order.deliveryNum}</div>
@@ -99,17 +99,17 @@
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a aria-label="Previous" href="/paging?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a aria-label="Previous" href="/goods/registered/${goods.goodsId}?pageNum=${pageInfo.startPage - 1}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a href="/paging?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+								<a href="/goods/registered/${goods.goodsId}?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a aria-label="next" href="/paging?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a aria-label="next" href="/goods/registered/${goods.goodsId}?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>

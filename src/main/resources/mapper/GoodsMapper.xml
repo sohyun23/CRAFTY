@@ -4,5 +4,83 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="crafty.mapper.GoodsMapper">
- 
+ 	
+ 	<!-- 등록된 굿즈 전부 -->
+ 	<!-- getManagementGoods -->
+ 	<select id="getManagementGoods" parameterType="crafty.pagination.dto.PageRequestDTO"
+									   resultType="crafty.dto.ResponseGoodsManagement">
+			SELECT goods_id, goods_name, member_id, nickname, amount, adjustment_created_at, last_total_amount
+			FROM (
+			    SELECT g.goods_id,
+			           g.goods_name,
+			           g.member_id,
+			           m.nickname,
+			           NVL(SUM(o.item_total_amount), 0) AS amount,
+			           NVL(ao.adjustment_created_at, '1111-11-11') AS adjustment_created_at,
+			           NVL(ao.last_total_amount, 0) AS last_total_amount,
+			           ROW_NUMBER() OVER (ORDER BY g.goods_id DESC) AS rn
+			    FROM GOODS g
+			    LEFT JOIN MEMBER m ON g.member_id = m.member_id
+			    LEFT JOIN ORDERS o ON g.goods_id = o.goods_id
+			    LEFT JOIN ADJUSTMENT_ORDER ao ON g.goods_id = ao.goods_id
+			    GROUP BY g.goods_id, g.goods_name, g.member_id, m.nickname, ao.adjustment_created_at, ao.last_total_amount
+			)
+		<![CDATA[
+			WHERE rn > (#{pageNum} - 1) * #{amount}
+			  AND rn <= #{pageNum} * #{amount}
+		]]>
+	</select>
+ 	
+ 	<select id="getTotalManagementGoodsCount" resultType="_int">
+		SELECT count(goods_id)
+		FROM GOODS
+	</select>
+	
+	<!-- 비공개 요청 굿즈 -->
+	<select id="getNondisclosureRequestGoods" parameterType="crafty.pagination.dto.PageRequestDTO" 
+												resultType="crafty.dto.ResponseNondisclosureRequest">
+		SELECT goods_id, goods_name, member_id, nickname, nondisclosure_created_at, nondisclosure_reason
+		FROM(
+			SELECT ROWNUM AS rn, g.goods_id, g.goods_name, g.member_id, m.nickname, nd.nondisclosure_created_at, nd.nondisclosure_reason
+			FROM GOODS g
+			JOIN MEMBER m ON m.member_id = g.member_id
+			JOIN NONDISCLOSURE_REQUEST nd ON nd.goods_id = g.goods_id
+			WHERE g.nondisclosure_status != 1
+		)
+		<![CDATA[
+			WHERE rn > (#{pageNum} - 1) * #{amount}
+			  AND rn <= #{pageNum} * #{amount}
+		]]>
+	</select>
+	
+	<select id="getNondisclosureRequestGoodsCount" resultType="_int">
+		SELECT COUNT(g.goods_id)
+		FROM GOODS g
+		JOIN MEMBER m ON m.member_id = g.member_id
+		JOIN NONDISCLOSURE_REQUEST nd ON nd.goods_id = g.goods_id
+		WHERE g.nondisclosure_status != 1
+	</select>
+	
+	<select id="getRegisterRequestGoods" parameterType="crafty.pagination.dto.PageRequestDTO" 
+												resultType="crafty.dto.ResponseRegisterRequest">
+		SELECT goods_id, goods_name, member_id, nickname, goods_created_at
+		FROM(
+			SELECT ROWNUM AS rn, g.goods_id, g.goods_name, g.member_id, m.nickname, g.goods_created_at
+			FROM GOODS g
+			JOIN MEMBER m ON m.member_id = g.member_id
+			WHERE g.registration_status != 1
+		)
+		<![CDATA[
+			WHERE rn > (#{pageNum} - 1) * #{amount}
+			  AND rn <= #{pageNum} * #{amount}
+		]]>
+	</select>
+	
+	<select id="getRegisterRequestGoodsCount" resultType="_int">
+		SELECT COUNT(g.goods_id)
+		FROM GOODS g
+		JOIN MEMBER m ON m.member_id = g.member_id
+		WHERE g.registration_status != 1
+	</select>
+	
  </mapper>

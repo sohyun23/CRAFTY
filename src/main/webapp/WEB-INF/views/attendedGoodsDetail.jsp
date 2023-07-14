@@ -6,8 +6,8 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Crafty</title>
-	<link href="/css/attendedGoodsDetail.css" rel="stylesheet" type="text/css" />
 	<link href="/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="/css/attendedGoodsDetail.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -19,10 +19,10 @@
 	                  	굿즈
 	              </div>
 	              <ul>
-					<li id="current-title"><a href="/attendedGoods">참여 굿즈 내역</a></li>
-					<li><a href="/registeredGoods">등록 굿즈 관리</a></li>
-					<li><a href="/likedGoods">좋아요한 굿즈</a></li>
-					<li><a href="/alarmedGoods">알림 신청한 굿즈</a></li>
+					<li id="current-title"><a href="/goods/attended">참여 굿즈 내역</a></li>
+                    <li><a href="/goods/registered">등록 굿즈 관리</a></li>
+                    <li><a href="/likes">좋아요한 굿즈</a></li>
+                    <li><a href="/alarm">알림 신청한 굿즈</a></li>
 	              </ul>
 	          </div>
 	          <div class="menu-container">
@@ -30,7 +30,7 @@
 	                  	내 정보
 	              </div>
 	              <ul>
-	                  <li><a href="/profileEdit">프로필 수정</a></li>
+	                  <li><a href="/profile/edit">프로필 수정</a></li>
 	              </ul>
 	          </div>
 	      </div>
@@ -41,13 +41,13 @@
 	          </div>
 	          <div class="top">
 	              <div class="left">
-	                  <a id="goods-link" href="/goodsDetail">
-	                      <img id="goods-thumbnail" src="/img/mushroom.jpg" alt=""/>
+	                  <a id="goods-link" href="/goods/${goods.goodsId}">
+	                      <img id="goods-thumbnail" src="/craftyImg/mushroom.jpg" alt=""/>
 	                  </a>
 	              </div>
 	              <div class="right">
 	                  <div id="goods-name">
-	                      <a href="#">${projectName}감자도리와 구마</a>
+	                      <a href="/goods/${goodsId}">${goods.goodsName}감자도리와 구마</a>
 	                </div>
 	                <div id="cancel-btn">
                     	<button onclick="location.href = '#'">참여 취소</button>
@@ -80,18 +80,18 @@
 	                </div>
 	                <div class="info-item">
 	                    <div class="item-name">
-	                       	 ${goodsname}감자도리
+	                       	 ${item.itemName}감자도리
 	                    </div>
 	                    <div class="item-price">
-	                        ${price}1000원
+	                        ${item.itemPrice}1000원
 	                    </div>
 	                </div>
 	                <div class="info-item">
 	                    <div class="item-name">
-	                       	 ${goodsname}구마
+	                       	 ${item.itemName}구마
 	                    </div>
 	                    <div class="item-price">
-	                        ${price}1000원
+	                        ${item.itemPrice}1000원
 	                    </div>
 	                </div>
 	                <div class="info-item">
@@ -99,7 +99,7 @@
 	                     	   배송비
 	                    </div>
 	                    <div class="item-price">
-	                        ${deliveryFee}2500원
+	                        ${order.deliveryFee}2500원
 	                    </div>
 	                </div>
 	                <hr>
@@ -108,7 +108,7 @@
 	                       	 총 금액
 	                    </div>
 	                    <div class="item-total-price">
-	                        ${totalPrice}213544원
+	                        ${order.totalPrice}213544원
 	                    </div>
 	                </div>
 	            </div>
