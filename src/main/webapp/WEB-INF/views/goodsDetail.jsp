@@ -17,31 +17,30 @@
 		<div class="top-row">
 			<div class="top-left">
 				<div id="thumbnail-box">
-					<img class="thumbnail" alt="thumbnail" src="/img/image1.png" />
+					<img class="thumbnail" alt="thumbnail" src="/img/${thumbnailImgName}" />
 				</div>
 				<div id="detail">
-					칫솔만 들면 도망가는 우리 댕댕이 양치하기 참 힘들었다.. 이젠 물고 뜯고 즐기는 허니콤케어로 쉽게 케어하세요.
+					${goods.introduction}
 				</div>
 				<!-- input 빼고 div안에 삽입되도록 -->
 			</div>
 			<!-- 박스크기 정하기 -->
 			<div class="top-right">
 				<div id="block1">
-					<div id="goods-name">굿즈 이름</div>
+					<div id="goods-name">${goods.goodsName}</div>
 
-					<form action="/goodsDetail" method="POST">
-						<select name="goods-list" id="goods-list" onchange="plusList()">
-							<option>---------선택해주세요---------</option>
-							<option>감자도리 2500</option>
-							<option>구마 1000</option>
-							<option>새 1500</option>
-						</select>
-						<!-- <input id="listSubmit" type="button" onclick="plusList()" value="확인"> -->
-					</form>
+					<!-- <form action="/goodsDetail" method="POST"> -->
+					<select name="goods-list" id="goods-list" onchange="plusList()">
+						<option selected disabled hidden>---------선택해주세요---------</option>						
+						<c:forEach items="${itemList}" var="item">
+							<option>${item.itemName} ${item.itemPrice}</option>
+							<!-- 선택했을 때 itemId도 넘겨줘야 함 -->
+						</c:forEach>
+					</select>
+					<!-- </form> -->
 						
 					<div id="goods-composition">
 						<ul id="goods-cart"></ul>
-							
 					</div>
 				</div>
 				
@@ -86,12 +85,12 @@
 		
 		<div id="expbottom">
 			<div id="seller-container">
-				<img id="profile" alt="프로필사진" src="/img/profile.png">
-				<div id="seller-name"><a href="/profile/${goods.nickname}"></a>판매자 닉네임</div>
+				<a href="/profile/${goods.memberId}"><img id="profile" alt="프로필사진" src="/img/${goods.profileImg}"></a>
+				<div id="seller-name"><a href="/profile/${goods.memberId}">${goods.nickname}</a></div>
 			</div>
 			<!-- 상품설명 -->
 			<div id="goods-explanation">
-				<figure><img src="/img/image1.png" alt=""></figure>
+				<figure><img src="/img/${contentImgName}" alt=""></figure>
 			</div>
 		</div>
 	</div>
@@ -161,7 +160,12 @@ function plusList(){
 	let totalPayPrice = parseInt(totalPayPriceElement.getAttribute('value'));
 	//각 변수 Element의 value값을 가져와서 숫자만 추출함
 	
-	totalPrice += parseInt(price.split(' ')[1]);
+	// 아이템 이름과 가격 공백으로 나누기
+	let itemArray = price.split(' ');
+	let itemPrice = itemArray[itemArray.length - 1];
+	
+	totalPrice += parseInt(itemPrice);
+	// !!!!!!!!!!!!! 상품 이름의 공백이 여러개일 때 숫자(가격이 안가져와짐 , ''로 split 했을 때 -1번째 인덱스 불가능?)
 	//공백에서 첫번쨰 글자부터 가격값을 정수로 변환하여 totalPrice 변수에 더함
 
 	totalPriceElement.innerHTML = totalPrice + "원";
@@ -192,7 +196,11 @@ function deleteitem(itemIndex) {
 	console.log(itemPrice)
 	//goods-list가 아니라 total-price 아래의 것으로 해야함
 	
-	let price = parseInt(itemPrice.split(' ')[1]);//공백 뒤에서부터 숫자 들고 옴
+	// 아이템 이름과 가격 공백으로 나누기
+	let priceArray = itemPrice.split(' ');
+	let price = parseInt(priceArray[priceArray.length - 1]);
+	
+	// let price = parseInt(itemPrice);//공백 뒤에서부터 숫자 들고 옴
 	
 	let totalPayPrice = parseInt(totalPayPriceElement.getAttribute('value'));
 	
