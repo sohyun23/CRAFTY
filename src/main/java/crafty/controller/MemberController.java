@@ -1,5 +1,7 @@
 package crafty.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import crafty.dto.Goods;
 import crafty.dto.Member;
+import crafty.service.LikesService;
+import crafty.service.OpenAlarmService;
 
 /*
  * MemberController - signUp, find, likes, openAlarm, profile / profileEdit
@@ -20,8 +25,15 @@ import crafty.dto.Member;
 //@RequestMapping("member")
 public class MemberController {
 
-    @Autowired
+//    @Autowired
 //    private MemberService memberService;
+    
+    @Autowired
+    private LikesService likesService;
+//    private MemberService memberService;
+    
+    @Autowired
+    private OpenAlarmService openAlarmService;
     
     @GetMapping(value ="/signUp")
     public String signUpForm() {
@@ -52,16 +64,25 @@ public class MemberController {
     }
     
     @GetMapping(value = "/likes")
-    public String likeMember() {
+    public String likeMember(Model model) {
         // 좋아요 기능 로직 구현
         // id를 이용하여 해당 멤버에 좋아요 처리
-        return "alarmedGoods";
+    	int memberId = 5;
+    	List<Goods> goodsList = likesService.getGoodsByMemberId(memberId);
+//    	System.out.println(goodsList);
+    	model.addAttribute("goodsList", goodsList);
+    	
+        return  "likedGoods";
     }
 
-    @GetMapping(value = "/alarm")
-    public String showAlarmSettings() {
+    @GetMapping(value = "/goods/alarm")
+    public String showAlarmSettings(Model model) {
         // 알림 확인 페이지 로직 구현
         // id를 이용하여 해당 멤버의 알림 확인 페이지 반환
+    	int memberId = 10;
+    	List<Goods> goodsList = openAlarmService.getAlarmByMemberId(memberId);
+    	model.addAttribute("goodsList", goodsList);
+    	
         return "alarmedGoods";
     }
     

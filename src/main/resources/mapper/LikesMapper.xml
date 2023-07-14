@@ -4,5 +4,12 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="crafty.mapper.LikesMapper">
- 
+
+ 	 <select id="getGoodsByMemberId" resultType="crafty.dto.Goods">
+ 	 	SELECT * 
+		FROM GOODS 
+		WHERE goods_id IN (SELECT goods_id 
+		                    FROM LIKES 
+		                    WHERE member_id = #{memberId})
+ 	 </select>
  </mapper>

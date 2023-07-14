@@ -9,9 +9,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class Goods {
 	private int		goodsId;
-	private int		memeberId;
+	private int		memberId;
 	private String	goodsName;
 	private	Date	startDate;
+	private	Date	endDate;
 	private	String	category;
 	private String	introduction;
 	private int		targetAmount;
@@ -22,7 +23,7 @@ public class Goods {
 	private int		ongoingStatus;
 	private int		productionStatus;
 	private int		registrationStatus;
-	private int		nondisclosure_status;
+	private int		nondisclosureStatus;
 	private Date	goodsCreatedAt;
 	private	Date	goodsUpdatedAt;
 }
