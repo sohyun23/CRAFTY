@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import crafty.dto.GoodsResponse;
+import crafty.dto.ItemResponse;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
@@ -68,6 +71,11 @@ public class GoodsService {
 	public int getMainGoodsTotalCount(PageRequestDTO pageRequest) {
 		int result = goodsMapper.getMainGoodsTotalCount(pageRequest);
 		return result;
+	}
+
+	public void registGoods(GoodsResponse goodsResponse, List<ItemResponse> itemList, MultipartFile thumbnailFile,
+			MultipartFile descriptionFile) {
+		
 	}
 	
 }
