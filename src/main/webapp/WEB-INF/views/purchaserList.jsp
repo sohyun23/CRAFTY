@@ -6,8 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Crafty</title>
-	<link href="/css/purchaserList.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/purchaserList.css" rel="stylesheet" type="text/css"/>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -26,9 +26,9 @@
 					굿즈 관리
                 </div>
                 <ul>
-                    <li id="current-title"><a href="/goodsManagement">등록 굿즈</a></li>
-                    <li><a href="/registerRequest">등록 신청 굿즈</a></li>
-                    <li><a href="/deleteRequest">비공개 신청 굿즈</a></li>
+                    <li id="current-title"><a href="/admin/goods">등록 굿즈</a></li>
+                    <li><a href="/admin/request/register">등록 신청 굿즈</a></li>
+                    <li><a href="/admin/request/nondisclosure">비공개 신청 굿즈</a></li>
                 </ul>
             </div>
         </div>
@@ -51,20 +51,13 @@
 					<!-- 반복 출력 -->
 					<c:forEach items="${requestScope.orderList}" var="order">
 	                    <tr>
-	                    	<td class="order-num">${order.num}</td>
-	                        <td class="order-purchaser"><a href="/profile">${order.purchaser}</a></td>
-	                        <td class="order-date">${order.date}</td>
-	                        <td class="order-means">${order.means}</td>
-	                        <td class="order-amount">${order.amount}</td>
+	                    	<td class="order-num">${order.orderId}</td>
+	                        <td class="order-purchaser"><a href="/profile/${order.memberId}">${order.nickname}</a></td>
+	                        <td class="order-date">${order.orderCreatedAt}</td>
+	                        <td class="order-means">${order.paymentMean}</td>
+	                        <td class="order-amount">${order.totalAmount}</td>
 	                    </tr>
 	                </c:forEach>
-	                <tr>
-	                	<td class="order-num">3465465</td>
-                        <td class="order-purchaser"><a href="/profile">감자도리야</a></td>
-                        <td class="order-date">23-07-10 12:45:11</td>
-                        <td class="order-means">카카오페이</td>
-                        <td class="order-amount">5500</td>
-                    </tr>
                 </tbody>
             </table>
             <div class="pagination-box">
@@ -72,17 +65,17 @@
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a aria-label="Previous" href="/paging?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a aria-label="Previous" href="/admin/goods/${goodsId}?pageNum=${pageInfo.startPage - 1}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a href="/paging?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+								<a href="/admin/goods/${goodsId}?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a aria-label="next" href="/paging?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a aria-label="next" href="/admin/goods/${goodsId}?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>

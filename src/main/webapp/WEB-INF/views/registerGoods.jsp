@@ -1,23 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
     <link href="/css/common.css" rel="stylesheet" type="text/css" />
-    <title>Document</title>
-  </head>
-  <link
-    href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css"
-    rel="stylesheet"
-  />
-  <body>
+    <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
+    <title>Crafty</title>
+</head>
+
+<body>
   <%@ include file="header.jsp" %>
-  
-  
-  	<div> </div>
     <div class="main-container">
     	
       <div id="thumnail">
@@ -71,7 +66,7 @@
         <h1>모금 기간</h1>
         <div id="dateTxt">
           <div id="startDateTxt">
-            시작일
+            	시작일
             <input
               class="date"
               id="startDateInput"
@@ -80,7 +75,7 @@
             />
           </div>
           <div id="endDateTxt">
-            종료일
+          		종료일
             <input class="date" id="endDateInput" type="date" value="endDate" />
           </div>
         </div>
@@ -189,7 +184,7 @@
         <div id="goodsCategory">
           <h1>정산받을 계좌 정보</h1>
           <form id="bankCategoryForm">
-            <select name="bankCategory">
+            <select id="bank-category" name="bankCategory">
               <option value="sinhan">신한</option>
               <option value="kb">국민</option>
               <option value="kakao">카카오</option>
@@ -224,13 +219,13 @@
       <hr />
       <br />
       <div id="registGoods">
-        <button id="registGoodsBtn">굿즈 만들기</button>
+        <button id="registGoodsBtn" onclick="location.href ='/main'">굿즈 만들기</button>
       </div>
     </div>
-     <%@ include file="footer.jsp" %>
-  </body>
+	<%@ include file="footer.jsp" %>
+</body>
 
-  <script>
+<script>
     const itemName = document.getElementById("itemName");
     const itemPrice = document.getElementById("itemPrice");
     const itemComposition = document.getElementById("itemComposition");
@@ -272,5 +267,5 @@
       alert(removingOne);
       removingOne.remove();
     }
-  </script>
+</script>
 </html>
