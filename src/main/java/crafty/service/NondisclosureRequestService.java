@@ -20,4 +20,10 @@ public class NondisclosureRequestService {
 		return result;
 	}
 	
+	// 굿즈 비공개 불허
+	public int updateNondisclosureRequestNondisclosureStatusByGoodsId(int goodsId) throws SQLException{
+		int result = nondisclosureRequestMapper.updateNondisclosureRequestNondisclosureStatusByGoodsId(goodsId);
+		
+		return result;
+	}
 }

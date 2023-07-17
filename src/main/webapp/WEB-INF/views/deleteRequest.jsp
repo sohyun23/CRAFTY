@@ -57,8 +57,8 @@
 	                        <td class="request-date">${goods.nondisclosureCreatedAt}</td>
 	                        <td class="request-reason">${goods.nondisclosureReason}</td>
 	                        <td class="allow-btn">
-	                            <button class="allowBtn" onclick="allow()">허가</button>
-	                            <button class="disallowBtn" onclick="disallow()">불허</button>
+	                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>
+	                            <button class="disallowBtn" onclick="disallow(${goods.goodsId})">불허</button>
 	                        </td>
                     	</tr>
                     </c:forEach>
@@ -91,22 +91,38 @@
     <%@ include file="footer.jsp" %>
 </body>
 <script>
-	function allow(){
-    	var result = confirm("비공개 허가하시겠습니까?");
-
-	    if(result) {
-	    	// axios.post를 이용해 해당 상품의 정보 넘기고, goods 테이블의 비공개 status update
-	    	
-	    	window.location.href = "http://localhost:8081/adminTest2";
-	    }
-	};
-	function disallow(){
-	    var result = confirm("비공개 불허가하시겠습니까?");
+	function allow(goodsId){
+	    var result = confirm("비공개를 허가합니다.");
 	
 	    if(result) {
-	    	// 왜 불허하는지 이유는 안알려줘도 괜찮은가.. ㅋㅋ 생각해보니 글네..
-	    	// 상태 변경점 없음
-	    	window.location.href = "http://localhost:8081/adminTest2";
+	    	// axios.get를 이용해 해당 굿즈의 ID 넘김, goods 테이블의 비공개 status update
+	    	
+	    	axios.get('http://localhost:8081/request/nondisclosure/allow/'+goodsId)
+				 .then(response => {
+					confirm(response.data);
+				 })
+				 .catch(error => {
+				 	confirm(error.response.data);
+				 })
+	    	
+	    	window.location.href = "http://localhost:8081/admin/request/nondisclosure";
+	    }
+	};
+	function disallow(goodsId){
+	    var result = confirm("비공개를 불허가합니다.");
+	
+	    if(result) {
+	    	// axios.get를 이용해 해당 굿즈의 ID 넘김, nondisclosure_request 테이블의 비공개 status update
+	    	axios.get('http://localhost:8081/request/nondisclosure/disallow/'+goodsId)
+				 .then(response => {
+					confirm(response.data);
+				 })
+				 .catch(error => {
+				 	confirm(error.response.data);
+				 })
+	    	
+	    	
+	    	window.location.href = "http://localhost:8081/admin/request/nondisclosure";
 	    }
 	};
 </script>

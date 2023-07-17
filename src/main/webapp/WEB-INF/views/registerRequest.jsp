@@ -56,8 +56,8 @@
 	                        <td class="goods-applicant"><a href="/profile/${memberId}">${goods.nickname}</a></td>
 	                        <td class="request-date">${goods.goodsCreatedAt}</td>
 	                        <td class="allow-btn">
-	                            <button class="allowBtn" onclick="allow()">허가</button>
-	                            <button class="disallowBtn" onclick="disallow()">불허</button>
+	                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>
+	                            <button class="disallowBtn" onclick="disallow(${goods.goodsId})">불허</button>
 	                        </td>
 	                    </tr>
                     </c:forEach>
@@ -90,22 +90,39 @@
     <%@ include file="footer.jsp" %>
 </body>
 <script>
-	function allow(){
+	function allow(goodsId){
 	    var result = confirm("등록을 허가합니다.");
 	
 	    if(result) {
-	    	// axios.post를 이용해 해당 상품의 정보 넘기고, goods 테이블의 등록 status update
+	    	// axios.get를 이용해 해당 굿즈의 ID 넘김, goods 테이블의 등록 status update
 	    	
-	    	window.location.href = "http://localhost:8081/adminTest2";
+	    	axios.get('http://localhost:8081/request/register/allow/'+goodsId)
+				 .then(response => {
+					confirm(response.data);
+				 })
+				 .catch(error => {
+				 	confirm(error.response.data);
+				 })
+	    	
+	    	window.location.href = "http://localhost:8081/admin/request/register";
 	    }
 	};
-	function disallow(){
+	function disallow(goodsId){
 	    var result = confirm("등록을 불허가합니다.");
 	
 	    if(result) {
-	    	// 왜 불허하는지 이유는 안알려줘도 괜찮은가.. ㅋㅋ 생각해보니 글네..
 	    	// 불허시 테이블에서 삭제?
-	    	window.location.href = "http://localhost:8081/adminTest2";
+	    	
+	    	axios.get('http://localhost:8081/request/register/disallow/'+goodsId)
+				 .then(response => {
+					confirm(response.data);
+				 })
+				 .catch(error => {
+				 	confirm(error.response.data);
+				 })
+	    	
+	    	
+	    	window.location.href = "http://localhost:8081/admin/request/delete";
 	    }
 	};
 </script>
