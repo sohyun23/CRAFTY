@@ -9,5 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface NondisclosureRequestMapper {
 
 	int insertNondisclosureRequest(HashMap<String, Object> hashmap) throws SQLException;
-
+	
+	int updateNondisclosureRequestNondisclosureStatusByGoodsId(int goodsId) throws SQLException;
 }

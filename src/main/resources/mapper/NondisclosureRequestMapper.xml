@@ -16,4 +16,9 @@
          )
  	</insert>
  	
+ 	<update id="updateNondisclosureRequestNondisclosureStatusByGoodsId">
+ 		UPDATE NONDISCLOSURE_REQUEST
+ 		SET nondisclosure_status = 1
+ 		WHERE goods_id = #{goodsId};
+ 	</update>
  </mapper>

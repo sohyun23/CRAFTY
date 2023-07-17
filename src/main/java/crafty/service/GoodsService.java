@@ -127,4 +127,27 @@ public class GoodsService {
 		return goods;
 	}
 	
+	// 굿즈 등록 요청 허가 메서드
+	public int updateGoodsRegistrationStatusAllowByGoodsId(int goodsId) throws SQLException{
+		
+		int result = goodsMapper.updateGoodsRegistrationStatusAllowByGoodsId(goodsId);
+		
+		return result;
+	}
+	
+	// 굿즈 등록 요청 불허 메서드
+	public int updateGoodsRegistrationStatusDisallowByGoodsId(int goodsId) throws SQLException{
+		
+		int result = goodsMapper.updateGoodsRegistrationStatusDisallowByGoodsId(goodsId);
+		
+		return result;
+	}
+	
+	// 굿즈 삭제 요청 허가 메서드 
+	public int updateGoodsNondisclosureStatusByGoodsId(int goodsId) throws SQLException{
+		int result = goodsMapper.updateGoodsNondisclosureStatusByGoodsId(goodsId);
+		
+		return result;
+	}
+	
 }

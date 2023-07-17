@@ -51,5 +51,12 @@ public interface GoodsMapper {
 	// 등록 굿즈 상세 공통
 	public ResponseRegisteredGoodsDetail getRegisteredGoodsDetailByGoodsId(int goodsId) throws SQLException;
 	
-
+	// 굿즈 등록 허가
+	public int updateGoodsRegistrationStatusAllowByGoodsId(int goodsId) throws SQLException;
+	
+	// 굿즈 등록 불허
+	public int updateGoodsRegistrationStatusDisallowByGoodsId(int goodsId) throws SQLException;
+	
+	// 굿즈 삭제 허가 
+	public int updateGoodsNondisclosureStatusByGoodsId(int goodsId) throws SQLException;
 }
