@@ -257,7 +257,7 @@ public class GoodsController {
 			throw new Exception("다시 시도해주세요.");
 		}
 		
-		return "redirect:/goods/registered/sales/" + Integer.toString(goodsId);
+		return "redirect:/goods/registered/" + Integer.toString(goodsId);
 	}
 	
 	// 운송장 정보 등록 폼 제출 시 실행되는 메서드
