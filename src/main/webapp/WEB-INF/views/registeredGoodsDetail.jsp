@@ -17,8 +17,8 @@
 	    <div class="side-menu">
 	        <div class="menu-container">
 	            <ul>
-	                <li id="current-title"><a href="/goods/registered/1">참여 내역</a></li>
-	                <li><a href="/goods/registered/sales/1">품목별 판매량</a></li>
+	                <li  id="current-title"><a href="/goods/registered/${goods.goodsId}">참여 내역</a></li>
+	                <li><a href="/goods/registered/sales/${goods.goodsId}">품목별 판매량</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -26,19 +26,19 @@
 	    <div class="main-content">
 	        <div class="top">
 	            <div class="left">
-	                <a id="goods-link" href="/goods/1">
-	                    <img id="goods-thumbnail" src="/img/mushroom.jpg" alt=""/>
+	                <a id="goods-link" href="/goods/${goods.goodsId}">
+	                    <img id="goods-thumbnail" src="${goods.imgPath}/${goods.imgName}" alt=""/>
 	                </a>
 	            </div>
 	            <div class="right">
 	                <div id="goods-name">
-	                    <a href="/goods/1">감자도리와 구마</a>
+	                    <a href="/goods/${goods.goodsId}">${goods.goodsName}</a>
 	                </div>
 	                <div id="goods-period">
-	                	기간 : 1111-11-11 - 9999-99-99
+	                	기간 : ${goods.startDate} - ${goods.endDate}
 	                </div>
 	                <div id="attend-number">
-	                	참여 수 : 5
+	                	참여 수 : ${goods.salesNum}
 	                </div>
 	                <button id="delete-popup-btn">삭제 신청</button>
 	            </div>
@@ -56,41 +56,25 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
-	                	<c:forEach items="${requestScope.orderList}" var="order">
-	                		<tr>
-		                        <td class="order-num">${order.orderNum}</td>
-		                        <td class="order-date">${order.orderCreatedAt}</td>
-		                        <td class="order-item">
-		                            <c:forEach items="${requestScope.itemList}" var="item">
-		                            	<div>${item.itemName}</div>
-		                            </c:forEach>
-		                        </td>
-		                        <td class="order-total-price">${order.orderTotalPrice}</td>
-		                        <td class="order-nickname">${order.nickname}</td>
-		                        <td class="delivery-info">
-		                        	<c:if test="${not empty order.deliveryNum}">
-		                        		<div id="delivery-num">${order.deliveryNum}</div>
-		                        	</c:if>
-		                        	<c:if test="${empty order.deliveryNum}">
-		                        		<div id="delivery-popup-btn">등록</div>
-		                        	</c:if>
-		                        </td>
-	                    	</tr>
-	                	</c:forEach>
-	                    <tr>
-	                        <td class="order-num">1943329</td>
-	                        <td class="order-date">2023-06-22</td>
-	                        <td class="order-item-list">
-	                            <div class="order-item">감자도리</div>
-	                            <div>구마</div>
-	                        </td>
-	                        <td class="order-total-price">24,500</td>
-	                        <td class="order-nickname">주황버섯</td>
-	                        <td class="delivery-info">
-	                        	<!-- <div>458672132</div> -->
-	                        	<button id="delivery-popup-btn">등록</button>
-	                        </td>
-	                    </tr>
+	                	<c:if test="${not empty requestScope.orderList}">
+		                	<c:forEach items="${requestScope.orderList}" var="order">
+		                		<tr>
+			                        <td class="order-num">${order.orderId}</td>
+			                        <td class="order-date">${order.orderCreatedAt}</td>
+			                        <td class="order-item">${order.orderItems}</td>
+			                        <td class="order-total-price">${order.totalAmount}</td>
+			                        <td class="order-nickname"><a href="/profile/${order.memberId}">${order.nickname}</a></td>
+			                        <td class="delivery-info">
+			                        	<c:if test="${not empty order.deliveryNum}">
+			                        		<div id="delivery-num">${order.deliveryNum}</div>
+			                        	</c:if>
+			                        	<c:if test="${empty order.deliveryNum}">
+			                        		<button id="delivery-popup-btn" data-order-id="${order.orderId}">등록</button>
+			                        	</c:if>
+			                        </td>
+		                    	</tr>
+		                	</c:forEach>
+		                </c:if>
 	                </tbody>
 	            </table>
 	        </div>
@@ -119,8 +103,9 @@
             <div class="popup" id="delete-popup">
                 <h2>삭제 신청</h2>
                 
-                <form action="http://localhost:8081/deletePopupText" method="POST">
-                    <textarea placeholder="삭제 신청 사유를 적어주세요." name="deleteReason" required></textarea>
+                <form action="http://localhost:8081/request/delete/submit" method="POST">
+                    <textarea placeholder="삭제 신청 사유를 적어주세요." name="deleteReason" maxlength="" required></textarea>
+                    <input type="hidden" id="request-goods-id" name="goodsId" value="${goods.goodsId}"></input>
                     <div class="form-btn">
                         <input class="submit-btn" type="submit" />
                         <input class="reset-btn" type="reset" />
@@ -130,7 +115,7 @@
             <div class="popup" id="delivery-popup">
                 <h2>운송장 번호 등록</h2>
                 
-                <form action="http://localhost:8081/deliveryPopupText" id="delivery-form" method="POST">
+                <form action="http://localhost:8081/delivery/info/submit" id="delivery-form" method="POST">
                     <div id="delivery-info">
                         <select id="delivery-popup-company" name="company">
                             <option value="04">CJ대한통운</option>
@@ -140,6 +125,8 @@
                             <option value="06">로젠택배</option>
                         </select>
                         <input type="text" id="delivery-popup-num" placeholder="운송장 번호" name="deliveryNum" required/>
+                        <input type="hidden" id="delivery-order-id" name="orderId" value=""></input>
+                        <input type="hidden" id="delivery-goods-id" name="goodsId" value="${goods.goodsId}"></input>
                     </div>
                     <div class="form-btn">
                         <input class="submit-btn" type="submit" value="등록"/>
@@ -153,34 +140,49 @@
 	<%@ include file="footer.jsp" %>
 </body>
 <script>
-	$(function() {
-		  
-	    // contact form animations
-	    $('#delete-popup-btn').click(function() {
-	        $('#delete-popup').fadeToggle();
-	    })
-	    $(document).mouseup(function (e) {
-	        var container = $("#delete-popup");
+	// popup 실행 함수
+	document.addEventListener("DOMContentLoaded", function() {
+	    var deletePopupBtn = document.getElementById("delete-popup-btn");
+	    var deletePopup = document.getElementById("delete-popup");
+	    var deleteForm = document.getElementById("delete-form");
+	    var requestGoodsId = document.querySelector("input[name='goodsId']");
 	
-	        if (!container.is(e.target) // if the target of the click isn't the container...
-	            && container.has(e.target).length === 0) // ... nor a descendant of the container
-	        {
-	            container.fadeOut();
-	        }
+	    deletePopupBtn.addEventListener("click", function() {
+	        deletePopup.style.display = "block";
 	    });
-	
-	    $('#delivery-popup-btn').click(function() {
-	        $('#delivery-popup').fadeToggle();
-	    })
-	    $(document).mouseup(function (e) {
-	        var container = $("#delivery-popup");
-	
-	        if (!container.is(e.target) // if the target of the click isn't the container...
-	            && container.has(e.target).length === 0) // ... nor a descendant of the container
-	        {
-	            container.fadeOut();
+		
+	    // 팝업 영역 외의 부분 클릭 시 사라짐 
+	    document.addEventListener("mouseup", function(e) {
+	        if (!deletePopup.contains(e.target)) {
+	            deletePopup.style.display = "none";
 	        }
 	    });
 	});
+	
+	// 운송장 번호 등록 팝업
+    var deliveryPopupBtns = document.querySelectorAll("#delivery-popup-btn");
+    var deliveryPopup = document.getElementById("delivery-popup");
+    var deliveryForm = document.getElementById("delivery-form");
+    var deliveryOrderId = document.getElementById("delivery-order-id");
+
+    function openDeliveryPopup(orderId) {
+        deliveryOrderId.value = orderId;
+        deliveryPopup.style.display = "block";
+    }
+
+    for (var i = 0; i < deliveryPopupBtns.length; i++) {
+        deliveryPopupBtns[i].addEventListener("click", function() {
+            var orderId = this.getAttribute("data-order-id");
+            openDeliveryPopup(orderId);
+        });
+    }
+
+    // 팝업 영역 외의 부분 클릭 시 사라짐 
+    document.addEventListener("mouseup", function(e) {
+        if (!deliveryPopup.contains(e.target)) {
+            deliveryPopup.style.display = "none";
+        }
+    });
+	
 </script>
 </html>

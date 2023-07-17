@@ -71,26 +71,26 @@
 }
 
 /* 테이블 크기 조정 */
+table {
+	width: 1150px;
+}
 .order-num {
-    width: 150px;
+    width: 130px;
 }
 .order-date {
-    width: 150px;
+    width: 130px;
 }
 .order-item-list {
-    width: 400px;
+    width: 500px;
 }
 .order-total-price {
-    width: 150px;
+    width: 130px;
 }
 .order-nickname {
-    width: 150px;
+    width: 130px;
 }
 .delivery-info {
-    width: 150px;
-}
-.order-item {
-	border: none;
+    width: 130px;
 }
 
 /* 팝업 버튼 */

@@ -21,10 +21,72 @@
 	</select>
 	
 	<select id="getPurchaserListCount" resultType="_int">
-		SELECT COUNT(o.order_id)
-		FROM ORDERS o
-		JOIN MEMBER m ON m.member_id = o.member_id
-		WHERE o.goods_id = #{goodsId}
+		SELECT COUNT(order_id)
+		FROM ORDERS 
+		WHERE goods_id = #{goodsId}
 	</select>
+	
+	<!-- attendedGoods -->
+	<select id="getOrdersByMemberId" parameterType="hashmap" resultType="crafty.dto.ResponseAttendedGoods">
+ 		SELECT order_id, order_id, goods_id, goods_name, order_created_at, ongoing_status, production_status
+ 		FROM (
+ 			SELECT ROWNUM AS rn, o.order_id, o.goods_id, g.goods_name, o.order_created_at, g.ongoing_status, g.production_status
+			FROM ORDERS o 
+			JOIN GOODS g on o.goods_id = g.goods_id
+			WHERE o.member_id = #{memberId}
+ 		)
+		<![CDATA[
+			WHERE rn > (#{pageRequest.pageNum} - 1) * #{pageRequest.amount}
+			  AND rn <= #{pageRequest.pageNum} * #{pageRequest.amount}
+		]]>
+	</select>
+	
+	<select id="getTotalAttendedGoodsByMemberId" resultType="_int">
+		SELECT COUNT(member_id)
+		FROM ORDERS
+		WHERE member_id = #{memberId}
+	</select>
+ 	
+ 	<!-- attendedGoodsDetail -->
+ 	<select id="getOrderByOrderId" resultType="crafty.dto.ResponseAttendedGoodsDetail">
+ 		SELECT g.goods_id, g.goods_name, gd.img_path, gd.img_name, o.delivery_fee, o.total_amount, o.delivery_num, o.delivery_company, o.delivery_status,
+        m.name, m.phone_num, m.zone_code, m.road_address, m.detail_address
+		FROM ORDERS o
+		JOIN GOODS g ON g.goods_id = o.goods_id
+		JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = o.goods_id
+		JOIN MEMBER m ON m.member_id = o.member_id
+		WHERE order_id = #{orderId} AND gd.img_position = 1
+ 	</select>
+ 	
+ 	<!-- registeredGoodsDetail 주문 내역 -->
+ 	<select id="getRegisteredGoodsDetailOrdersByGoodsId" parameterType="hashmap"
+ 								resultType="crafty.dto.ResponseRegisteredGoodsDetailOrders">
+ 		SELECT order_id, order_created_at, order_items, total_amount, member_id, nickname, delivery_num
+ 		FROM(
+	 		SELECT ROWNUM AS rn, order_id, order_created_at, order_items, total_amount, member_id, nickname, delivery_num
+			FROM(
+			    SELECT o.order_id, o.order_created_at,
+			           LISTAGG(i.item_name, ', ') WITHIN GROUP (ORDER BY oi.order_items_id) AS order_items,
+			           o.total_amount, m.member_id, m.nickname, o.delivery_num
+			    FROM ORDERS o
+			    JOIN ORDER_ITEMS oi ON o.order_id = oi.order_id
+			    JOIN ITEM i ON oi.item_id = i.item_id
+			    JOIN MEMBER m ON m.member_id = o.member_id
+			    WHERE o.goods_id = #{goodsId}
+			    GROUP BY o.order_id, o.order_created_at, o.total_amount, m.member_id, m.nickname, o.delivery_num
+			)
+		)
+		<![CDATA[
+			WHERE rn > (#{pageRequest.pageNum} - 1) * #{pageRequest.amount}
+			  AND rn <= #{pageRequest.pageNum} * #{pageRequest.amount}
+		]]>
+ 	</select>
+ 	
+ 	<!-- 운송장 정보 등록 -->
+ 	<update id="updateDeliveryInfoByOrderId" parameterType="hashmap">
+ 		UPDATE ORDERS
+ 		SET delivery_num = #{deliveryNum}, delivery_company = #{company}, delivery_status = '배송중'
+ 		WHERE order_id = #{orderId}
+ 	</update>
  	
  </mapper>

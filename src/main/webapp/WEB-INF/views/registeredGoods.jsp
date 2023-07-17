@@ -52,18 +52,32 @@
 					<!-- 반복 출력 -->
 					<c:forEach items="${requestScope.goodsList}" var="goods">
 	                    <tr>
-	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">굿즈명</a></td>
+	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
 	                        <td class="create-date">${goods.goodsCreatedAt}</td>
-	                        <td class="status">${goods.goodsStatus}</td>
+	                        <td class="status"> <!-- ongoingStatus, productionStatus, registrationStatus -->
+	                        	<c:if test="${goods.registrationStatus eq 1}"> <!-- 등록 상태 -->
+	                        		<c:if test="${goods.ongoingStatus eq 0}"> <!-- 오픈 예정 상태 -->
+	                        			오픈 예정
+	                        		</c:if>
+	                        		<c:if test="${goods.ongoingStatus eq 1}"> <!-- 진행중 상태 -->
+	                        			진행중
+	                        		</c:if>
+	                        		<c:if test="${goods.ongoingStatus eq 2}">	<!-- 종료 상태 -->
+	                        			<c:if test="${goods.productionStatus eq 0}"> <!-- 제작 확정 상태 -->
+	                        				제작 확정
+	                        			</c:if>
+	                        			<c:if test="${goods.productionStatus eq 1}"> <!-- 제작 무산 상태 -->
+	                        				제작 무산
+	                        			</c:if>
+	                        		</c:if>
+	                        	</c:if>
+	                        	<c:if test="${goods.registrationStatus eq 0}"> <!-- 미등록 상태 -->
+	                        		등록 요청중
+	                        	</c:if>
+	                        </td>
 	                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/registered/${goods.goodsId}'">상세</button></td>
 	                    </tr>
 	                </c:forEach>
-	                <tr>
-                        <td class="goods-name"><a href="/goods/1">굿즈명</a></td>
-                        <td class="create-date">22-06-30</td>
-                        <td class="status">상태</td>
-                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/registered/1'">상세</button></td>
-                    </tr>
                 </tbody>
             </table>
             <div class="pagination-box">

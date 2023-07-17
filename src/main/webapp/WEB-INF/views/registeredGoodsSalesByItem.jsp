@@ -17,8 +17,8 @@
 	    <div class="side-menu">
 	        <div class="menu-container">
 	            <ul>
-	                <li><a href="/goods/registered/1">참여 내역</a></li>
-	                <li  id="current-title"><a href="/goods/registered/sales/1">품목별 판매량</a></li>
+	                <li><a href="/goods/registered/${goods.goodsId}">참여 내역</a></li>
+	                <li  id="current-title"><a href="/goods/registered/sales/${goods.goodsId}">품목별 판매량</a></li>
 	            </ul>
 	        </div>
 	    </div>
@@ -27,18 +27,18 @@
 	        <div class="top">
 	            <div class="left">
 	                <a id="goods-link" href="/goods/${goods.goodsId}">
-	                    <img id="goods-thumbnail" src="/img/mushroom.jpg" alt=""/>
+	                    <img id="goods-thumbnail" src="${goods.imgPath}/${goods.imgName}" alt=""/>
 	                </a>
 	            </div>
 	            <div class="right">
 	                <div id="goods-name">
-	                    <a href="/goods/${goods.goodsId}">감자도리와 구마</a>
+	                    <a href="/goods/${goods.goodsId}">${goods.goodsName}</a>
 	                </div>
 	                <div id="goods-period">
-	                	기간 : 1111-11-11 - 9999-99-99
+	                	기간 : ${goods.startDate} - ${goods.endDate}
 	                </div>
 	                <div id="attend-number">
-	                	참여 수 : 5
+	                	참여 수 : ${goods.salesNum}
 	                </div>
 	                <button id="delete-popup-btn">삭제 신청</button>
 	            </div>
@@ -58,22 +58,10 @@
 	                		<tr>
 		                        <td class="item-name">${item.itemName}</td>
 		                        <td class="item-price">${item.itemPrice}</td>
-		                        <td class="sales-num">${item.itemSalesNum}</td>
-		                        <td class="order-total-price">${item.orderTotalPrice}</td>
+		                        <td class="sales-num">${item.salesTotalNum}</td>
+		                        <td class="order-total-price">${item.salesTotalAmount}원</td>
 		                    </tr>
 	                	</c:forEach>
-	                    <tr>
-	                        <td class="item-name">감자도리</td>
-	                        <td class="item-price">1000</td>
-	                        <td class="sales-num">189</td>
-	                        <td class="order-total-price">189000</td>
-	                    </tr>
-                        <tr>
-	                        <td class="item-name">구마</td>
-	                        <td class="item-price">1000</td>
-	                        <td class="sales-num">234</td>
-	                        <td class="order-total-price">234000</td>
-	                    </tr>
 	                </tbody>
 	            </table>
                 <table id="sales-total-table">
@@ -85,8 +73,8 @@
                     </thead>
                     <tbody id="total-table-body">
                         <tr>
-                            <td class="total-sales-num">${totalSalesNum}423</td>
-	                        <td class="total-sales-price">${totalSalesPrice}423000원</td>
+                            <td class="total-sales-num">${goods.salesTotalNum}</td>
+	                        <td class="total-sales-price">${goods.salesTotalAmount}원</td>
                         </tr>
                     </tbody>
                 </table>
@@ -96,8 +84,9 @@
             <div class="popup" id="delete-popup">
                 <h2>삭제 신청</h2>
                 
-                <form action="http://localhost:8081/deletePopupText" method="POST">
-                    <textarea placeholder="삭제 신청 사유를 적어주세요." name="deleteReason" required></textarea>
+                <form id="delete-form" action="http://localhost:8081/sales/request/delete/submit" method="POST">
+                    <textarea placeholder="삭제 신청 사유를 적어주세요." name="deleteReason" maxlength="50" required></textarea>
+                    <input type="hidden" id="request-goods-id" name="goodsId" value="${goods.goodsId}"></input>
                     <div class="form-btn">
                         <input class="submit-btn" type="submit" />
                         <input class="reset-btn" type="reset" />
@@ -110,21 +99,23 @@
 	<%@ include file="footer.jsp" %>
 </body>
 <script>
-	$(function() {
-		  
-	    // contact form animations
-	    $('#delete-popup-btn').click(function() {
-	        $('#delete-popup').fadeToggle();
-	    })
-	    $(document).mouseup(function (e) {
-	        var container = $("#delete-popup");
+	// popup 실행 함수
+	document.addEventListener("DOMContentLoaded", function() {
+	    var deletePopupBtn = document.getElementById("delete-popup-btn");
+	    var deletePopup = document.getElementById("delete-popup");
+	    var deleteForm = document.getElementById("delete-form");
+	    var requestGoodsId = document.querySelector("input[name='goodsId']");
 	
-	        if (!container.is(e.target) // if the target of the click isn't the container...
-	            && container.has(e.target).length === 0) // ... nor a descendant of the container
-	        {
-	            container.fadeOut();
+	    deletePopupBtn.addEventListener("click", function() {
+	        deletePopup.style.display = "block";
+	    });
+		
+	    // 팝업 영역 외의 부분 클릭 시 사라짐 
+	    document.addEventListener("mouseup", function(e) {
+	        if (!deletePopup.contains(e.target)) {
+	            deletePopup.style.display = "none";
 	        }
 	    });
-    })
+	});
 </script>
 </html>

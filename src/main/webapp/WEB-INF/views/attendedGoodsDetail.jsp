@@ -41,36 +41,35 @@
 	          </div>
 	          <div class="top">
 	              <div class="left">
-	                  <a id="goods-link" href="/goods/${goods.goodsId}">
-	                      <img id="goods-thumbnail" src="/craftyImg/mushroom.jpg" alt=""/>
+	                  <a id="goods-link" href="/goods/${order.goodsId}">
+	                      <img id="goods-thumbnail" src="${order.imgPath}/${order.imgName}" alt=""/>
 	                  </a>
 	              </div>
 	              <div class="right">
 	                  <div id="goods-name">
-	                      <a href="/goods/${goodsId}">${goods.goodsName}감자도리와 구마</a>
+	                      <a href="/goods/${order.goodsId}">${order.goodsName}</a>
 	                </div>
-	                <div id="cancel-btn">
-                    	<button onclick="location.href = '#'">참여 취소</button>
-                	</div>
-	                <%-- <c:if test="${goods.상태 eq '모금중'}">
+	                <c:if test="${order.deliveryStatus ne '배송중'}">
 	                	<div id="attend-cancel">
 	                    	<button onclick="location.href = '#'">참여 취소</button>
 	                	</div>
-	                </c:if> --%>
-	               	<div id="delivery-info">
-	                   	<form action="http://info.sweettracker.co.kr/tracking/5" method="POST">
-							<div class="form-group">
-								<input type="hidden" class="form-control" id="t_key" name="t_key" value="${deliveryInfo.key}">
-							</div>
-							<div class="form-group">
-								<input type="hidden" class="form-control" id="t_code" name="t_code" value="${deliveryInfo.code}">
-							</div>
-							<div class="form-group">
-								<input type="hidden" class="form-control" name="t_invoice" id="t_invoice" value="${deliveryInfo.invoice}">
-							</div>
-							<button type="submit" class="btn btn-default">배송 조회</button>
-				 		</form>
-				    </div>
+	                </c:if>
+	                <c:if test="${order.deliveryStatus eq '배송중'}">
+		               	<div id="delivery-info">
+		                   	<form action="http://info.sweettracker.co.kr/tracking/5" method="POST">
+								<div class="form-group">
+									<input type="hidden" class="form-control" id="t_key" name="t_key" value="${deliveryKey}">
+								</div>
+								<div class="form-group">
+									<input type="hidden" class="form-control" id="t_code" name="t_code" value="${order.deliveryCompany}">
+								</div>
+								<div class="form-group">
+									<input type="hidden" class="form-control" name="t_invoice" id="t_invoice" value="${order.deliveryStatus}">
+								</div>
+								<button type="submit" class="btn btn-default">배송 조회</button>
+					 		</form>
+					    </div>
+	                </c:if>
 	            </div>
 	        </div>
 	        <div id="bottom">
@@ -78,28 +77,22 @@
 	                <div class="info-title">
 	                  	  주문 금액
 	                </div>
-	                <div class="info-item">
-	                    <div class="item-name">
-	                       	 ${item.itemName}감자도리
-	                    </div>
-	                    <div class="item-price">
-	                        ${item.itemPrice}1000원
-	                    </div>
-	                </div>
-	                <div class="info-item">
-	                    <div class="item-name">
-	                       	 ${item.itemName}구마
-	                    </div>
-	                    <div class="item-price">
-	                        ${item.itemPrice}1000원
-	                    </div>
-	                </div>
+	                <c:forEach items="${itemList}" var="item">
+		                <div class="info-item">
+		                    <div class="item-name">
+		                       	 ${item.itemName}
+		                    </div>
+		                    <div class="item-price">
+		                        ${item.itemPrice}원
+		                    </div>
+		                </div>
+	                </c:forEach>
 	                <div class="info-item">
 	                    <div class="item-name">
 	                     	   배송비
 	                    </div>
 	                    <div class="item-price">
-	                        ${order.deliveryFee}2500원
+	                        ${order.deliveryFee}원
 	                    </div>
 	                </div>
 	                <hr>
@@ -108,7 +101,7 @@
 	                       	 총 금액
 	                    </div>
 	                    <div class="item-total-price">
-	                        ${order.totalPrice}213544원
+	                        ${order.totalAmount}원
 	                    </div>
 	                </div>
 	            </div>
@@ -117,8 +110,7 @@
 	                	    수령자
 	                </div>
 	                <div class="recipient-name">
-	                 	 ${name}
-	                 	   손원영
+	                 	 ${order.name}
 	                </div>
 	            </div>
 	            <div class="info-container">
@@ -126,8 +118,7 @@
 	                  	  연락처
 	                </div>
 	                <div class="recipient-number">
-	                    ${phoneNum}
-	                    010-1111-2222
+	                    ${order.phoneNum}
 	                </div>
 	            </div>
 	            <div class="info-container">
@@ -136,16 +127,13 @@
 	                </div>
 	                <div class="recipient-address">
 	                    <div class="zonecode">
-	                        ${zonecode}
-	                        50947
+	                        ${order.zoneCode}
 	                    </div>
 	                    <div class="detail-address1">
-	                       	 ${address1}
-	                       	 경남 김해시 
+	                       	 ${order.roadAddress}
 	                    </div>
 	                    <div class="detail-address2">
-	                      	  ${address2}
-	                      	  111동 222호
+	                      	  ${order.detailAddress}
 	                    </div>
 	                </div>
 	            </div>
