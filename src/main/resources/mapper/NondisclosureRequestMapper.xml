@@ -5,4 +5,15 @@
   
  <mapper namespace="crafty.mapper.NondisclosureRequestMapper">
  	
+ 	<insert id="insertNondisclosureRequest" parameterType="hashmap">
+ 		INSERT INTO NONDISCLOSURE_REQUEST
+ 		VALUES( nondisclosure_req_seq.NEXTVAL,
+                #{goodsId},
+                #{reason},
+                0,
+                SYSDATE,
+                SYSDATE
+         )
+ 	</insert>
+ 	
  </mapper>

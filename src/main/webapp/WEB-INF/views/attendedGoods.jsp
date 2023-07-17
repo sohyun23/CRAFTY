@@ -50,20 +50,26 @@
                 </thead>
                 <tbody>
 					<!-- 반복 출력 -->
-					<c:forEach items="${requestScope.goodsList}" var="goods">
+					<c:forEach items="${requestScope.orderList}" var="order">
 	                    <tr>
-	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">굿즈명</a></td>
-	                        <td class="payment-date">${goods.paymentDate}</td>
-	                        <td class="status">${goods.goodsStatus}</td>
-	                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/attended/${goods.orderId}'">상세</button></td>
+	                        <td class="goods-name"><a href="/goods/${order.goodsId}">${order.goodsName}</a></td>
+	                        <td class="payment-date">${order.orderCreatedAt}</td>
+	                        <td class="status">
+	                        	<c:if test="${order.ongoingStatus eq 2}">
+	                        		<c:if test="${order.productionStatus eq 0}">
+	                        			제작 확정
+	                        		</c:if>
+	                        		<c:if test="${order.productionStatus eq 1}">
+										제작 무산	                        		
+	                        		</c:if>
+	                        	</c:if>
+	                        	<c:if test="${order.ongoingStatus eq 1}">
+	                        		진행중
+	                        	</c:if>
+	                        </td>
+	                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/attended/${order.orderId}'">상세</button></td>
 	                    </tr>
 	                </c:forEach>
-	                <tr>
-                        <td class="goods-name"><a href="/goods/1">Goods1</a></td>
-                        <td class="payment-date">2023-06-22 15:00:24</td>
-                        <td class="status">모금중</td>
-                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/attended/1'">상세</button></td>
-                    </tr>
                 </tbody>
             </table>
           	<div class="pagination-box">

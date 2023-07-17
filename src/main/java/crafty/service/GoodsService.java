@@ -1,5 +1,7 @@
 package crafty.service;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
+import crafty.dto.ResponseRegisteredGoods;
+import crafty.dto.ResponseRegisteredGoodsDetail;
 import crafty.mapper.GoodsMapper;
 import crafty.pagination.dto.MainCard;
 import crafty.pagination.dto.PageRequestDTO;
@@ -80,24 +84,47 @@ public class GoodsService {
 	}
 	
 	// 굿즈 상세 정보
-	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) {
+	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException{
 		ResponseGoodsDetail goods = goodsMapper.getGoodsByGoodsId(goodsId);
 		
 		return goods;
 	}
 	
 	// 굿즈 썸네일 
-	public String getGoodsThumbnailImgNameByGoodsId(int goodsId) {
+	public String getGoodsThumbnailImgNameByGoodsId(int goodsId) throws SQLException{
 		String thumbnailImgName = goodsMapper.getGoodsThumbnailImgNameByGoodsId(goodsId);
 				
 		return thumbnailImgName;
 	}
 	
 	// 굿즈 본문 이미지
-	public String getGoodsContentImgNameByGoodsId(int goodsId) {
+	public String getGoodsContentImgNameByGoodsId(int goodsId) throws SQLException{
 		String contentImgName = goodsMapper.getGoodsContentImgNameByGoodsId(goodsId);
 		
 		return contentImgName;
+	}
+	
+	// 등록 굿즈 리스트 페이지
+	public List<ResponseRegisteredGoods> getRegisteredGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException{
+		
+		List<ResponseRegisteredGoods> goodsList = goodsMapper.getRegisteredGoodsByMemberId(hashmap);
+		
+		return goodsList;
+	}
+
+	public int getTotalRegisteredGoodsByMemberId(int memberId) throws SQLException{
+		
+		int totalCnt = goodsMapper.getTotalRegisteredGoodsByMemberId(memberId);
+		
+		return totalCnt;
+	}
+	
+	// 등록 굿즈 품목 별 판매량 확인 페이지
+	public ResponseRegisteredGoodsDetail getRegisteredGoodsDetailByGoodsId(int goodsId) throws SQLException{
+		
+		ResponseRegisteredGoodsDetail goods = goodsMapper.getRegisteredGoodsDetailByGoodsId(goodsId);
+		
+		return goods;
 	}
 	
 }

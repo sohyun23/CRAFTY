@@ -1,5 +1,7 @@
 package crafty.mapper;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -8,6 +10,8 @@ import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
 import crafty.dto.ResponseRegisterRequest;
+import crafty.dto.ResponseRegisteredGoods;
+import crafty.dto.ResponseRegisteredGoodsDetail;
 import crafty.pagination.dto.MainCard;
 import crafty.pagination.dto.PageRequestDTO;
 
@@ -34,10 +38,18 @@ public interface GoodsMapper {
 
 	public int getMainGoodsTotalCount(PageRequestDTO pageRequest);
 	
-	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId);
+	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException;
 	
-	public String getGoodsThumbnailImgNameByGoodsId(int goodsId);
+	public String getGoodsThumbnailImgNameByGoodsId(int goodsId) throws SQLException;
 	
-	public String getGoodsContentImgNameByGoodsId(int goodsId);
+	public String getGoodsContentImgNameByGoodsId(int goodsId) throws SQLException;
+
+	public List<ResponseRegisteredGoods> getRegisteredGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException;
+
+	public int getTotalRegisteredGoodsByMemberId(int memberId) throws SQLException;
+	
+	// 등록 굿즈 상세 공통
+	public ResponseRegisteredGoodsDetail getRegisteredGoodsDetailByGoodsId(int goodsId) throws SQLException;
+	
 
 }
