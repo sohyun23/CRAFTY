@@ -1,15 +1,21 @@
 package crafty.mapper;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import crafty.dto.Goods;
 import crafty.dto.OpenAlarm;
+import crafty.dto.ResponseGoodsManagement;
+import crafty.pagination.dto.PageRequestDTO;
+import crafty.pagination.dto.MainCard;
 
 @Mapper
 public interface OpenAlarmMapper {
-	public List<OpenAlarm> AlarmList();
 	
-	public List<Goods> getGoodsByMemberId(int memberId);
+	public List<MainCard> openAlarmGoodsByMemberId(HashMap hashmap) throws SQLException;
+	
+	public int openAlarmGoodsTotalCount(int memberId) throws SQLException;
 }

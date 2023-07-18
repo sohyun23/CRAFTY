@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import crafty.dto.Goods;
 import crafty.dto.Likes;
 import crafty.mapper.LikesMapper;
+import crafty.pagination.dto.MainCard;
 
 @Service
 public class LikesService {
@@ -37,13 +38,17 @@ public class LikesService {
 		
 		return result;
 	}
-
-
 	
+	//객체?
+	public List<MainCard> getLikedGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException {
+		List<MainCard> goodsList = likesMapper.getLikedGoodsByMemberId(hashmap);
+		
+		return goodsList;
+	}
 	
-	//출력시킬 것
-	
-	//id로 필터링
-	  
+	public int getLikedGoodsTotalCount(int memberId) throws SQLException {
+	    int result = likesMapper.getLikedGoodsTotalCount(memberId);
+	    return result;
+	}
 	
 }

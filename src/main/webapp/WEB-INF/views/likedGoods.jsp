@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.text.DecimalFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Crafty</title>
-	<link href="/css/likedGoods.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/likedGoods.css" rel="stylesheet" type="text/css"/>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="path/to/bootstrap-icons.css">
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -30,7 +33,7 @@
                     	내 정보
                 </div>
                 <ul>
-                    <li><a href="/profileEdit">프로필 수정</a></li>
+                    <li><a href="/profile/edit">프로필 수정</a></li>
                 </ul>
             </div>
         </div>
@@ -39,45 +42,58 @@
             <div class="title">
             	좋아요한 굿즈
             </div>
-            <div class="main-cards">
-            	<c:forEach items="${sessionScope.goodsList}" var="goods">
-            		<div class="main-card">
-						<div class="main-card-image-holder">
-							<img class="main-card-image" src="#" alt="wave" />
+			<div class="cards-container">
+				<c:forEach items="${goodsList}" var="goods">
+					<div class="card">
+						<div class="card-top">
+						     <a href="/goods/${goods.goodsId}"><img class="card-image" src="${goods.imgPath}/${goods.imgName}" /></a>
 						</div>
-						<div class="main-card-title-contianer-total">
-							<div class="main-card-title-container">
-								<div class ="main-card-title">
-									<div class = "main-card-title-big">${goods.goodsName}</div>
-									<div class = "main-card-title-small">${goods.category} | 달성: 95%</div>
+						<div class="card-bottom">
+							<div class="card-title-container">
+								<div class = "card-title"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></div>
+								<div class = "card-btn">
+	                                <button class="heart-btn" id="unlike-btn" data-like-id="${goods.likeId}">
+	                                	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill heart-icon" viewBox="0 0 16 16">
+											<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+										</svg>
+	                                </button>                                
 								</div>
-								<div class = "main-card-btn-container">
-									<a href="#" class="main-card-btn">like</a>
+						    </div>
+						    <div class="category-and-rate">
+								<div class="card-category">${goods.category}</div>
+								<div class="bar">|</div>
+								<div class="rate">
+									<c:set var="rate" value="${(goods.total * 100) / goods.targetAmount}" />
+									<%
+									   double rateValue = (double)pageContext.getAttribute("rate");
+									   DecimalFormat decimalFormat = new DecimalFormat("0.0");
+									   String formattedRate = decimalFormat.format(rateValue);
+									%>
+									<c:set var="formattedRate" value="<%= formattedRate %>" />
+									달성률: ${formattedRate}%
 								</div>
-							</div>
-							<div class="main-card-description">
-								${goods.introduction}
-							</div>
+						    </div>
+						    <div class="card-description">${goods.introduction}</div>
 						</div>
-					</div>
-            	</c:forEach>
-			</div>
+	                </div>
+                </c:forEach>
+            </div>
           	<div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">
 						<c:if test="${pageInfo.prev}">
 							<li>
-								<a aria-label="Previous" href="/attendedGoods?pageNum=${pageInfo.startPage - 1}&amount=${pageInfo.pageRequest.amount}">Prev</a>
+								<a aria-label="Previous" href="/likes?pageNum=${pageInfo.startPage - 1}">Prev</a>
 							</li>
 						</c:if>
 						<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
 							<li	class="${pageInfo.pageRequest.pageNum == num ? "active" : ""}">
-								<a href="/attendedGoods?pageNum=${num}&amount=${pageInfo.pageRequest.amount}">${num}</a>
+								<a href="/likes?pageNum=${num}">${num}</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageInfo.next}">
 							<li>
-								<a aria-label="next" href="/attendedGoods?pageNum=${pageInfo.endPage + 1}&amount=${pageInfo.pageRequest.amount}">Next</a>
+								<a aria-label="next" href="/likes?pageNum=${pageInfo.endPage + 1}">Next</a>
 							</li>
 						</c:if>
 					</ul>
@@ -88,4 +104,35 @@
     
     <%@ include file="footer.jsp" %>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var unlikeBtns = document.querySelectorAll("#unlike-btn");
+        
+        for (var i = 0; i < unlikeBtns.length; i++) {
+            unlikeBtns[i].addEventListener("click", function() {
+                var likeId = this.getAttribute("data-like-id");
+                unlike(likeId);
+            });
+        }
+    });
+    
+    // 좋아요 취소 함수
+    function unlike(likeId) {
+        var url = "http://localhost:8081/goods/unlike/" + likeId;
+        
+        axios.get(url)
+             .then(response => {
+                 // 좋아요 성공
+				
+				location.reload();
+              })
+              .catch(error => {
+                // 좋아요 실패
+                 console.error("다시 시도해주세요.", error);
+                
+                 location.reload();
+              });
+    }
+
+</script>
 </html>

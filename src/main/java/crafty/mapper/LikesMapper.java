@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import crafty.dto.Goods;
 import crafty.dto.Likes;
+import crafty.pagination.dto.MainCard;
 
 @Mapper
 public interface LikesMapper {
@@ -20,4 +21,8 @@ public interface LikesMapper {
 	public int insertLikeByGoodsIdAndMemberId(HashMap<String, Object> hashmap) throws SQLException;
 
 	public int deleteLikeByLikeId(int likeId) throws SQLException;
+	
+	public List<MainCard> getLikedGoodsByMemberId(HashMap hashmap) throws SQLException;
+	
+	public int getLikedGoodsTotalCount(int memberId) throws SQLException;
 }

@@ -112,25 +112,56 @@ public class MemberController {
     
     
     @GetMapping(value = "/likes")
-    public String likeMember(Model model) {
-        // 좋아요 기능 로직 구현
-        // id를 이용하여 해당 멤버에 좋아요 처리
-    	int memberId = 5;
-    	List<Goods> goodsList = likesService.getGoodsByMemberId(memberId);
-//    	System.out.println(goodsList);
-    	model.addAttribute("goodsList", goodsList);
+    public String likeMember(@ModelAttribute PageRequestDTO pageRequest, Model model) {
+    	int memberId = 8;
     	
+    	pageRequest.setAmount(6);
+    	
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	hashmap.put("pageRequest", pageRequest);
+    	hashmap.put("memberId", memberId);
+    	
+    	
+    	try {   	
+    		List<MainCard> goodsList = likesService.getLikedGoodsByMemberId(hashmap);
+    		
+    		int total = likesService.getLikedGoodsTotalCount(memberId);
+    		PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
+    		
+    		System.out.println(goodsList);
+    		
+    		model.addAttribute("goodsList", goodsList);
+            model.addAttribute("pageInfo", pageResponse);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	       
         return  "likedGoods";
     }
 
     @GetMapping(value = "/alarm")
-    public String showAlarmSettings(Model model) {
-        // 알림 확인 페이지 로직 구현
-        // id를 이용하여 해당 멤버의 알림 확인 페이지 반환
-    	int memberId = 10;
-    	List<Goods> goodsList = openAlarmService.getAlarmByMemberId(memberId);
-    	model.addAttribute("goodsList", goodsList);
+    public String showAlarmSettings(@ModelAttribute PageRequestDTO pageRequest, Model model) {
+    	int memberId = 9;
     	
+    	pageRequest.setAmount(6);
+    	
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	hashmap.put("pageRequest", pageRequest);
+    	hashmap.put("memberId", memberId);
+    	
+    	
+    	try {
+    		List<MainCard> goodsList = openAlarmService.openAlarmGoodsByMemberId(hashmap);
+    		
+    		int total = openAlarmService.openAlarmGoodsTotalCount(memberId);
+    		PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
+    		
+    		model.addAttribute("goodsList", goodsList);
+            model.addAttribute("pageInfo", pageResponse);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+      
         return "alarmedGoods";
     }
     
