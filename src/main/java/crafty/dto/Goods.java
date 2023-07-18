@@ -13,12 +13,12 @@ public class Goods {
 	private int		goodsId;
 	private int		memberId;
 	private String	goodsName;
-	private	Date	startDate;
-	private	Date	endDate;
+	private	String	startDate;
+	private	String	endDate;
 	private	String	category;
 	private String	introduction;
 	private int		targetAmount;
-	private	Date	postDate;
+	private	String	postDate;
 	private	String	bankName;
 	private	String	bankAccountNumber;
 	private int		aggrement;

@@ -6,8 +6,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import crafty.dto.Goods;
 import crafty.dto.GoodsResponse;
 import crafty.dto.ItemResponse;
 import crafty.dto.ResponseGoodsDetail;
@@ -167,6 +169,43 @@ public class GoodsService {
 		int totalCnt = goodsMapper.getTotalGoodsByMemberId(memberId);
 		
 		return totalCnt;
+	}
+	
+	// 굿즈 등록
+	@Transactional
+	public int registerGoods(GoodsResponse goodsResponse) throws Exception {
+		
+		boolean result = false;
+		
+		Goods goods = Goods.builder()
+//								.memberId(memberId)
+							.goodsName(goodsResponse.getGoodsName())
+							.startDate(goodsResponse.getStartDate())
+							.endDate(goodsResponse.getEndDate())
+							.introduction(goodsResponse.getGoodsIntro())
+							.category(goodsResponse.getGoodsCategory())
+							.targetAmount(goodsResponse.getTargetAmount())
+							.postDate(goodsResponse.getPostDate())
+							.bankName(goodsResponse.getBankCategory())
+							.bankAccountNumber(goodsResponse.getBankAccountNumber())
+							.aggrement(1)
+							.ongoingStatus(0)
+							.productionStatus(0)
+							.registrationStatus(0)
+							.nondisclosureStatus(0)
+							.build();
+
+		
+		int res = goodsMapper.registerGoods(goods);
+		int generatedGoodsId = goods.getGoodsId(); 
+		
+		if(res != 0) {
+			result = true;
+		} else {
+			throw new Exception("굿즈 생성 실패");
+		}
+		
+		return generatedGoodsId;
 	}
 	
 }
