@@ -6,4 +6,21 @@
   
  <mapper namespace="crafty.mapper.GoodsDescriptionImgMapper">
  
+ 	<!-- registGoodsThumbnailImg -->
+	<insert id="registerGoodsImg" parameterType="crafty.dto.GoodsDesciptionImg">
+			INSERT INTO GOODS_DESCRIPTION_IMG
+			VALUES(
+				img_seq.NEXTVAL,
+				#{goodsId},
+				#{imgPath},
+				#{imgOriginalName},
+				#{imgName},
+				#{imgPosition},
+				SYSDATE,
+				SYSDATE			
+			)
+		
+	</insert>
+
+ 
  </mapper>

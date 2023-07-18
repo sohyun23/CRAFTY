@@ -47,4 +47,30 @@
 		 JOIN ITEM i ON i.goods_id = g.goods_id
 		 WHERE g.goods_id = #{goodsId}
  	</select>
+ 	
+ 	
+ 	<!-- registerGoodsItems -->
+	<insert id="registerGoodsItems" parameterType="java.util.List">
+				INSERT INTO ITEM(    
+								item_id,
+							    goods_id,
+							    item_name,
+							    item_price ,
+							    item_configuration,
+							    item_stock,
+							    item_created_at ,
+							    item_updated_at)
+				<foreach collection="itemList" item="item" separator="UNION ALL" >
+						SELECT get_item_seq()
+						,#{item.goodsId}
+						,#{item.itemName}
+						,#{item.itemPrice}
+						,#{item.itemComposition}
+						,#{item.itemQuantity}
+						,SYSDATE
+						,SYSDATE
+						FROM DUAL 
+				
+				</foreach>		
+		</insert>
  </mapper>

@@ -18,10 +18,10 @@ public class GoodsResponse {
 	private String	goodsName;
 	private String	goodsIntro;
 	private String	goodsCategory;
-	private Date	startDate;
-	private Date	endDate;
+	private String	startDate;
+	private String	endDate;
 	private int		targetAmount;
-	private Date	postDate;
+	private String	postDate;
 	private String	bankCategory;
 	private String	bankAccountNumber;
 	private String itemList;

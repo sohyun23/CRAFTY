@@ -20,4 +20,7 @@ public interface ItemMapper {
 			HashMap<String, Object> hashmap) throws SQLException;
 
 	int getTotalRegisteredGoodsSalesByItemByGoodsId(int goodsId) throws SQLException;
+	
+	// item 등록
+	public int registerGoodsItems(List<Item> itemList);
 }

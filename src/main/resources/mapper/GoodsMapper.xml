@@ -259,5 +259,34 @@
 	    	<if test="pageProperties.order == 0">ORDER BY goods_created_at DESC</if>
 	    	
 	</select>
+	
+	<!-- registGoods -->
+	<insert id="registerGoods" parameterType="crafty.dto.Goods" useGeneratedKeys="true">
+		<selectKey keyProperty="goodsId" order="BEFORE" resultType="int">
+			select goods_seq.nextval from dual
+		</selectKey>
+			INSERT INTO GOODS
+			VALUES(
+				#{goodsId},
+				1,  
+				#{goodsName},
+				#{startDate},
+				#{endDate},
+				#{category},
+				#{introduction},
+				#{targetAmount},
+				#{postDate},
+				#{bankName},
+				#{bankAccountNumber},
+				1,
+				#{ongoingStatus},
+				#{productionStatus},
+				#{registrationStatus},
+				#{nondisclosureStatus},
+				SYSDATE,
+				SYSDATE			
+		)
+		
+	</insert>
 		
  </mapper>

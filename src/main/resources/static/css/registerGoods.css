@@ -1,16 +1,25 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css");
 
-footer {
-	position: absolute;
+/*
+body {
+ 
+   font-family: "Pretendard Variable";
+	background-color: linear-gradient(to top, red, yellow);
+}
+*/
+.content {
+ 
+	background: linear-gradient(white, #eff1f9d7);
 }
 
 .main-container{
-	/*background-color: red;*/
 	flex-direction: column;
+	background-color: white;
+	
 }
 
-div {
+.main-container> div {
   width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -30,6 +39,7 @@ input{
 	background-color : #ffffff;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+     font-family: "Pretendard Variable";
 }
 #goodsName {
   width: 600px;
@@ -63,6 +73,7 @@ select {
   font-size: 16px;
   background-color: white;
   font-size: 16px;
+   font-family: "Pretendard Variable";
   
 }
 
@@ -84,11 +95,13 @@ select {
   border-radius: 5px;
   border: 1px solid grey;
   margin-right: 95px;
-  font-family: "NanumGothic";
   color : black;
+   font-family: "Pretendard Variable";
 }
 #dateTxt {
   display: flex;
+ justify-content: space-between;
+  
 }
 #startDateTxt {
   width: 200px;
@@ -124,7 +137,7 @@ button {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 #itemInputBox {
-  background-color: #EFF0F4;
+  background-color: #f2f3f7;
   opacity: 1.0;
   padding: 20px;
   border-radius: 10px;
@@ -189,26 +202,25 @@ ul {
 	height: 40px;
 	
 }
-li {
 
-  
-}
 .items {
   width: 400px;
-  height: 40px;
+  height: 45px;
    color: black;
   background-color: white;
   font-size: 16px;
-  border: 1px solid grey;
+  border: 1px solid #3D56B2;
   border-radius: 5px;
 }
 .itemdelete {
   border: 1px solid grey;
   width: 40px;
-  height: 43px;
+  height: 44px;
+  margin-left: 10px;
 }
 #item {
   text-align: left;
+   height: 45px;
 }
 
 /* 목표금액 */
@@ -244,6 +256,9 @@ li {
   }
 }
 
+#footer {
+	background-color : #eff1f9d7;
+}
 
 
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import crafty.dto.Item;
 import crafty.dto.ResponseRegisteredGoodsSalesByItem;
@@ -44,6 +45,22 @@ public class ItemService {
 		int totalCnt = itemMapper.getTotalRegisteredGoodsSalesByItemByGoodsId(goodsId);
 		
 		return totalCnt;
+	}
+	
+	@Transactional
+	public boolean registerGoodsItems(List<Item> itemList) throws Exception {
+		boolean result = false;
+
+		int res = itemMapper.registerGoodsItems(itemList);
+		
+		if(res != 0) {
+			result = true;
+		} else {
+			throw new Exception("item 생성 실패");
+		}
+		
+		
+		return result;
 	}
 
 
