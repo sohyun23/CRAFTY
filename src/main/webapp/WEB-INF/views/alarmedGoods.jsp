@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.text.DecimalFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,8 @@
 	<title>Crafty</title>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/alarmedGoods.css" rel="stylesheet" type="text/css"/>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="path/to/bootstrap-icons.css">
 </head>
 <body>
 	<%@ include file="header.jsp" %>
@@ -39,27 +42,42 @@
             <div class="title">
             	알림 신청한 굿즈
             </div>
-            <c:forEach items="${sessionScope.goodsList}" var="goods">
-            	<div class="main-card">
-					<div class="main-card-image-holder">
-						<img class="main-card-image" src="https://source.unsplash.com/300x225/?wave" alt="wave" />
-					</div>
-					<div class="main-card-title-contianer-total">
-						<div class="main-card-title-container">
-							<div class ="main-card-title">
-								<div class = "main-card-title-big"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></div>
-								<div class = "main-card-title-small"></div>
-							</div>
-							<div class = "main-card-btn-container">
-								<a href="#" class="main-card-btn">ASD</a>
-							</div>
+			<div class="cards-container">
+				<c:forEach items="${goodsList}" var="goods">
+					<div class="card">
+						<div class="card-top">
+						    <a href="/goods/${goods.goodsId}"><img class="card-image" src="${goods.imgPath}/${goods.imgName}" /></a>
 						</div>
-						<div class="main-card-description">
-							${goods.introduction}
+						<div class="card-bottom">
+							<div class="card-title-container">
+								<div class = "card-title"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></div>
+								<div class = "card-btn">
+                                    <button class="alarm-btn" id="unalarm-btn" data-alarm-id="${goods.alarmId}">
+                                    	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill bell-btn" viewBox="0 0 16 16">
+											<path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+										</svg>
+                                    </button>                                
+								</div>
+						    </div>
+						    <div class="category-and-rate">
+								<div class="card-category">${goods.category}</div>
+								<div class="bar">|</div>
+								<div class="rate">
+									<c:set var="rate" value="${(goods.total * 100) / goods.targetAmount}" />
+									<%
+									   double rateValue = (double)pageContext.getAttribute("rate");
+									   DecimalFormat decimalFormat = new DecimalFormat("0.0");
+									   String formattedRate = decimalFormat.format(rateValue);
+									%>
+									<c:set var="formattedRate" value="<%= formattedRate %>" />
+									달성률: ${formattedRate}%
+								</div>
+						    </div>
+						    <div class="card-description">${goods.introduction}</div>
 						</div>
-					</div>
-				</div>
-            </c:forEach>
+	                </div>
+                </c:forEach>
+            </div>
           	<div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">
