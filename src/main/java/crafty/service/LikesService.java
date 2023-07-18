@@ -1,5 +1,7 @@
 package crafty.service;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,20 @@ public class LikesService {
 		List<Goods> goodsList = likesMapper.getGoodsByMemberId(memberId);
 		
 		return goodsList;
+	}
+	
+	// 좋아요 
+	public int insertLikeByGoodsIdAndMemberId(HashMap<String, Object> hashmap) throws SQLException {
+		int result = likesMapper.insertLikeByGoodsIdAndMemberId(hashmap);
+		
+		return result;
+	}
+	
+	// 좋아요 취소
+	public int deleteLikeByLikeId(int likeId) throws SQLException {
+		int result = likesMapper.deleteLikeByLikeId(likeId);
+		
+		return result;
 	}
 
 

@@ -9,9 +9,12 @@ import lombok.Data;
 public class MainCard {
 	private int goodsId;
 	private String goodsName;
-	private int aggrement;
 	private String introduction;
 	private String imgPath;
-	private String imgOriginalName;
+	private String imgName;
 	private String category;
+	private int total;
+	private int targetAmount;
+	private int likeId;
+	private int alarmId;
 }

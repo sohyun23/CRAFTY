@@ -12,4 +12,14 @@
 		                    FROM LIKES 
 		                    WHERE member_id = #{memberId})
  	 </select>
+ 	 
+ 	 <insert id="insertLikeByGoodsIdAndMemberId" parameterType="hashmap">
+ 	 	INSERT INTO LIKES
+ 	 	VALUES (likes_seq.NEXTVAL, #{memberId}, #{goodsId})
+ 	 </insert>
+ 	 
+ 	 <delete id="deleteLikeByLikeId">
+ 	 	DELETE FROM LIKES
+ 	 	WHERE like_id = #{likeId}
+ 	 </delete>
  </mapper>

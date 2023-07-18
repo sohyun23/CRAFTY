@@ -5,4 +5,9 @@
   
  <mapper namespace="crafty.mapper.MemberMapper">
  	
+ 	<select id="getProfileByMemberId" resultType="crafty.dto.ResponseProfile">
+ 		SELECT member_id, nickname, profile_img, profile_introduction
+ 		FROM MEMBER
+ 		WHERE member_id = #{memberId}
+ 	</select>
  </mapper>

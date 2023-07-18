@@ -59,4 +59,9 @@ public interface GoodsMapper {
 	
 	// 굿즈 삭제 허가 
 	public int updateGoodsNondisclosureStatusByGoodsId(int goodsId) throws SQLException;
+	
+	// 프로필 페이지 굿즈 리스트
+	public List<MainCard> getGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException;
+	
+	public int getTotalGoodsByMemberId(int memberId) throws SQLException;
 }
