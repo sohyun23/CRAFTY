@@ -18,6 +18,7 @@ import crafty.dto.ResponseRegisteredGoods;
 import crafty.dto.ResponseRegisteredGoodsDetail;
 import crafty.mapper.GoodsMapper;
 import crafty.pagination.dto.MainCard;
+import crafty.pagination.dto.PageProperties;
 import crafty.pagination.dto.PageRequestDTO;
 
 @Service
@@ -25,6 +26,19 @@ public class GoodsService {
 	
 	@Autowired
 	GoodsMapper goodsMapper;
+	
+	// 메인 굿즈 가져오기. 카테고리, 인기순, 진행상황, 키워드 등 정렬 기준 모두 적용 가능
+	public List<MainCard> getMainGoods(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword) {
+				
+		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest, pageProperties, keyword);
+		return goodsList;
+	}
+
+	// 메인 굿즈 토탈 카운트 들고 오기
+	public int getMainGoodsTotalCount(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword) {
+		int result = goodsMapper.getMainGoodsTotalCount(pageRequest, pageProperties, keyword);
+		return result;
+	}
 	
 	// 등록된 모든 굿즈를 반환하는 메서드
 	public List<ResponseGoodsManagement> getManagementGoods(PageRequestDTO pageRequest) {
@@ -66,16 +80,6 @@ public class GoodsService {
 		int totalCnt = goodsMapper.getRegisterRequestGoodsCount();
 		
 		return totalCnt;
-	}
-
-	public List<MainCard> getMainGoods(PageRequestDTO pageRequest) {
-		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest);
-		return goodsList;
-	}
-
-	public int getMainGoodsTotalCount(PageRequestDTO pageRequest) {
-		int result = goodsMapper.getMainGoodsTotalCount(pageRequest);
-		return result;
 	}
 
 	public void registGoods(GoodsResponse goodsResponse, List<ItemResponse> itemList, MultipartFile thumbnailFile,

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
@@ -13,6 +14,7 @@ import crafty.dto.ResponseRegisterRequest;
 import crafty.dto.ResponseRegisteredGoods;
 import crafty.dto.ResponseRegisteredGoodsDetail;
 import crafty.pagination.dto.MainCard;
+import crafty.pagination.dto.PageProperties;
 import crafty.pagination.dto.PageRequestDTO;
 
 @Mapper
@@ -34,9 +36,13 @@ public interface GoodsMapper {
 	public int getRegisterRequestGoodsCount();
 	
 	// 메인 페이지
-	public List<MainCard> getMainGoods(PageRequestDTO pageRequest);
+	public List<MainCard> getMainGoods(@Param("pageRequest") PageRequestDTO pageRequest,
+									   @Param("pageProperties") PageProperties pageProperties,
+									   @Param("keyword") String keyword);
 
-	public int getMainGoodsTotalCount(PageRequestDTO pageRequest);
+	public int getMainGoodsTotalCount(@Param("pageRequest") PageRequestDTO pageRequest,
+								      @Param("pageProperties") PageProperties pageProperties,
+								      @Param("keyword") String keyword);
 	
 	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException;
 	
