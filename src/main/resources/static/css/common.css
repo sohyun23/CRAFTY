@@ -131,6 +131,7 @@ body {
 	min-height: 100%;
 	display: flex;
     margin: 0 auto;
+    margin-top: 20px;
 	padding-bottom: 80px;
 }
 
@@ -143,7 +144,6 @@ body {
 footer {
 	height: 80px;
 	background-color: #FFFFFF;
-	padding: 10px;
 	padding-top: 25px;
 	margin-top: 50px;
 	text-align: center;
@@ -159,6 +159,16 @@ footer {
 	bottom: 0;
 	margin-left: auto;
 	margin-right: auto;
+	
+}
+
+.footer-container {
+	height: 100%;
+	background-color: #FAFAFA;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
 }
 
 .footer-image {

@@ -36,10 +36,6 @@
         <div class="main-content">
             <div class="title">
                	 등록 굿즈
-               	<div>
-	                <button onclick="location.href='/admin/goods'">전체</button>
-	                <button onclick="location.href='/admin/goods?endAdj=Y'">정산 완료</button>
-	            </div>
             </div>            
             <table>
                 <thead>
