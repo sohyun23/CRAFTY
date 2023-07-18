@@ -149,5 +149,20 @@ public class GoodsService {
 		
 		return result;
 	}
+
+	// 프로필 페이지 굿즈 리스트
+	public List<MainCard> getGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException {
+		
+		List<MainCard> goodsList = goodsMapper.getGoodsByMemberId(hashmap);
+		
+		return goodsList;
+	}
+
+	public int getTotalGoodsByMemberId(int memberId) throws SQLException {
+		
+		int totalCnt = goodsMapper.getTotalGoodsByMemberId(memberId);
+		
+		return totalCnt;
+	}
 	
 }

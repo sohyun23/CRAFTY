@@ -1,539 +1,174 @@
-body {
-min-height: 100vh;
-color: #000000;
-padding-bottom: 3rem;
-}
-
-:root {
-font-size: 10px;
-/* font-family: Arial, sans-serif; */
-}
-
-*,
-*::before,
-*::after {
-box-sizing: border-box;
-}
-
-
-img {
-display: block;
+footer {
+	position: absolute;
 }
 
 .main-container {
-max-width: 1440px;
-margin: 0 auto;
-padding: 0 2rem;
-    /* width: 1440px;
+    flex-direction: column;
+}
+
+.top {
     display: flex;
-    margin: 0 auto; */
+    margin: 0 auto;
+    /* align-items: center; */
+    margin-top: 25px;
+    margin-bottom: 20px;
 }
 
-.btn {
-  font-size: 18px;
-	color : #3D56B2;
-	font-weight : 600;
-	display: inline-block;
-    text-align: center;
-	border : 1px solid #3D56B2;
-	border-radius : 5px;
-	background-color : #ffffff;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
+.top-left {
+    width: 250px;
+    height: 250px;
+    background-color: #415F9D;
+    border-radius: 70%;
+    overflow: hidden;
 }
 
-.btn:focus {
-outline: 0.5rem auto #3D56B2 ;
+.profile-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
 }
 
-.btn:hover {
-	color : #ffffff;
-	background-color : #3D56B2;
+.top-right {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-left: 40px;
 }
 
-.visually-hidden {
-position: absolute !important;
-height: 1px;
-width: 1px;
-overflow: hidden;
-clip: rect(1px, 1px, 1px, 1px);
+.profile-user-settings {
+    height: 60px;
+    display: flex;
+    align-items: center;
 }
 
-/* Profile Section */
-
-.profile {
-padding: 5rem 0;
-/* display: flex; */
+.profile-user-name {
+    font-size: 48px;
 }
 
-.profile::after {
-  content: "";
-  display: blocks;
-  clear: both;
+.profile-edit-btn {
+    margin-left: 15px;
 }
-/* .profile-image */
-/* 이 부분 수정해야함 */
-.profile-image {
-    float: left;
-    width: calc(33.333% - 1rem);
+
+.profile-bio {
+    height: 100px;
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+hr {
+    height: 1px;
+    width: 1440px;
+}
+
+.dropdown-select {
+    margin-top: 20px;
+}
+
+.ongoing-select {
+    width: 90px;
+    height: 30px;
+    margin-left: 30px;
+}
+
+/* card */
+  
+.cards-container {
+	max-width: 1440px;
+	margin: 0 auto;
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.card {
+    width: 300px;
+    height: 500px;
+	background: #ffffff;
+	margin : 0px 25px 20px 25px;
+	text-align: left;
+	transition: all 0.3s 0s ease-in;
+	z-index: 1;
+	border: 1px solid #d3d3d3;
+}
+
+.card-top {
+    width: 300px;
+    height: 300px;	
+	display : flex;
+	justify-content : center;
+	align-items : center;
+    overflow : hidden;
+}
+
+.card-image {
+	max-width: 100%;
+    max-height: 100%;
+}
+
+.card-bottom {
+    width: 300px;
+    height: 200px;
+}
+
+.card-title-container {
+    height: 80px;
+	display : flex;
+	background: #ffffff;
+    margin: 0 10px;
+}
+
+.card-title {
+    width: 230px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+	width : 250px;
+    font-weight : 700;
+	font-size : 22px;
+    margin-top: 10px;
+}
+ 
+.heart-btn {
+	width: 40px;
+	height: 40px;
+	margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 3rem;
-    border-radius: 50%;
+	text-decoration: none;
+	font-size: 22px;
+	border-radius: 70%;
 }
 
-.profile-image img {
-  border-radius: 50%;
-  width: 250px; 
-  height: 250px;
-  border: #000000 2px;
+.heart-icon {
+	color: #ee281a;
 }
 
-.profile-user-settings,
-.profile-stats,
-.profile-bio {
-float: left;
-width: calc(66.666% - 2rem);
-}
-
-.profile-user-settings {
-margin-top: 1.1rem;
-}
-
-.profile-user-name {
-display: inline-block;
-font-size: 3.2rem;
-font-weight: bold;
-}
-
-.profile-edit-btn {
-font-size: 1.4rem;
-line-height: 1.8;
-border: 0.1rem solid #dbdbdb;
-border-radius: 0.3rem;
-padding: 0 2.4rem;
-margin-left: 2rem;
-}
-
-.profile-settings-btn {
-font-size: 2rem;
-margin-left: 1rem;
-}
-
-.profile-stats {
-margin-top: 2.3rem;
-}
-
-.profile-stats li {
-display: inline-block;
-font-size: 1.6rem;
-line-height: 1.5;
-margin-right: 4rem;
-cursor: pointer;
-}
-
-.profile-stats li:last-of-type {
-margin-right: 0;
-}
-
-.profile-bio {
-font-size: 1.6rem;
-font-weight: 400;
-line-height: 1.5;
-margin-top: 2.3rem;
-}
-
-.profile-real-name,
-.profile-stat-count,
-.profile-edit-btn {
-font-weight: 600;
-}
-
-/* dropdown */
-.dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  /* .dropdown-select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-  } */
-
-
-    .dropdown-select {
-      background-size: 20px;
-      padding: 3px 6px 3px 6px;
-      border: 1px solid #444444;
-      border-radius: 5px;
-      outline: 0 none;
-      margin-left: 3px;
-      color: #444444;
-      background-color: #ffffff;
-  }
-
-
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 200px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    display: none;
-  }
-
-  .dropdown-menu-item {
-    padding: 4px 8px;
-    cursor: pointer;
-  }
-
-  .dropdown-menu-item:hover {
-    background-color: #f0f0f0;
-    display: block;
-  }
-
-/* Media Query */
-
-@media screen and (max-width: 40rem) {
-.profile {
-display: flex;
-flex-wrap: wrap;
-padding: 4rem 0;
-}
-
-.profile::after {
-display: none;
-}
-
-.profile-image,
-.profile-user-settings,
-.profile-bio,
-.profile-stats {
-float: none;
-width: auto;
-}
-
-.profile-image img {
-width: 7.7rem;
-}
-
-.profile-user-settings {
-flex-basis: calc(100% - 10.7rem);
-display: flex;
-flex-wrap: wrap;
-margin-top: 1rem;
-}
-
-.profile-user-name {
-font-size: 2.2rem;
-}
-
-.profile-edit-btn {
-order: 1;
-padding: 0;
-text-align: center;
-margin-top: 1rem;
-}
-
-.profile-edit-btn {
-margin-left: 0;
-}
-
-.profile-bio {
-font-size: 1.4rem;
-margin-bottom: 1.5rem;
-}
-
-.profile-edit-btn,
-.profile-bio,
-.profile-stats {
-flex-basis: 100%;
-}
-
-.profile-stats {
-order: 1;
-margin-top: 1.5rem;
-}
-
-.profile-stats ul {
-display: flex;
-text-align: center;
-padding: 1.2rem 0;
-border-top: 0.1rem solid #dadada;
-border-bottom: 0.1rem solid #dadada;
-}
-
-.profile-stats li {
-font-size: 1.4rem;
-flex: 1;
-margin: 0;
-}
-
-.profile-stat-count {
-display: block;
-}
-}
-
-/* Spinner Animation */
-
-@keyframes loader {
-to {
-transform: rotate(360deg);
-}
-}
-
-/*
-
-The following code will only run if your browser supports CSS grid.
-
-Remove or comment-out the code block below to see how the browser will fall-back to flexbox & floated styling. 
-
-*/
-
-@supports (display: grid) {
-.profile {
-display: grid;
-grid-template-columns: 1fr 2fr;
-grid-template-rows: repeat(3, auto);
-grid-column-gap: 3rem;
-align-items: center;
-}
-
-.profile-image {
-grid-row: 1 / -1;
-}
-
-.card {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-  grid-gap: 2rem;
-}
-
-
-
-.profile-image,
-.profile-user-settings,
-.profile-stats,
-.profile-bio {
-width: auto;
-margin: 0;
-}
-
-@media (max-width: 40rem) {
-.profile {
-    grid-template-columns: auto 1fr;
-    grid-row-gap: 1.5rem;
-}
-
-.profile-image {
-    grid-row: 1 / 2;
-}
-
-.profile-user-settings {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: 1rem;
-}
-
-.profile-edit-btn,
-.profile-stats,
-.profile-bio {
-    grid-column: 1 / -1;
-}
-
-.profile-user-settings,
-.profile-edit-btn,
-.profile-settings-btn,
-.profile-bio,
-.profile-stats {
-    margin: 0;
-}
-}
-}
-
-/* card-btn */
-  a.btn {
-  background: #005691;
-  border-radius: 5px;
-  box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.25);
-  color: #ffffff;
-  display: inline-block;
-  padding: 6px 30px 8px;
-  position: relative;
-  text-decoration: none;
-  transition: all 0.1s 0s ease-out;
-  }
-  .no-touch a.btn:hover {
-  /* 클릭 전 색 */
-  background: #005691;
-  box-shadow: 0px 8px 2px 0 rgba(0, 0, 0, 0.075);
-  transform: translateY(-2px);
-  transition: all 0.25s 0s ease-out;
-  }
-  .no-touch a.btn:active,
-  a.btn:active {
-      /* 클릭하면 변하는 색 */
-  background: #3D56B2;
-  box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.25);
-  transform: translate3d(0, 1px, 0);
-  transition: all 0.025s 0s ease-out;
-  }
-  .cards {
-      max-width: 1440px;
-      margin: 0 auto;
-      justify-content: center;
-  /* text-align: center; */
-  /* 이 분을  .main-container 대신 사용 화면이 다 찼을 때 4개 정렬 배열 */
-  /* 
-  width: 1440px;
-  display: flex;
-  margin: 0 auto;
-  */
-  /* card */
-  }
-  .card {
-  background: #ffffff;
-  display: inline-block;
-  margin: 15px;
-  max-width: 300px;
-  perspective: 1000;
-  position: relative;
-  text-align: left;
-  transition: all 0.3s 0s ease-in;
-  width: 300px;
-  z-index: 1;
-  }
-  
-  .card img {
-  max-width: 300px;
-  max-width: 300px;
-  }
-  
-  .card .card-image-holder {
-  background: rgba(0, 0, 0, 0.1);
-  height: 0;
-  padding-bottom: 75%;
-  }
-  .card div.card-title {
-  background: #ffffff;
-  padding: 6px 15px 10px;
-  position: relative;
-  z-index: 0;
-  }
-  .card div.card-title a.toggle-info {
-  border-radius: 32px;
-  height: 32px;
-  padding: 0;
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  width: 32px;
-  }
-  .card div.card-title a.toggle-info span {
-  background: #ffffff;
-  display: block;
-  height: 2px;
-  position: absolute;
-  top: 16px;
-  transition: all 0.15s 0s ease-out;
-  width: 12px;
-  }
-  .card div.card-title a.toggle-info span.left {
-  right: 14px;
-  transform: rotate(45deg);
-  }
-  .card div.card-title a.toggle-info span.right {
-  left: 14px;
-  transform: rotate(-45deg);
-  }
-  .card div.card-title h2 {
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  margin: 0;
-  padding: 0;
-  }
-  .card div.card-title h2 small {
-  display: block;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  }
-  
-  
-  .card div.card-description {
-  padding: 0 15px 10px;
-  position: relative;
-  font-size: 14px;
-  }
-  
-  /*  */
-  /* pagination */
-.pagination-box {
+.category-and-rate {
+    height: 20px;
+    font-weight: 500;
+    font-size: 14px;
     display: flex;
-    justify-content: center;
-}
-.pagination-nav {
-    margin: auto;
-}
-
-.pagination>ul {
-    display: inline-block;
-    justify-content: center;
-}
-.pagination>li {
-    color: black;
-    float: left;
-    text-decoration: none;
+    flex-direction: row;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-/*폰트*/
-.pagination a {
-    color: black;
-    padding: 6px 10px;
-    text-decoration: none;
-    border: 1px solid #ddd;
-}
- 
-.pagination a.active {
-    background-color: #D9E6FF;
-    color: black;
-    border: 1px solid #D9E6FF;
+.bar {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-.pagination a:hover:not(.active) {border: 1px solid #415F9D;}
-
-.pagination a:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-.pagination a:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-  
-   
-footer {
-/*   background-color: #462c91; */
-	font-family: "Pretendard Variable";
-	background-color: #FFFFFF;
-	padding: 10px;
-	margin-top: 50px;
-	text-align: center;
-	text-decoration : none;
-	color: #686868;
-	font-size: 18px;
+.rate {
+    color: #3d4ee7;
 }
 
-.footer-image {
-	width: 15px;
-    height: 15px;
+.card-description {
+    height : 90px;
+	font-size: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
 }

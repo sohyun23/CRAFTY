@@ -1,5 +1,7 @@
 package crafty.controller;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import crafty.dto.Goods;
 import crafty.dto.Member;
+import crafty.dto.ResponseAttendedGoods;
+import crafty.dto.ResponseProfile;
+import crafty.pagination.dto.MainCard;
+import crafty.pagination.dto.PageRequestDTO;
+import crafty.pagination.dto.PageResponseDTO;
+import crafty.service.GoodsService;
 import crafty.service.LikesService;
+import crafty.service.MemberService;
 import crafty.service.OpenAlarmService;
 
 /*
@@ -25,8 +34,11 @@ import crafty.service.OpenAlarmService;
 //@RequestMapping("member")
 public class MemberController {
 
-//    @Autowired
-//    private MemberService memberService;
+    @Autowired
+    private MemberService memberService;
+    
+    @Autowired
+    private GoodsService goodsService;
     
     @Autowired
     private LikesService likesService;
@@ -88,9 +100,33 @@ public class MemberController {
     
 //    프로필, 프로필 수정
     @GetMapping(value = "/profile/{memberId}")
-    public String showProfile(@PathVariable("memberId") String memberId, Model model) {
-//        Member member = memberService.getMemberById(id);
-//        model.addAttribute("member", member);
+    public String showProfile(@ModelAttribute PageRequestDTO pageRequest,
+    						  @PathVariable("memberId") int memberId, Model model) throws SQLException {
+    	int sessionMemberId = 2;
+    	
+    	// 한 페이지에 8개 카드 출력
+    	pageRequest.setAmount(8);
+    	
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	// 좋아요 누른 굿즈의 like_id를 가져오기 위해 session에 등록된 id도 parameter로 넘겨줌
+    	// like_id가 있는 굿즈 -> 빨간 하트(클릭 시 좋아요 취소)
+    	// like_id가 없는 굿즈 -> 하얀 하트(클릭 시 좋아요)
+    	hashmap.put("sessionMemberId", sessionMemberId);
+    	hashmap.put("profileMemberId", memberId);
+    	hashmap.put("pageRequest", pageRequest);
+    	
+    	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
+		
+		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
+		
+		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId);
+		
+		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
+    	
+        model.addAttribute("profile", profile);
+        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("pageResponse", pageResponse);
+        
         return "profile";
     }
 
