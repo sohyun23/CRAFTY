@@ -10,4 +10,37 @@
  		FROM MEMBER
  		WHERE member_id = #{memberId}
  	</select>
+ 	
+ 	<!-- signUp, Insert a new member -->
+    <insert id="signUp" parameterType="crafty.dto.Member">
+    <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
+        SELECT member_seq.nextval FROM dual
+    </selectKey>
+	    INSERT INTO MEMBER (member_id, name, nickname, login_id, login_pw, phone_num, zone_code, road_address,
+	                        detail_address, profile_img, email, birth, gender, last_login_date,
+	                        position, member_created_at, member_updated_at)
+	    VALUES (#{memberId}, #{name}, #{nickname}, #{loginId}, #{loginPw}, #{phoneNum}, #{zoneCode}, #{roadAddress},
+	            #{detailAddress}, #{profileImg}, #{email}, #{birth}, #{gender}, SYSDATE,
+	            #{position}, SYSDATE, SYSDATE)
+	</insert>
+
+	<!-- login -->    
+    <select id="getMemberById" parameterType="map" resultType="crafty.dto.Member">
+    	SELECT * FROM member WHERE login_id = #{id}
+	</select>
+
+	<!-- findAccount -->
+	<select id="getMemberByNameAndPhone" resultType="crafty.dto.Member">
+	    SELECT * FROM MEMBER WHERE name = #{name} AND phoneNum = #{phoneNum}
+	</select>
+
+	<select id="getMemberByIdAndPhone" resultType="crafty.dto.Member">
+	    SELECT * FROM MEMBER WHERE loginId = #{loginId} AND phoneNum = #{phoneNum}
+	</select>
+
+	<update id="updateMemberPassword">
+	    UPDATE MEMBER SET loginPw = #{loginPw} WHERE memberId = #{memberId}
+	</update>
+ 	
+ 	
  </mapper>

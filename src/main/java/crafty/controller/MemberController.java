@@ -4,7 +4,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import crafty.dto.Goods;
@@ -47,33 +51,65 @@ public class MemberController {
     @Autowired
     private OpenAlarmService openAlarmService;
     
-    @GetMapping(value ="/signUp")
+    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String signUpForm() {
         return "signUp";
     }
-    
-    // 이 부분도 멤버 서비스, Dto 만들면 주석 삭제
+
+    // 회원가입
     @PostMapping(value = "/signUp")
-    public String signUp() {
-        // 회원 가입 로직 구현
-//        memberService.signUp(member);
+    public String signUp(@ModelAttribute Member member, @RequestParam("birthDate") String birthDate) throws SQLException, Exception {
         
-        return "login";  // 회원가입 성공 시, 로그인 페이지로 이동
+    	// 생년월일 처리
+        java.util.Date birthD = new java.text.SimpleDateFormat("yy/mm/dd").parse(birthDate);
+        
+        long birthL =  birthD.getTime();
+        java.sql.Date birth = new java.sql.Date(birthL);
+        
+        
+        member.setBirth(birth);
+        member.setProfileImg("default");
+
+        
+        
+        String encryptedPassword = BCrypt.hashpw(member.getLoginPw(), BCrypt.gensalt());
+        member.setLoginPw(encryptedPassword);
+        
+        // 회원 가입 처리 
+        memberService.signUp(member);
+        
+        
+        return "redirect:/login";  // 회원가입 성공 시, 로그인 페이지로 redirect
+    }
+
+    
+    // ID,PW는 비동기로 프론트 단에서 구현
+    @GetMapping(value = "/find")
+    public String findMember(Model model) {
+//        model.addAttribute("member", new Member());
+        return "find";
     }
     
-    @GetMapping(value="/find")
-    public String find() {
-    	
-    	return "find";
+    @PostMapping(value = "/findId")
+    public ResponseEntity<String> findId(@ModelAttribute Member member) {
+        try {
+            String id = memberService.findId(member);
+            return ResponseEntity.ok(id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred.");
+        }
     }
     
-//    ID,PW는 비동기로 프론트 단에서 구현
-    @PostMapping(value = "/find")
-    public String findMember(@RequestParam("login_id") String loginId, @RequestParam("login_pw") String loginPw) {
-        // ID, PW 찾기 로직 구현
-        // id, password를 이용한 검색 수행
-        return "login"; // 찾기한 결과 반환 id는 alert(), pw는 이메일로 재설정이 가능한 링크 전송
+    @PostMapping(value = "/findPw")
+    public ResponseEntity<String> findPw(@ModelAttribute Member member) {
+        try {
+            String pw = memberService.resetPw(member);
+            return ResponseEntity.ok(pw);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred.");
+        }
     }
+    
     
     @GetMapping(value = "/likes")
     public String likeMember(Model model) {

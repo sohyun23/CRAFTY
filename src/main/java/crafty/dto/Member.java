@@ -2,17 +2,24 @@ package crafty.dto;
 
 import java.sql.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Member {
+	@Id
 	private int		memberId;
 	private String	name;
 	private String	nickname;
-	private String	LoginId;
-	private String	LoginPw;
+	private String	loginId;
+	private String	loginPw;
 	private String	phoneNum;
 	private String	zoneCode;
 	private String	roadAddress;

@@ -5,39 +5,37 @@
 <head>
     <title>Crafty</title>
     <meta charset="UTF-8">
-    <meta name="css" content="width=device-width, initial-scale=1">    
-    <link href="/css/common.css" rel="stylesheet" type="text/css"> 
+    <meta name="css" content="width=device-width, initial-scale=1">
     <link href="/css/login.css" rel="stylesheet" type="text/css"> 
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <!-- #362bd4 -->
 <body>
     <div class="container" style="text-align: center">
         <h1>CRAFTY</h1>
-        <form method="post" action="login.jsp">
+        <form method="post" action="main.jsp">
             <input type="text" placeholder="아이디를 입력해주세요." id="id" name="id" required>
             
-            <input type="password" placeholder="비밀번호를 입력해주세요." name="password" required>
+            <input type="password" placeholder="비밀번호를 입력해주세요." id="pw" name="pw" required>
             
-            <button type="submit" href="/main" style="color:#E8F1F5;"><b>LOGIN</b></button>
-
-            <div class="links" style="font-size : 12px; color:#8a8a8a;" >
+            <button type="button" id="loginBtn" style="color:#E8F1F5;"><b>LOGIN</b></button>
+		</form>
+            <div style="font-size : 12px; color:#8a8a8a;" >
                 <a href="/signUp">회원가입</a> / 
                 <a href="/find"> 아이디 찾기</a> / 
                 <a href="/find"> 비밀번호 찾기</a>
             </div>
 
             <!-- Naver -->
-            <button type="submit" href=# style= "background-color:rgb(45, 192, 32); color:#ffffff;">
-              <b>네이버로 로그인</b>
-            </button>
 
 
             <!-- Kakao -->
             
-            <button type="submit" href=# style= "background-color:rgb(253, 229, 8); color:#241313;">
+<!--             <button type="submit" href=# style= "background-color:rgb(253, 229, 8); color:#241313;">
               <a onclick="kakaoLogin();"><b>카카오로 로그인</b></a>
-            </button> 
+            </button> --> 
          
             <!-- <ul style= "background-color:rgb(253, 229, 8); color:#ffffff;padding: 14px 20px; margin: 8px 0; border: none;  cursor: pointer; width: 100%;"> -->
             <!-- <ul class="">
@@ -52,8 +50,10 @@
                   </a>
                 </li>
             </ul> -->
+            
+            <!-- 카카오 로그인 성공 시, 아래 스크립스 수정 또는 사용 -->
 
-            <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<!--             <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
             <script>
                 Kakao.init('aa168779c99bbdd76260eb3e3f004076'); //발급받은 키 중 javascript키를 사용해준다.
                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
@@ -91,9 +91,50 @@
                       Kakao.Auth.setAccessToken(undefined)
                     }
                   }  
-                </script>
-
-        </form>
+                </script> -->
+                
+			<script>
+				$(document).ready(function() {
+				  $("#loginBtn").click(function(event) {
+				    event.preventDefault();
+				    var id = $("#id").val();
+				    var pw = $("#pw").val();
+				    var jsonObj = $().val();
+				    var data = {
+				      id: id,
+				      pw: pw
+				    };
+				    
+				    console.log(id);
+				    console.log(pw);
+				    
+				    $.ajax({
+				      url: "/login",
+				      type: "post",
+				      data: JSON.stringify(data),
+				      contentType: "application/json",
+				      dataType: "text",
+				      success: function(json) {
+				        if (!json) {
+				          alert("아이디나 비밀번호를 확인하세요.");
+				          $("#id").val("");
+				          $("#pw").val("");
+				        } else {
+				        	  var jsonObj = JSON.parse(json);
+					          console.log(json);
+					          sessionStorage.setItem("login", jsonObj);
+					          alert(jsonObj.nickname + "님 환영합니다.");
+					          window.location.href = "/main";
+				        }
+				      },
+				      error: function(err) {
+				         console.log(err);
+				    	  alert("아이디 또는 비밀번호를 잘못 입력하셨습니다?");
+				      }
+				    });
+				  });
+				});
+			</script>
     </div>
 </body>
 </html>
