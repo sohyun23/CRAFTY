@@ -45,7 +45,7 @@
 			FROM GOODS g
 			JOIN MEMBER m ON m.member_id = g.member_id
 			JOIN NONDISCLOSURE_REQUEST nd ON nd.goods_id = g.goods_id
-			WHERE g.nondisclosure_status != 1 AND nd.nondisclosure_status = 0
+			WHERE g.nondisclosure_status != 1
 		)
 		<![CDATA[
 			WHERE rn > (#{pageNum} - 1) * #{amount}
@@ -83,162 +83,181 @@
 		WHERE g.registration_status != 1
 	</select>
 	
+	<select id="getGoodsByGoodsId" resultType="crafty.dto.ResponseGoodsDetail">
+        SELECT g.goods_id, g.goods_name, g.introduction, m.member_id, m.nickname, m.profile_img
+        FROM GOODS g
+        JOIN MEMBER m on m.member_id = g.member_id
+        WHERE g.goods_id = #{goodsId}
+    </select>
 	
-	<!-- getNoticeWithPageRequest -->
+	<select id="getGoodsThumbnailImgNameByGoodsId" resultType="string">
+        SELECT img_name
+        FROM GOODS_DESCRIPTION_IMG
+        WHERE goods_id = #{goodsId} AND img_position = 1
+    </select>
+    
+    <select id="getGoodsContentImgNameByGoodsId" resultType="string">
+        SELECT img_name
+        FROM GOODS_DESCRIPTION_IMG
+        WHERE goods_id = #{goodsId} AND img_position = 0
+    </select>
+	
+	
+	<!-- getMainGoods -->
 	<select id="getMainGoods"
 			parameterType="crafty.pagination.dto.PageRequestDTO"
 			resultType="crafty.pagination.dto.MainCard">
 
-			SELECT *
-			FROM (  
+			SELECT goods_id,
+				   goods_name,
+				   introduction,
+				   img_path,
+				   img_name,
+				   category,
+				   total,
+			       target_amount,
+			       like_id,
+			       alarm_id
+			FROM (
 					SELECT *
-			        FROM (
-			        		SELECT *
-							FROM (
-									SELECT A.goods_id, goods_name, aggrement, introduction, img_path, img_original_name, category
-									FROM GOODS A
-									INNER JOIN GOODS_DESCRIPTION_IMG B
-									ON A.goods_id = B.goods_id
-									WHERE img_original_name LIKE '%'||'thb'||'%'
-							)
-							<trim prefix="WHERE" prefixOverrides="AND |OR">
-								<if test="keyword != null and keyword !=''">
-								 	AND goods_name LIKE '%'||#{keyword}||'%'
-								</if>
-							</trim>
+					FROM (  
+							SELECT *
+					        FROM (
+					        		SELECT *
+					        		FROM (
+							        		SELECT *
+											FROM (
+													SELECT g.goods_id,
+													       g.goods_name,
+													       g.introduction,   
+													       g.category,
+													       g.ongoing_status,
+													       g.production_status,
+													       g.target_amount,
+													       gd.img_path,
+													       gd.img_name,
+													       NVL(SUM(o.total_amount), 0) AS total,
+													       NVL(like_id, 0) AS like_id,
+													       NVL(alarm_id, 0) AS alarm_id,
+													       g.goods_created_at,
+													       (SELECT COUNT(*) FROM likes WHERE goods_id = g.goods_id) as like_cnt
+													FROM goods g
+													LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
+													LEFT JOIN likes l ON l.member_id = 1 AND l.goods_id = g.goods_id
+													JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
+													LEFT JOIN open_alarm oa ON oa.member_id = 1 AND oa.goods_id = g.goods_id
+													WHERE gd.img_position = 1 and g.nondisclosure_status = 0
+													GROUP BY g.goods_id,
+													         g.goods_name,
+													         g.introduction,   
+													         g.category,
+													         g.ongoing_status,
+													         g.production_status,
+													         g.target_amount,
+													         gd.img_path,
+													         gd.img_name,
+													         like_id,
+													         alarm_id,
+													         g.goods_created_at
+											)
+											<trim prefix="WHERE" prefixOverrides="AND |OR">
+												<if test="pageRequest.keyword != null and pageRequest.keyword !=''">
+												 	AND goods_name LIKE '%'||#{pageRequest.keyword}||'%'
+												</if>
+											</trim>
+									)
+								<where>
+									<if test="pageProperties.category != null and pageProperties.category !='' and pageProperties.category !='전체'">
+									 	category = #{pageProperties.category}
+									</if>
+								</where>
+						)
+						<where>
+							<if test="pageProperties.ongoing == 0">ongoing_status = 0</if>
+							<if test="pageProperties.ongoing == 1">ongoing_status = 1</if>
+							<if test="pageProperties.ongoing == 2">ongoing_status = 2</if>
+						</where>
 	        		)
 	        		<![CDATA[
-			        WHERE goods_id <= #{pageNum} * #{amount}
+			        WHERE goods_id <= #{pageRequest.pageNum} * #{pageRequest.amount} and
+			        	  goods_id > (#{pageRequest.pageNum} - 1) *  #{pageRequest.amount}
 			        ]]> 
 	    	)
-	    	<![CDATA[
-			WHERE goods_id > (#{pageNum} - 1) *  #{amount}
-			]]>
-
+			<if test="pageProperties.order == 0">ORDER BY like_cnt DESC</if>
+	    	<if test="pageProperties.order == 1">ORDER BY goods_created_at DESC</if>
 	</select>
+	
 	
 	<select id="getMainGoodsTotalCount"
 			parameterType="crafty.pagination.dto.PageRequestDTO" 
 			resultType="_int">
 			SELECT COUNT(*)
-			FROM GOODS
-			<trim prefix="WHERE" prefixOverrides="AND |OR">
-				<if test="keyword != null and keyword !=''">
-			 		AND goods_name LIKE '%'||#{keyword}||'%'
-				</if>
-			</trim>
+			FROM (
+					SELECT *
+					FROM (  
+							SELECT *
+					        FROM (
+					        		SELECT *
+					        		FROM (
+							        		SELECT *
+											FROM (
+													SELECT g.goods_id,
+													       g.goods_name,
+													       g.introduction,   
+													       g.category,
+													       g.ongoing_status,
+													       g.production_status,
+													       g.target_amount,
+													       gd.img_path,
+													       gd.img_name,
+													       NVL(SUM(o.total_amount), 0) AS total,
+													       NVL(like_id, 0) AS like_id,
+													       NVL(alarm_id, 0) AS alarm_id,
+													       g.goods_created_at
+													FROM goods g
+													LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
+													LEFT JOIN likes l ON l.member_id = 1 AND l.goods_id = g.goods_id
+													JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
+													LEFT JOIN open_alarm oa ON oa.member_id = 1 AND oa.goods_id = g.goods_id
+													WHERE gd.img_position = 1 and g.nondisclosure_status = 0
+													GROUP BY g.goods_id,
+													         g.goods_name,
+													         g.introduction,   
+													         g.category,
+													         g.ongoing_status,
+													         g.production_status,
+													         g.target_amount,
+													         gd.img_path,
+													         gd.img_name,
+													         like_id,
+													         alarm_id,
+													         g.goods_created_at
+											)
+											<trim prefix="WHERE" prefixOverrides="AND |OR">
+												<if test="pageRequest.keyword != null and pageRequest.keyword !=''">
+												 	AND goods_name LIKE '%'||#{pageRequest.keyword}||'%'
+												</if>
+											</trim>
+									)
+								<where>
+									<if test="pageProperties.category != null and pageProperties.category !='' and pageProperties.category !='전체'">
+									 	category = #{pageProperties.category}
+									</if>
+								</where>
+						)
+						<where>
+							<if test="pageProperties.ongoing == 0">ongoing_status = 0</if>
+							<if test="pageProperties.ongoing == 1">ongoing_status = 1</if>
+							<if test="pageProperties.ongoing == 2">ongoing_status = 2</if>
+						</where>
+	        		)
+	        		<![CDATA[
+			        WHERE goods_id <= #{pageRequest.pageNum} * #{pageRequest.amount} and
+			        	  goods_id > (#{pageRequest.pageNum} - 1) *  #{pageRequest.amount}
+			        ]]> 
+	    	)
+	    	<if test="pageProperties.order == 0">ORDER BY goods_created_at DESC</if>
+	    	
 	</select>
-	
-	<select id="getGoodsByGoodsId" resultType="crafty.dto.ResponseGoodsDetail">
-		SELECT g.goods_id, g.goods_name, g.introduction, m.member_id, m.nickname, m.profile_img
-		FROM GOODS g
-		JOIN MEMBER m on m.member_id = g.member_id
-		WHERE g.goods_id = #{goodsId}
-	</select>
-	
-	<select id="getGoodsThumbnailImgNameByGoodsId" resultType="string">
-		SELECT img_name
-		FROM GOODS_DESCRIPTION_IMG
-		WHERE goods_id = #{goodsId} AND img_position = 1
-	</select>
-	
-	<select id="getGoodsContentImgNameByGoodsId" resultType="string">
-		SELECT img_name
-		FROM GOODS_DESCRIPTION_IMG
-		WHERE goods_id = #{goodsId} AND img_position = 0
-	</select>
-	
-	<!-- 등록 굿즈 리스트 -->
-	<select id="getRegisteredGoodsByMemberId" parameterType="hashmap" 
-												resultType="crafty.dto.ResponseRegisteredGoods">
-		SELECT goods_id, goods_name, goods_created_at, ongoing_status, production_status, registration_status
-		FROM(
-			SELECT ROWNUM AS rn, goods_id, goods_name, goods_created_at, ongoing_status, production_status, registration_status
-			FROM GOODS
-			WHERE member_id = #{memberId} AND nondisclosure_status = 0 <!-- 공개 상태인 굿즈만 가져옴 -->
-			ORDER BY goods_created_at DESC
-		)
-		<![CDATA[
-			WHERE rn > (#{pageRequest.pageNum} - 1) * #{pageRequest.amount}
-			  AND rn <= #{pageRequest.pageNum} * #{pageRequest.amount}
-		]]>
-	</select>
-	
-	<select id="getTotalRegisteredGoodsByMemberId" resultType="_int">
-		SELECT COUNT(goods_id)
-		FROM GOODS
-		WHERE member_id = #{memberId} AND nondisclosure_status = 0
-	</select>
-	
-	
-	<!-- 등록 굿즈 상세 페이지 공통 -->
-	<select id="getRegisteredGoodsDetailByGoodsId" resultType="crafty.dto.ResponseRegisteredGoodsDetail">
-		SELECT g.goods_id, g.goods_name, gd.img_path, gd.img_name, g.start_date, g.end_date, COUNT(o.order_id) AS sales_num,
-                    (SELECT COUNT(oi.order_id)
-                         FROM ORDER_ITEMS oi
-                         WHERE oi.order_id IN (SELECT o2.order_id
-                                                FROM ORDERS o2
-                                                WHERE o2.goods_id = g.goods_id)) AS sales_total_num,
-                    NVL(SUM(o.item_total_amount), 0) AS sales_total_amount
-		FROM GOODS g
-		JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
-		LEFT JOIN ORDERS o ON o.goods_id = g.goods_id
-		WHERE g.goods_id = #{goodsId} AND gd.img_position = 1
-		GROUP BY g.goods_id, g.goods_name, gd.img_path, gd.img_name, g.start_date, g.end_date
-	</select>
-	
-	<!-- 굿즈 등록 상태 업데이트 -->
-	<update id="updateGoodsRegistrationStatusByGoodsId">
-		UPDATE GOODS
-		SET registration_status = 1
-		WHERE goods_id = #{goodsId}
-	</update>
-
-	<!-- 등록 불허 -->
-	<update id="updateGoodsRegistrationStatusDisallowByGoodsId">
-		UPDATE GOODS
-		SET registration_status = 2, goods_updated_at = SYSDATE
-		WHERE goods_id = #{goodsId}
-	</update>
-	
-	<!-- 굿즈 비공개 상태 업데이트 -->
-	<update id="updateGoodsNondisclosureStatusByGoodsId">
-		UPDATE GOODS
-		SET nondisclosure_status = 1
-		WHERE goods_id = #{goodsId}
-	</update>
-	
-	<!-- 프로필 굿즈 리스트 -->
-	<select id="getGoodsByMemberId">
-		SELECT goods_id, goods_name, introduction, img_path, img_name, category, total, target_amount, like_id, alarm_id
-		FROM(
-			SELECT ROWNUM AS rn, goods_id, goods_name, introduction, img_path, img_name, category, total, target_amount, like_id, alarm_id
-			FROM(
-				SELECT g.goods_id, g.goods_name, g.introduction, gd.img_path, gd.img_name, g.category,
-						NVL(SUM(o.total_amount), 0) AS total, g.target_amount, NVL(like_id, 0) AS like_id, NVL(alarm_id, 0) AS alarm_id
-				FROM goods g
-				LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
-				LEFT JOIN likes l ON l.member_id = #{sessionMemberId} AND l.goods_id = g.goods_id
-				JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
-				LEFT JOIN open_alarm oa ON oa.member_id = #{sessionMemberId} AND oa.goods_id = g.goods_id
-				WHERE g.member_id = #{profileMemberId} AND gd.img_position = 1 
-				GROUP BY g.goods_id, g.goods_name, g.introduction, gd.img_path, gd.img_name, 
-				        g.category, like_id, alarm_id, g.goods_created_at, g.target_amount
-				ORDER BY g.goods_created_at DESC
-			)
-		)
-		<![CDATA[
-			WHERE rn > (#{pageRequest.pageNum} - 1) * #{pageRequest.amount}
-			  AND rn <= #{pageRequest.pageNum} * #{pageRequest.amount}
-		]]>
-	</select>
-	
-	<select id="getTotalGoodsByMemberId" resultType="_int">
-		SELECT COUNT(goods_id)
-		FROM GOODS
-		WHERE member_id = #{memberId} AND ongoing_status = 1
-	</select>
-	
-	
-	
+		
  </mapper>

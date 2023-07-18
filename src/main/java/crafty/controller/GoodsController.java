@@ -29,6 +29,7 @@ import crafty.dto.Goods;
 import crafty.dto.GoodsResponse;
 import crafty.dto.Item;
 import crafty.dto.ItemResponse;
+import crafty.dto.MainCategoryList;
 import crafty.dto.Orders;
 import crafty.dto.ResponseAttendedGoods;
 import crafty.dto.ResponseAttendedGoodsDetail;
@@ -41,6 +42,7 @@ import crafty.dto.ResponseRegisteredGoodsDetail;
 import crafty.dto.ResponseRegisteredGoodsDetailOrders;
 import crafty.dto.ResponseRegisteredGoodsSalesByItem;
 import crafty.pagination.dto.MainCard;
+import crafty.pagination.dto.PageProperties;
 import crafty.pagination.dto.PageRequestDTO;
 import crafty.pagination.dto.PageResponseDTO;
 import crafty.pagination.dto.SearchKeyword;
@@ -72,25 +74,46 @@ public class GoodsController {
 	private String deliveryKey;
 	
 	@GetMapping(value="/main")
-	public String main(@ModelAttribute PageRequestDTO pageRequest, Model model) {		
-		pageRequest.setAmount(1);		
-		List<MainCard> goodsList = goodsService.getMainGoods(pageRequest);		
-		int total = goodsService.getMainGoodsTotalCount(pageRequest);		
+	public String main(Model model) {		
+		
+		PageRequestDTO pageRequest = new PageRequestDTO(1, 8, "");
+		PageProperties pageProperties = new PageProperties("전체", 1, 0); // category, ongoing, order
+		List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, pageRequest.getKeyword());		
+		int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, pageRequest.getKeyword());	
 		PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
+		MainCategoryList categoryList = new MainCategoryList();
+		
+		model.addAttribute("pageProperties", pageProperties);
 		model.addAttribute("goodsList", goodsList);
 		model.addAttribute("pageInfo", pageResponse);
+		model.addAttribute("categoryList", categoryList.getCategoryList());
 		
 		return "main";
 	}
-
-	@GetMapping(value="/main/search?keyword={keyword}&ongoing={ongoing}&order={order}&pageNum={pageNum}&amount={amount}")
-	public String searchOrderBy(@RequestParam("keyword") SearchKeyword keyword,
+		
+	//?keyword={keyword}&category={category}&ongoing={ongoing}&order={order}&pageNum={pageNum}&amount={amount}
+	@GetMapping(value="/main/search")
+	public String searchOrderBy(@RequestParam("keyword") String keyword,
+								@RequestParam("category") String category,
 								@RequestParam("ongoing") int ongoing,
 								@RequestParam("order") int order,
 								@RequestParam("pageNum") int pageNum,
-								@RequestParam("amount") int amount) {
+								@RequestParam("amount") int amount,
+								Model model) {
 		
-
+		
+		PageProperties pageProperties = new PageProperties(category, ongoing, order);
+		PageRequestDTO pageRequest = new PageRequestDTO(pageNum, amount, keyword);
+		List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, pageRequest.getKeyword());	
+		int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, pageRequest.getKeyword());		
+		PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
+		MainCategoryList categoryList = new MainCategoryList();
+		
+		model.addAttribute("pageProperties", pageProperties);
+		model.addAttribute("goodsList", goodsList);
+		model.addAttribute("pageInfo", pageResponse);
+		model.addAttribute("categoryList", categoryList.getCategoryList());
+		
 		return "main";
 	}
 	

@@ -20,6 +20,9 @@ public class PageResponseDTO {
     // 마지막 페이지
     private int realEnd;
     
+    // 키워드
+    private String keyword;
+    
     private PageRequestDTO pageRequest;
 
     public PageResponseDTO(){}
@@ -28,7 +31,8 @@ public class PageResponseDTO {
         this.total = total;
         this.pageCount = pageCount;
         this.pageRequest = pageRequest;
-
+        this.keyword = pageRequest.getKeyword();
+        
         this.endPage = (int)(Math.ceil(pageRequest.getPageNum() * 1.0 / pageCount)) * pageCount;
         this.startPage = endPage - (pageCount - 1);
 
