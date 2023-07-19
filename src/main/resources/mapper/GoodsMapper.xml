@@ -318,5 +318,43 @@
 		)
 		
 	</insert>
+	
+	<!-- 등록 굿즈 리스트 -->
+	<select id="getRegisteredGoodsByMemberId" parameterType="hashmap" 
+												resultType="crafty.dto.ResponseRegisteredGoods">
+		SELECT goods_id, goods_name, goods_created_at, ongoing_status, production_status, registration_status
+		FROM(
+			SELECT ROWNUM AS rn, goods_id, goods_name, goods_created_at, ongoing_status, production_status, registration_status
+			FROM GOODS
+			WHERE member_id = #{memberId} AND nondisclosure_status = 0 <!-- 공개 상태인 굿즈만 가져옴 -->
+			ORDER BY goods_created_at DESC
+		)
+		<![CDATA[
+			WHERE rn > (#{pageRequest.pageNum} - 1) * #{pageRequest.amount}
+			  AND rn <= #{pageRequest.pageNum} * #{pageRequest.amount}
+		]]>
+	</select>
+	
+	<select id="getTotalRegisteredGoodsByMemberId" resultType="_int">
+		SELECT COUNT(goods_id)
+		FROM GOODS
+		WHERE member_id = #{memberId} AND nondisclosure_status = 0
+	</select>
+	
+	<!-- registeredGoods Detail 페이지 -->
+ 	<select id="getRegisteredGoodsDetailByGoodsId" resultType="crafty.dto.ResponseRegisteredGoodsDetail">
+ 		SELECT g.goods_id, g.goods_name, gd.img_path, gd.img_name, g.start_date, g.end_date, COUNT(o.order_id) AS sales_num,
+		                    (SELECT COUNT(oi.order_id)
+		                         FROM ORDER_ITEMS oi
+		                         WHERE oi.order_id IN (SELECT o2.order_id
+		                                                FROM ORDERS o2
+		                                                WHERE o2.goods_id = g.goods_id)) AS sales_total_num,
+		                    SUM(o.item_total_amount) AS sales_total_amount
+		FROM GOODS g
+		JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
+		LEFT JOIN ORDERS o ON o.goods_id = g.goods_id
+		WHERE g.goods_id = #{goodsId} AND gd.img_position = 1
+		GROUP BY g.goods_id, g.goods_name, gd.img_path, gd.img_name, g.start_date, g.end_date
+ 	</select>
 		
  </mapper>
