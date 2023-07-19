@@ -113,17 +113,18 @@
 				      type: "post",
 				      data: JSON.stringify(data),
 				      contentType: "application/json",
-				      dataType: "text",
+				      dataType: "json",
 				      success: function(json) {
-				        if (!json) {
+				        
+				    	  if (!json) {
 				          alert("아이디나 비밀번호를 확인하세요.");
 				          $("#id").val("");
 				          $("#pw").val("");
 				        } else {
-				        	  var jsonObj = JSON.parse(json);
+				        	  
 					          console.log(json);
-					          sessionStorage.setItem("login", jsonObj);
-					          alert(jsonObj.nickname + "님 환영합니다.");
+					          sessionStorage.setItem("login", json);
+					          alert(json.nickname + "님 환영합니다.");
 					          window.location.href = "/main";
 				        }
 				      },
@@ -132,6 +133,37 @@
 				    	  alert("아이디 또는 비밀번호를 잘못 입력하셨습니다?");
 				      }
 				    });
+				    
+				    /* 
+				    $.ajax({
+					    url: "/login",
+					    type: "post",
+					    data: JSON.stringify(data),
+					    contentType: "application/json",
+					    dataType: "json", // 데이터 타입을 JSON으로 변경
+					    success: function(response) { // 응답 데이터로부터 세션 정보 추출
+					        if (!response.success) {
+					            alert("아이디나 비밀번호를 확인하세요.");
+					            $("#id").val("");
+					            $("#pw").val("");
+					        } else {
+					            var nickname = response.nickname;
+					            console.log(nickname);
+					            
+					            // 세션 정보 활용 가능
+					            
+					            alert(nickname + "님 환영합니다.");
+					            window.location.href = "/main";
+					        }
+					    },
+					    error: function(err) {
+					        console.log(err);
+					        alert("아이디 또는 비밀번호를 잘못 입력하셨습니다?");
+					    }
+					});
+				    */
+				    
+				    
 				  });
 				});
 			</script>

@@ -39,31 +39,25 @@ public class LoginController {
 						Model model) throws Exception {
 	    String id = data.get("id");
 	    String pw = data.get("pw");
-		System.out.println(id);
-		System.out.println(pw);
 
 	    // id, pw로 db정보를 가져옴
 	    Member member = memberService.getMemberById(id);
 
 		System.out.println(member);
 		 
+		// DB에 저장된 암호화된 비밀번호를 가져옴
 		boolean result = BCrypt.checkpw(pw, member.getLoginPw());
 		
 		System.out.println(result);
-		 if (member != null && result) {
-			 	// DB에 저장된 암호화된 비밀번호를 가져옴
+		
+		 if (member != null && result) { // id, pw와 같다면
 			 
 		        // 로그인 성공
 		        session.setAttribute("id", id);
 		        session.setAttribute("memberId", member.getMemberId());
 		        session.setAttribute("position", member.getPosition()); 
-		        
-		        String profileImg = member.getProfileImg();
-		        if (profileImg != null) {
-		            session.setAttribute("profileImg", profileImg);
-		        } else {
-		            session.setAttribute("profileImg", "default-profile-img.jpg"); // 기본값 설정
-		        }        
+		        session.setAttribute("profileImg", member.getProfileImg());
+		                
 		        
 		        model.addAttribute("nickname", member.getNickname());
 		        		               
@@ -71,16 +65,19 @@ public class LoginController {
 		        
 		        String returnData = "{\"nickname\": \"" + member.getNickname() + "\"}";
 
-//		        System.out.println(returnData);
+		        System.out.println(returnData);
 		        
 		        return returnData;
 //		        return "{\"success\": true}";
 		        
+		        
+//		        throws Ex 으로 예외 처리 
 		    } else {
 		        // 로그인 실패
-		        return "{\"success\": false}";
+//		        return "{\"success\": false}";
+		    	// 입력 정보가 다를 때 처리하는 로직 작성
+		    	throw new Exception("test");
 		    }
-
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -92,5 +89,7 @@ public class LoginController {
 		
 		return "redirect:/login";
 	}
+	
+	
 	
 }
