@@ -10,13 +10,15 @@
     <meta name="css" content="width=device-width, initial-scale=1">
 	<link href="/css/common.css" rel="stylesheet" type="text/css">  
     <link href="/css/profile.css" rel="stylesheet" type="text/css">
+    <link href="/css/card.css" rel="stylesheet" type="text/css">
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="path/to/bootstrap-icons.css">
 </head>
 
 <body>
 <%@ include file="header.jsp" %>
-
+<div class="content">
     <div class="main-container">
         <div class="top">
             <div class="top-left">
@@ -105,6 +107,7 @@
 				</ul>
        		</nav>
          </div>
+    </div>
     </div>
 <%@ include file="footer.jsp" %>
 </body>
