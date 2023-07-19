@@ -24,6 +24,8 @@ public interface MemberMapper {
 	void updateMemberPassword(Member foundMember);
 
 	ResponseProfile getProfileByMemberId(int memberId) throws SQLException;
+
+	Member getMemberByMemberId(int memberId);
 	
 	
 }

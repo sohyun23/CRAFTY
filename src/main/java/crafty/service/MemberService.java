@@ -39,10 +39,8 @@ public class MemberService {
     	Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         
-        System.out.println(1);
         Member member = memberMapper.getMemberById(params);
-        System.out.println(member);
-        
+
         if(member == null) {
             throw new Exception("아이디 또는 비밀번호가 틀렸습니다.");
         }
@@ -101,6 +99,15 @@ public class MemberService {
 	private String generateTempPw() {
 		// 비밀번로 재설정해서 전송
 		return null;
+	}
+
+	public void updateMember(int memberId, Member memberUpdatedAt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Member getMemberByMemberId(int memberId) {
+		return memberMapper.getMemberByMemberId(memberId);
 	}
     
 }

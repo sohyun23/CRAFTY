@@ -200,17 +200,21 @@ public class MemberController {
     }
 
     @GetMapping(value = "/profile/edit")
-    public String showProfileEditForm(Model model) {
+    public String showProfileEditForm(Model model, HttpSession session) {
 //        // 프로필 수정 페이지
-//        Member member = memberService.getMemberById(id);
-//        model.addAttribute("member", member);
+    	int sessionMemberId = (int) session.getAttribute("memberId");
+    	
+        memberService.getMemberByMemberId(sessionMemberId);
+    	model.addAttribute("memberId", sessionMemberId);
         return "profileEdit";
     }
 
     @PostMapping(value = "/profile/edit")
-    public String editProfile(@ModelAttribute("member") Member memberUpdatedAt) {
+    public String editProfile(@ModelAttribute("member") Member memberUpdatedAt, HttpSession session) {
         // 프로필 수정 후 다시 프로필 페이지로 이동 
-//        memberService.updateMember(id, memberUpdatedAt);
+    	int sessionMemberId = (int) session.getAttribute("memberId");
+    	
+    	memberService.updateMember(sessionMemberId, memberUpdatedAt);
         
         return "profileEdit";
 //      crafty/profile/{id}
