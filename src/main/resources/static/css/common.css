@@ -50,8 +50,8 @@ header {
 	height: 45px;
 	flex-direction: row;
 	font-size: 14px;
-	border: 1px solid #3D56B2;
-	border-radius: 10px;
+	/*border: 1px solid #3D56B2;
+	border-radius: 10px;*/
 	cursor: pointer;
 }
 
@@ -131,6 +131,7 @@ body {
 	min-height: 100%;
 	display: flex;
     margin: 0 auto;
+    margin-top: 20px;
 	padding-bottom: 80px;
 }
 
@@ -142,10 +143,9 @@ body {
 /* =======================================footer========================================*/
 footer {
 	height: 80px;
-	background-color: #FFFFFF;
-	padding: 10px;
+	/* background-color: #FFFFFF;
 	padding-top: 25px;
-	margin-top: 50px;
+	margin-top: 50px;*/
 	text-align: center;
 	text-decoration: none;
 	color: #686868;
@@ -159,6 +159,16 @@ footer {
 	bottom: 0;
 	margin-left: auto;
 	margin-right: auto;
+	
+}
+
+.footer-container {
+	height: 100%;
+	background-color: #FAFAFA;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
 }
 
 .footer-image {

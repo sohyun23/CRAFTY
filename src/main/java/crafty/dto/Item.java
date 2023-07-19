@@ -14,8 +14,8 @@ public class Item {
 	private int		goodsId;
 	private String	itemName;
 	private int		itemPrice;
-	private String	itemConfiguration;
-	private int		itemStock;
+	private String	itemComposition;
+	private int		itemQuantity;
 	private Date	itemCreatedAt;
 	private Date	itemUpdatedAt;
 }

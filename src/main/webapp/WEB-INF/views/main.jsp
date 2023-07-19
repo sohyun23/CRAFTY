@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link href="/css/common.css" rel="stylesheet" type="text/css">
+<link href="/css/card.css" rel="stylesheet" type="text/css">
 <link href="/css/mainLayout.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="path/to/bootstrap-icons.css">
 <style type="text/css">

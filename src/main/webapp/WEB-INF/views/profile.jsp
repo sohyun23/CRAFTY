@@ -10,13 +10,15 @@
     <meta name="css" content="width=device-width, initial-scale=1">
 	<link href="/css/common.css" rel="stylesheet" type="text/css">  
     <link href="/css/profile.css" rel="stylesheet" type="text/css">
+    <link href="/css/card.css" rel="stylesheet" type="text/css">
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="path/to/bootstrap-icons.css">
 </head>
 
 <body>
 <%@ include file="header.jsp" %>
-
+<div class="content">
     <div class="main-container">
         <div class="top">
             <div class="top-left">
@@ -44,11 +46,11 @@
             	<c:forEach items="${goodsList}" var="goods">
 	                <div class="card">
 	                    <div class="card-top">
-	                        <img class="card-image" src="${goods.imgPath}/${goods.imgName}" />
+	                        <a href="/goods/${goods.goodsId}"><img class="card-image" src="${goods.imgPath}/${goods.imgName}" /></a>
 	                    </div>
 	                    <div class="card-bottom">
 	                        <div class="card-title-container">
-	                            <div class = "card-title">${goods.goodsName}</div>
+	                            <div class = "card-title"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></div>
 	                            <c:if test="${goods.likeId eq 0}">
 	                            	<button class="heart-btn" id="like-btn" data-goods-id="${goods.goodsId}">
 	                            		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
@@ -105,6 +107,7 @@
 				</ul>
        		</nav>
          </div>
+    </div>
     </div>
 <%@ include file="footer.jsp" %>
 </body>

@@ -97,6 +97,20 @@
 			    <artifactId>jbcrypt</artifactId>
 			    <version>0.4</version>
 			</dependency>
+			
+			<!-- https://mvnrepository.com/artifact/cglib/cglib -->
+			<dependency>
+			    <groupId>cglib</groupId>
+			    <artifactId>cglib</artifactId>
+			    <version>3.3.0</version>
+			</dependency>
+			
+			
+			<!-- SpringBoot mailService -->
+    		<dependency>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-mail</artifactId>
+	    	</dependency>
 	</dependencies>
 
 	<build>

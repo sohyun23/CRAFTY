@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import crafty.dto.Goods;
 import crafty.dto.ResponseGoodsDetail;
 import crafty.dto.ResponseGoodsManagement;
 import crafty.dto.ResponseNondisclosureRequest;
@@ -70,4 +71,7 @@ public interface GoodsMapper {
 	public List<MainCard> getGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException;
 	
 	public int getTotalGoodsByMemberId(int memberId) throws SQLException;
+	
+	// 굿즈 등록 
+	public int registerGoods(Goods goods) throws Exception;
 }

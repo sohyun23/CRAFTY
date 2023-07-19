@@ -1,8 +1,10 @@
 package crafty.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import crafty.dto.Goods;
+import crafty.dto.GoodsDesciptionImg;
 import crafty.dto.GoodsResponse;
 import crafty.dto.Item;
 import crafty.dto.ItemResponse;
@@ -69,6 +72,9 @@ public class GoodsController {
 	
 	@Autowired
 	NondisclosureRequestService nondisclosureRequestService;
+	
+	@Value("${props.fileloc}")
+	String craftyFilePath;
 	
 	@Value("${delivery.trackker.key}")
 	private String deliveryKey;
@@ -135,54 +141,95 @@ public class GoodsController {
 	// 굿즈 등록 페이지 전환 메서드
 	@GetMapping(value="/register")
 	public String registerGoodsForm() {
-		
 		return "registerGoods";
 	}
 	
 	// 굿즈 등록 페이지 전환 메서드
-		//[{"itemName":"1","itemPrice":"1","itemComposition":"1","itemQuantity":"1"},{"itemName":"2","itemPrice":"2","itemComposition":"2","itemQuantity":"2"}]
-		@PostMapping(value="/register/goods")
-		public String registerGoods(@RequestParam("thumbnailFile") MultipartFile thumbnailFile,
-									@RequestParam("descriptionFile") MultipartFile descriptionFile,
-									@ModelAttribute GoodsResponse goodsResponse){
-			// 등록한 굿즈 정보 db에 저장
-//			System.out.println(thumbnailFile);
-//			System.out.println(goodsResponse.getGoodsName());
-//			System.out.println(goodsResponse.getGoodsIntro());
-//			System.out.println(goodsResponse.getGoodsCategory());
-//			System.out.println(goodsResponse.getStartDate());
-//			System.out.println(goodsResponse.getEndDate());
-//			System.out.println(descriptionFile);
-//			System.out.println(goodsResponse.getItemList());
-//			System.out.println(goodsResponse.getTargetAmount());
-//			System.out.println(goodsResponse.getPostDate());
-//			System.out.println(goodsResponse.getBankCategory());
-//			System.out.println(goodsResponse.getBankAccountNumber());
+	//[{"itemName":"1","itemPrice":"1","itemComposition":"1","itemQuantity":"1"},{"itemName":"2","itemPrice":"2","itemComposition":"2","itemQuantity":"2"}]
+	@PostMapping(value ="/register/goods")
+	public String registerGoods(
+//									HttpSession loginSession,
+								@RequestParam("thumbnailFile") MultipartFile thumbnailFile,
+								@RequestParam("descriptionFile") MultipartFile descriptionFile,
+								@ModelAttribute GoodsResponse goodsResponse) throws Exception{
+		
+		if(thumbnailFile == null || descriptionFile == null){
+			throw new Exception("파일 전달 오류 발생");
+		}
+		
+		try {
+			// itemList : json to Object
+			String jsonItemListStr = goodsResponse.getItemList();
+			ObjectMapper objectMapper = new ObjectMapper();
+			List<ItemResponse> itemResList;
+			itemResList = objectMapper.readValue(jsonItemListStr, new TypeReference<List<ItemResponse>>() {});
+			
+//				String memberId = (String) loginSession.getAttribute("memberId");
+			
+			// goods
+//			int generatedGoodsId = goodsService.registerGoods(goodsResponse, memberId);
+			int generatedGoodsId = goodsService.registerGoods(goodsResponse);
+			System.out.println("goods 등록 완료");
 
-			try {
+			// img
+			UUID uuid = UUID.randomUUID();
+			String imgOriginalName = thumbnailFile.getOriginalFilename();
+			String imgName = uuid.toString() + "_" + imgOriginalName;
+			String imgPath = craftyFilePath + "\\" + imgName;
+			int imgThumbnailPosition = 1;
+			int imgDescriptionPosition = 0;
+		
+			GoodsDesciptionImg imgThumb = GoodsDesciptionImg.builder()
+														.goodsId(generatedGoodsId)
+														.imgPath(imgPath)
+														.imgOriginalName(imgOriginalName)
+														.imgName(imgName)
+														.imgPosition(imgThumbnailPosition)
+														.build();
+			
+			GoodsDesciptionImg imgDescription = GoodsDesciptionImg.builder()
+																.goodsId(generatedGoodsId)
+																.imgPath(imgPath)
+																.imgOriginalName(imgOriginalName)
+																.imgName(imgName)
+																.imgPosition(imgDescriptionPosition)
+																.build();
+
+			goodsImgService.registerGoodsImg(thumbnailFile, imgThumb, generatedGoodsId);
+			goodsImgService.registerGoodsImg(descriptionFile, imgDescription, generatedGoodsId);
+			
+			System.out.println("img 등록 완료");
+			
+			// item
+			List<Item> itemList = new ArrayList<Item>();
+			for (int i = 0; i < itemResList.size(); i++) {
+				Item item = Item.builder()
+								.goodsId(generatedGoodsId)
+								.itemName(itemResList.get(i).getItemName())
+								.itemPrice(itemResList.get(i).getItemPrice())
+								.itemComposition(itemResList.get(i).getItemComposition())
+								.itemQuantity(itemResList.get(i).getItemQuantity())
+								.build();
 				
-				// itemList : json to Object
-				String jsonItemListStr = goodsResponse.getItemList();
-				ObjectMapper objectMapper = new ObjectMapper();
-				List<ItemResponse> itemList;
-				itemList = objectMapper.readValue(jsonItemListStr, new TypeReference<List<ItemResponse>>() {});
-				System.out.println(itemList);
-				
-				goodsImgService.registGoodsImg(thumbnailFile, descriptionFile);
-				
-				goodsService.registGoods(goodsResponse, itemList, thumbnailFile, descriptionFile );
-				
-				
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
+				itemList.add(item);
 			}
+			
+			itemService.registerGoodsItems(itemList);
+			
+			System.out.println("item 등록 완료");
 
 			
-
-			return "registerGoods";
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
+
+
+		return "redirect:/main";
+	}
 	
 	// 참여 굿즈 내역 페이지
 	@GetMapping(value="/goods/attended")
