@@ -34,15 +34,4 @@
 		FROM OPEN_ALARM
 		WHERE member_id = ${memberId}
  	</select>
- 	
- 	
-	<insert id="insertAlarmByGoodsIdAndMemberId" parameterType="hashmap">
- 	 	INSERT INTO OPEN_ALARM
- 	 	VALUES (open_alarm_seq.NEXTVAL, #{memberId}, #{goodsId})
- 	 </insert>
- 	 
- 	 <delete id="deleteAlarmByAlarmId">
- 	 	DELETE FROM OPEN_ALARM
- 	 	WHERE alarm_id = #{alarmId}
- 	 </delete>
  </mapper>
