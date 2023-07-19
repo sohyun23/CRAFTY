@@ -1,3 +1,7 @@
+footer {
+	position: absolute;
+}
+
 li{
     list-style-type: none;
 }
@@ -23,35 +27,100 @@ div.top-right{
     font-size:22px;
 }
 #goods-name{
-	font-size:46px;
-	margin-bottom:30px;
+	font-size: 36px;
+	margin-bottom: 30px;
 }
 #goods-cart>li{
     margin-left: -40px;
 }
-select{
-	width:560px;
-	height:40px;
+/* ---- 추가 ---- */
+#goods-list {
+    width: 600px;
     font-size: 20px;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; */
 }
+
+#goods-select {
+    width: 600px;
+	height: 40px;
+    font-size: 20px;
+    border: 1px solid;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+#select-text {
+    padding-left: 5px;
+}
+
+.bi {
+    padding-right: 5px;
+}
+
+#item-container {
+    width: 600px;
+    max-height: 200px;
+    overflow-y: scroll;
+    display: none;
+    margin-top: 5px;
+}
+
+.item {
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.item-price {
+    font-size: 18px;
+}
+.item-config {
+    font-size: 16px;
+}
+
 .item-box{
-	display:flex;
+    width: 600px;
+	display: flex;
 	flex-direction: row;
-	align-items:center;
+	align-items: center;
+    margin: 5px 0;
 }
-.items{
-	width:500px;
-	height:30px;
-    font-size:16px;
+
+.items-name{
+	width: 430px;
+    font-size: 22px;
     margin-right:5px;
     margin-bottom:5px;
-    background-color: transparent;
-    border-radius:4px;
-    /*border:1px solid #3d56b2;*/
 }
+.items-price {
+    width: 100px;
+    font-size: 20px;
+    text-align: right;
+}
+
 .item-delete{
+    width: 60px;
 	height:32px;
+    margin-left: 5px;
 	margin-bottom: 3px;
+}
+
+#container-bar {
+    width: 1000px;
+}
+
+#selected-item {
+    margin-top: 15px;
+    font-size: 16px;
 }
 #thumbnail-box{
 	width:400px;
@@ -82,9 +151,9 @@ select{
     border:1px solid;
 }*/
 .cal-name{
-    width:550px;
+    width: 600px;
     height:30px;
-    display:block;
+    display: block;
     flex-direction: column;
     margin-bottom: 5px;
     /*border: 1px solid;*/
@@ -146,12 +215,17 @@ select{
     margin-right:5px;
 }
 #seller-name{
-    text-align: left;
-    font-size: 20px 
-    margin-bottom:20px;
+    font-size: 20px; 
+    margin-bottom: 20px;
+    display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 40px;
+}
+#seller-name a {
+  text-align: center;
 }
 #goods-explanation{
-    width:1000px;
+    width: 1000px;
     text-align: center;
 }
-#kakaopay {
