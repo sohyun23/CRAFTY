@@ -3,6 +3,8 @@ package crafty.controller;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,8 +85,8 @@ public class CraftyRestController {
 	
 	// 좋아요   메서드
 	@GetMapping("goods/like/{goodsId}")
-	public String like(@PathVariable("goodsId") int goodsId) throws Exception {
-		int memberId = 2; // 로그인 연결 시 세션 memberId로 교체
+	public String like(HttpSession session, @PathVariable("goodsId") int goodsId) throws Exception {
+		int memberId = (int) session.getAttribute("memberId");
 		
 		HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("goodsId", goodsId);

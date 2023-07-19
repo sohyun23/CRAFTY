@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -233,9 +235,8 @@ public class GoodsController {
 	
 	// 참여 굿즈 내역 페이지
 	@GetMapping(value="/goods/attended")
-	public String attendedGoods(@ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
-		// 로그인 완성되면 세션에 등록된 memberId로 교체
-		int memberId = 6;
+	public String attendedGoods(HttpSession session, @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
+		int memberId = (int) session.getAttribute("memberId");
 		
 		HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("memberId", memberId);
@@ -254,9 +255,14 @@ public class GoodsController {
 	}
 	
 	@GetMapping(value="/goods/attended/{orderId}")
-	public String attendedGoodDetail(@PathVariable("orderId") int orderId, Model model) throws SQLException{
+	public String attendedGoodDetail(HttpSession session, @PathVariable("orderId") int orderId, Model model) throws SQLException{
+		int memberId = (int) session.getAttribute("memberId");
 		
-		ResponseAttendedGoodsDetail order = ordersService.getOrderByOrderId(orderId);
+		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("memberId", memberId);
+		hashmap.put("orderId", orderId);
+		
+		ResponseAttendedGoodsDetail order = ordersService.getOrderByOrderId(hashmap);
 		List<Item> itemList = itemService.getItemsByOrderId(orderId);
 		
 		model.addAttribute("order", order);
@@ -268,9 +274,8 @@ public class GoodsController {
 	
 	// 등록 굿즈 리스트 페이지
 	@GetMapping(value="/goods/registered")
-	public String registeredGoods(@ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
-		// 로그인 완성되면 세션에 등록된 memberId로 교체
-		int memberId = 1;
+	public String registeredGoods(HttpSession session, @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
+		int memberId = (int) session.getAttribute("memberId");
 		
 		HashMap<String, Object> hashmap = new HashMap<>();
 		hashmap.put("memberId", memberId);
@@ -290,9 +295,12 @@ public class GoodsController {
 	
 	// 등록 굿즈 상세 페이지 - 참여 내역
 	@GetMapping(value="/goods/registered/{goodsId}")
-	public String registerGoodsDetail(@PathVariable("goodsId") int goodsId,
+	public String registerGoodsDetail(HttpSession session, @PathVariable("goodsId") int goodsId,
 									  @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
+		int memberId = (int) session.getAttribute("memberId");
+		
 		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("memberId", memberId);
 		hashmap.put("goodsId", goodsId);
 		hashmap.put("pageRequest", pageRequest);
 		
@@ -351,9 +359,12 @@ public class GoodsController {
 	
 	// 등록 굿즈 상세 페이지 - 품목 별 판매량
 	@GetMapping(value="/goods/registered/sales/{goodsId}")
-	public String registerGoodsSalesByItem(@ModelAttribute PageRequestDTO pageRequest,
+	public String registerGoodsSalesByItem(HttpSession session, @ModelAttribute PageRequestDTO pageRequest,
 											@PathVariable("goodsId") int goodsId, Model model) throws SQLException{
+		int memberId = (int) session.getAttribute("memberId");
+		
 		HashMap<String, Object> hashmap = new HashMap<>();
+		hashmap.put("memberId", memberId);
 		hashmap.put("goodsId", goodsId);
 		hashmap.put("pageRequest", pageRequest);
 		
