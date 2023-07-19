@@ -48,14 +48,14 @@
 	</select>
  	
  	<!-- attendedGoodsDetail -->
- 	<select id="getOrderByOrderId" resultType="crafty.dto.ResponseAttendedGoodsDetail">
+ 	<select id="getOrderByOrderId" parameterType="hashmap" resultType="crafty.dto.ResponseAttendedGoodsDetail">
  		SELECT g.goods_id, g.goods_name, gd.img_path, gd.img_name, o.delivery_fee, o.total_amount, o.delivery_num, o.delivery_company, o.delivery_status,
         m.name, m.phone_num, m.zone_code, m.road_address, m.detail_address
 		FROM ORDERS o
 		JOIN GOODS g ON g.goods_id = o.goods_id
 		JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = o.goods_id
 		JOIN MEMBER m ON m.member_id = o.member_id
-		WHERE order_id = #{orderId} AND gd.img_position = 1
+		WHERE order_id = #{orderId} AND member_id = #{memberId} AND gd.img_position = 1
  	</select>
  	
  	<!-- registeredGoodsDetail 주문 내역 -->

@@ -22,7 +22,7 @@ public interface OrdersMapper {
 
 	public int getTotalAttendedGoodsByMemberId(int memberId) throws SQLException;
 
-	public ResponseAttendedGoodsDetail getOrderByOrderId(int orderId) throws SQLException;
+	public ResponseAttendedGoodsDetail getOrderByOrderId(HashMap<String, Object> hashmap) throws SQLException;
 
 	public List<ResponseRegisteredGoodsDetailOrders> getRegisteredGoodsDetailOrdersByGoodsId(
 			HashMap<String, Object> hashmap) throws SQLException;

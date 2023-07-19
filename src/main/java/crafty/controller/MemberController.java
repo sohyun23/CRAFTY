@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -112,8 +114,8 @@ public class MemberController {
     
     
     @GetMapping(value = "/likes")
-    public String likeMember(@ModelAttribute PageRequestDTO pageRequest, Model model) {
-    	int memberId = 8;
+    public String likeMember(HttpSession session, @ModelAttribute PageRequestDTO pageRequest, Model model) {
+    	int memberId = (int) session.getAttribute("memberId");
     	
     	pageRequest.setAmount(6);
     	
@@ -140,8 +142,8 @@ public class MemberController {
     }
 
     @GetMapping(value = "/alarm")
-    public String showAlarmSettings(@ModelAttribute PageRequestDTO pageRequest, Model model) {
-    	int memberId = 9;
+    public String showAlarmSettings(HttpSession session, @ModelAttribute PageRequestDTO pageRequest, Model model) {
+    	int memberId = (int) session.getAttribute("memberId");
     	
     	pageRequest.setAmount(6);
     	
@@ -167,9 +169,9 @@ public class MemberController {
     
 //    프로필, 프로필 수정
     @GetMapping(value = "/profile/{memberId}")
-    public String showProfile(@ModelAttribute PageRequestDTO pageRequest,
+    public String showProfile(HttpSession session, @ModelAttribute PageRequestDTO pageRequest,
     						  @PathVariable("memberId") int memberId, Model model) throws SQLException {
-    	int sessionMemberId = 2;
+    	int sessionMemberId = (int) session.getAttribute("memberId");
     	
     	// 한 페이지에 8개 카드 출력
     	pageRequest.setAmount(8);

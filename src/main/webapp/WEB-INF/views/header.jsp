@@ -25,7 +25,7 @@
 					<div class="dropdown-options">
 						<c:if test="${sessionScope.position eq 0}">
 							<a href="/register" class="dropdown-item">굿즈 등록</a>
-							<a href="/profile/1" class="dropdown-item">프로필</a>
+							<a href="/profile/${sessionScope.memberId}" class="dropdown-item">프로필</a>
 							<a href="/goods/attended" class="dropdown-item">참여 현황</a>						
 						</c:if>
 						<c:if test="${sessionScope.position eq 1}">						

@@ -45,9 +45,9 @@ public class OrdersService {
 		return total;
 	}
 
-	public ResponseAttendedGoodsDetail getOrderByOrderId(int orderId) throws SQLException{
+	public ResponseAttendedGoodsDetail getOrderByOrderId(HashMap<String, Object> hashmap) throws SQLException{
 		
-		ResponseAttendedGoodsDetail order = ordersMapper.getOrderByOrderId(orderId);
+		ResponseAttendedGoodsDetail order = ordersMapper.getOrderByOrderId(hashmap);
 		
 		return order;
 	}
