@@ -18,6 +18,20 @@ public class OpenAlarmService {
 	@Autowired
 	OpenAlarmMapper openAlarmMapper;
 	
+	// 알람 
+	public int insertAlarmByGoodsIdAndMemberId(HashMap<String, Object> hashmap) throws SQLException {
+		int result = openAlarmMapper.insertAlarmByGoodsIdAndMemberId(hashmap);
+		
+		return result;
+	}
+	
+	// 알람 취소
+	public int deleteAlarmByAlarmId(int alarmId) throws SQLException {
+		int result = openAlarmMapper.deleteAlarmByAlarmId(alarmId);
+		
+		return result;
+	}
+	
 	//객체?
 	public List<MainCard> openAlarmGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException {
 		List<MainCard> goodsList = openAlarmMapper.openAlarmGoodsByMemberId(hashmap);
