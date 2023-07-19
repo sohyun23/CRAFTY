@@ -42,5 +42,11 @@
 	    UPDATE MEMBER SET loginPw = #{loginPw} WHERE memberId = #{memberId}
 	</update>
  	
+ 	<!-- profile Edit -->
+ 	<select id="getMemberByMemberId" resultType="crafty.dto.Member">
+        SELECT *
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
  	
  </mapper>
