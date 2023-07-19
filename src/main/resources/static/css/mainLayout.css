@@ -120,6 +120,11 @@ input#search-bar{
 	display : flex;
 	justify-content: center;
 	align-items : center;
+	
+	transition: all 0.2s linear;
+}
+.main-category-cell:hover{
+	transform: scale(1.07);
 }
 
 .main-category-list div.active {
@@ -189,7 +194,7 @@ select {
 
 
 
-/* card */
+/* card
   
 .cards-container {
     max-width: 1440px;
@@ -208,8 +213,14 @@ select {
     transition: all 0.3s 0s ease-in;
     z-index: 1;
     border : 1px solid #d3d3d3;
+	
+	transition: all 0.2s linear;
 }
 
+.card:hover{
+	transform: scale(1.05);
+	box-shadow: 1px 1px 3px rgba(1, 1, 0, 0.3);
+}
 
 
 .card-top {
@@ -265,7 +276,7 @@ select {
 }
 
 .heart-icon {
-    color: #ee281a;
+    color: #3D56B2;
 }
 
 .category-and-rate {
@@ -296,6 +307,6 @@ select {
     margin-right: 10px;
 }
 
-
+ */
 
 

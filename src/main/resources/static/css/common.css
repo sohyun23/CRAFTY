@@ -50,8 +50,8 @@ header {
 	height: 45px;
 	flex-direction: row;
 	font-size: 14px;
-	border: 1px solid #3D56B2;
-	border-radius: 10px;
+	/*border: 1px solid #3D56B2;
+	border-radius: 10px;*/
 	cursor: pointer;
 }
 
@@ -143,9 +143,9 @@ body {
 /* =======================================footer========================================*/
 footer {
 	height: 80px;
-	background-color: #FFFFFF;
+	/* background-color: #FFFFFF;
 	padding-top: 25px;
-	margin-top: 50px;
+	margin-top: 50px;*/
 	text-align: center;
 	text-decoration: none;
 	color: #686868;
