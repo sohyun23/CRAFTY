@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import crafty.service.GoodsService;
 import crafty.service.LikesService;
 import crafty.service.NondisclosureRequestService;
+import crafty.service.OpenAlarmService;
 
 @RestController
 public class CraftyRestController {
@@ -28,6 +29,9 @@ public class CraftyRestController {
 	
 	@Autowired
 	NondisclosureRequestService nondisclosureRequestService;
+	
+	@Autowired
+	OpenAlarmService openAlarmService;
 	
 	// 굿즈 등록 허가
 	@GetMapping("/request/register/allow/{goodsId}")
