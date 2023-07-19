@@ -104,4 +104,35 @@
     
     <%@ include file="footer.jsp" %>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var unalarmBtns = document.querySelectorAll("#unalarm-btn");
+        
+        for (var i = 0; i < unalarmBtns.length; i++) {
+            unalarmBtns[i].addEventListener("click", function() {
+                var alarmId = this.getAttribute("data-alarm-id");
+                unalarm(alarmId);
+            });
+        }
+    });
+    
+    // 좋아요 취소 함수
+    function unalarm(alarmId) {
+        var url = "http://localhost:8081/goods/unalarm/" + alarmId;
+        
+        axios.get(url)
+             .then(response => {
+                 // 좋아요 성공
+                
+                location.reload();
+              })
+              .catch(error => {
+                // 좋아요 실패
+                 console.error("다시 시도해주세요.", error);
+                
+                 location.reload();
+              });
+    }
+
+</script>
 </html>
