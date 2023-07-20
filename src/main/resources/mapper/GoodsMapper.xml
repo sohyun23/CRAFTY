@@ -84,7 +84,7 @@
 	</select>
 	
 	<select id="getGoodsByGoodsId" resultType="crafty.dto.ResponseGoodsDetail">
-        SELECT g.goods_id, g.goods_name, g.introduction, m.member_id, m.nickname, m.profile_img
+        SELECT g.goods_id, g.goods_name, g.introduction, m.member_id, m.nickname, m.profile_img, g.start_date, g.end_date, g.ongoing_status, g.registration_status
         FROM GOODS g
         JOIN MEMBER m on m.member_id = g.member_id
         WHERE g.goods_id = #{goodsId}

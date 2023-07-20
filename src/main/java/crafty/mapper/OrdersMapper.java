@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import crafty.dto.Orders;
+import crafty.dto.PaymentInfo;
 import crafty.dto.ResponseAttendedGoods;
 import crafty.dto.ResponseAttendedGoodsDetail;
 import crafty.dto.ResponseRegisteredGoodsDetailOrders;
@@ -28,6 +29,11 @@ public interface OrdersMapper {
 			HashMap<String, Object> hashmap) throws SQLException;
 
 	public int updateDeliveryInfoByOrderId(HashMap<String, Object> hashmap) throws SQLException;
-
+	
+	// 주문 번호 생성
+	public int createOrderId() throws SQLException;
+	
+	// 주문 정보 생성
+	public int insertOrders(Orders order) throws SQLException;
 
 }

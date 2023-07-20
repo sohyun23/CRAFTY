@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="crafty.mapper.OrderItemsMapper">
+ 	
+ 	<insert id="insertOrderItems" parameterType="java.util.List">
+			INSERT INTO ORDER_ITEMS(    
+							order_items_id,
+						    order_id,
+						    item_id,
+						    order_item_created_at,
+						    order_item_updated_at)
+			<foreach collection="orderItemsList" item="orderItems" separator="UNION ALL" >
+					SELECT
+						get_order_items_seq()
+						,#{orderItems.orderId}
+						,#{orderItems.itemId}
+						,SYSDATE
+						,SYSDATE
+					FROM DUAL 
+			</foreach>		
+	</insert>
+ 	
+ </mapper>

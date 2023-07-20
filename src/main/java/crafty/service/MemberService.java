@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import crafty.dto.Member;
+import crafty.dto.RequestPayment;
 import crafty.dto.ResponseProfile;
 import crafty.mapper.MemberMapper;
 import crafty.repository.MemberRepository;
@@ -101,6 +102,18 @@ public class MemberService {
 	private String generateTempPw() {
 		// 비밀번로 재설정해서 전송
 		return null;
+	}
+	
+	// 결제 주문자 정보
+	public RequestPayment getMemberByMemberId(int memberId) throws Exception {
+		
+		RequestPayment requestPayment = memberMapper.getMemberByMemberId(memberId);
+		
+		if(requestPayment == null) {
+			throw new Exception("주문 정보 생성 실패");
+		}
+		
+		return requestPayment;
 	}
     
 }
