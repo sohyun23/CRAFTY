@@ -30,15 +30,15 @@ public class GoodsService {
 	GoodsMapper goodsMapper;
 	
 	// 메인 굿즈 가져오기. 카테고리, 인기순, 진행상황, 키워드 등 정렬 기준 모두 적용 가능
-	public List<MainCard> getMainGoods(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword) {
+	public List<MainCard> getMainGoods(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword, int memberId) {
 				
-		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest, pageProperties, keyword);
+		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest, pageProperties, keyword, memberId);
 		return goodsList;
 	}
 
 	// 메인 굿즈 토탈 카운트 들고 오기
-	public int getMainGoodsTotalCount(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword) {
-		int result = goodsMapper.getMainGoodsTotalCount(pageRequest, pageProperties, keyword);
+	public int getMainGoodsTotalCount(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword, int memberId) {
+		int result = goodsMapper.getMainGoodsTotalCount(pageRequest, pageProperties, keyword, memberId);
 		return result;
 	}
 	

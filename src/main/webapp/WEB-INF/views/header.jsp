@@ -20,7 +20,7 @@
 			<div class="main-dropdown">
 				<div class="main-dropdown-button">
 					<div class="main-dropdown-profile-image">
-						<img alt="profile-image" src="${sessionScope.profileImgPath}" class="profile-image">
+						<img src="${sessionScope.profileImg}" class="profile-image">
 					</div>
 					<div class="dropdown-options">
 						<c:if test="${sessionScope.position eq 0}">

@@ -3,6 +3,8 @@ package crafty.controller;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,8 @@ public class CraftyAlarmController {
 
     // 알람 설정 메서드
     @GetMapping("goods/alarm/{goodsId}")
-    public String alarm(@PathVariable("goodsId") int goodsId) throws Exception {
-        int memberId = 2; // 로그인 연결 시 세션 memberId로 교체
+    public String alarm(HttpSession session, @PathVariable("goodsId") int goodsId) throws Exception {
+        int memberId = (int) session.getAttribute("memberId");
         
         HashMap<String, Object> hashmap = new HashMap<>();
         hashmap.put("goodsId", goodsId);
@@ -60,7 +62,7 @@ public class CraftyAlarmController {
             throw new Exception("다시 시도해주세요.");
         }
         
-        return "좋아요 취소 성공";
+        return "알림 신청 취소 성공";
     }
     
     @ExceptionHandler(value = {Exception.class})
