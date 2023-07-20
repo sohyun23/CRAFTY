@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import crafty.dto.Member;
+import crafty.dto.RequestPayment;
 import crafty.dto.ResponseProfile;
 
 @Mapper
@@ -25,7 +26,9 @@ public interface MemberMapper {
 
 	ResponseProfile getProfileByMemberId(int memberId) throws SQLException;
 
-	Member getMemberByMemberId(int memberId);
+
+	RequestPayment getMemberByMemberId(int memberId) throws SQLException;
+
 	
 	
 }

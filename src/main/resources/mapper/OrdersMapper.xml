@@ -89,4 +89,35 @@
  		WHERE order_id = #{orderId}
  	</update>
  	
+ 	<!-- 주문 정보 생성 -->
+ 	<insert id="insertOrders" parameterType="crafty.dto.Orders">
+ 		INSERT INTO ORDERS(
+ 						order_id,
+ 						member_id,
+ 						goods_id,
+ 						item_total_amount,
+ 						delivery_fee,
+ 						total_amount,
+ 						delivery_status,
+ 						order_created_at,
+ 						order_updated_at
+ 						)
+			VALUES(
+				#{orderId},
+				#{memberId},
+				#{goodsId},  
+				#{itemTotalAmount},
+				#{deliveryFee},
+				#{totalAmount},
+				'결제 확인',
+				SYSDATE,
+				SYSDATE			
+		)
+ 	</insert>
+ 	
+ 	<!-- 주문 번호 생성 -->
+ 	<select id="createOrderId" resultType="_int">
+ 		SELECT orders_seq.NEXTVAL FROM DUAL
+ 	</select>
+ 	
  </mapper>

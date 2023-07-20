@@ -28,7 +28,11 @@ div.top-right{
 }
 #goods-name{
 	font-size: 36px;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
+}
+#period {
+	font-size: 18px;
+	margin-bottom: 20px;
 }
 #goods-cart>li{
     margin-left: -40px;
@@ -80,6 +84,9 @@ div.top-right{
     cursor: pointer;
 }
 
+.item-id {
+	display: none;
+}
 .item-price {
     font-size: 18px;
 }
@@ -93,6 +100,11 @@ div.top-right{
 	flex-direction: row;
 	align-items: center;
     margin: 5px 0;
+}
+
+.items-id {
+
+	display: none;
 }
 
 .items-name{
@@ -135,13 +147,15 @@ div.top-right{
     max-height: 100%;
 }
 #detail{
-    width:400px;
+    width: 380px;
     font-size:20px;
     margin-top:10px;
     border-radius:4px;
-    height:auto;
+    height: 100px;
     text-align: left;
-    /*border:1px solid #3d56b2;*/
+    border:1px solid #3d56b2;
+    border-radius: 5px;
+    padding: 5px;
 }
 #row>#left>#detail{
     margin-top:20px;
@@ -186,9 +200,10 @@ div.top-right{
 	text-align:right;
 }
 #API-icon{
-	width:100px;
+	width: 120px;
 	float:right;
-    /*border:1px solid;*/
+	margin-top: 10px;
+    cursor: pointer;
 }
 .option-container{
     display: flex;
@@ -204,6 +219,7 @@ div.top-right{
 }
 #seller-container{
 	height:40px;
+	margin-bottom: 5px;
 	display: flex;
 	justify-content: left;
 	align-items: center;
@@ -216,14 +232,12 @@ div.top-right{
 }
 #seller-name{
     font-size: 20px; 
-    margin-bottom: 20px;
-    display: flex;
-	justify-content: center;
-	align-items: center;
+    margin: auto 0;
+    width: 100px;
 	height: 40px;
-}
-#seller-name a {
-  text-align: center;
+    display: flex;
+    align-items: center;
+  	text-align: center; 
 }
 #goods-explanation{
     width: 1000px;

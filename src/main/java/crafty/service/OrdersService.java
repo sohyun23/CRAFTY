@@ -1,13 +1,17 @@
 package crafty.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import crafty.dto.OrderItems;
 import crafty.dto.Orders;
+import crafty.dto.PaymentInfo;
 import crafty.dto.ResponseAttendedGoods;
 import crafty.dto.ResponseAttendedGoodsDetail;
 import crafty.dto.ResponseRegisteredGoodsDetailOrders;
@@ -18,6 +22,12 @@ public class OrdersService {
 
 	@Autowired
 	OrdersMapper ordersMapper;
+	
+	@Autowired
+	OrderItemsService orderItemsService;
+	
+	@Autowired
+	PaymentInfoService paymentInfoService;
 	
 	public List<Orders> getOrdersByGoodsId(HashMap hashMap) {
 		List<Orders> ordersList = ordersMapper.getOrdersByGoodsId(hashMap);
@@ -64,5 +74,45 @@ public class OrdersService {
 		
 		return result;
 	}
+	
+	// 주문 번호 생성
+	public int createOrderId() throws SQLException {
+		
+		int createdOrderId = ordersMapper.createOrderId();
+		
+		return createdOrderId;
+	}
 
+	// 결제 정보 생성
+	@Transactional
+	public boolean insertOrders(Orders order, List<Integer> itemIdList, PaymentInfo payInfo) throws Exception {
+		boolean result = false;
+		
+		// order 생성
+		int orderRes = ordersMapper.insertOrders(order);
+		
+		if(orderRes != 0) {
+			// order_items 생성
+		    List<OrderItems> orderItemsList = new ArrayList<OrderItems>();
+		    for(int i = 0; i < itemIdList.size(); i++) {
+		    	OrderItems orderItem = OrderItems.builder()
+		    			.orderId(order.getOrderId())
+		    			.itemId(itemIdList.get(i))
+		    			.build();
+		    	orderItemsList.add(orderItem);
+		    };
+			
+		    // order_items
+		    orderItemsService.insertOrderItems(orderItemsList);
+		    
+		    int paymentRes = paymentInfoService.insertPaymentInfo(payInfo);
+		    
+		    result = true;
+		} else {
+			throw new Exception("주문 정보 생성 실패");
+		}
+				
+		return result;
+	}
+	
 }

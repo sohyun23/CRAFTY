@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import crafty.dto.Member;
+import crafty.dto.RequestPayment;
 import crafty.dto.ResponseProfile;
 import crafty.mapper.MemberMapper;
 import crafty.repository.MemberRepository;
@@ -101,13 +102,18 @@ public class MemberService {
 		return null;
 	}
 
-	public void updateMember(int memberId, Member memberUpdatedAt) {
-		// TODO Auto-generated method stub
+	
+	// 결제 주문자 정보
+	public RequestPayment getMemberByMemberId(int memberId) throws Exception {
 		
-	}
+		RequestPayment requestPayment = memberMapper.getMemberByMemberId(memberId);
+		
+		if(requestPayment == null) {
+			throw new Exception("주문 정보 생성 실패");
+		}
+		
+		return requestPayment;
 
-	public Member getMemberByMemberId(int memberId) {
-		return memberMapper.getMemberByMemberId(memberId);
 	}
     
 }

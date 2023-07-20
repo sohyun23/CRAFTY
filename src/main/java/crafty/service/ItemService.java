@@ -47,7 +47,7 @@ public class ItemService {
 		return totalCnt;
 	}
 	
-	@Transactional
+	
 	public boolean registerGoodsItems(List<Item> itemList) throws Exception {
 		boolean result = false;
 

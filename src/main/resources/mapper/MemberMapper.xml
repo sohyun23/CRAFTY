@@ -5,6 +5,7 @@
   
  <mapper namespace="crafty.mapper.MemberMapper">
  	
+ 	<!-- 프로필 페이지 -->
  	<select id="getProfileByMemberId" resultType="crafty.dto.ResponseProfile">
  		SELECT member_id, nickname, profile_img, profile_introduction
  		FROM MEMBER
@@ -42,11 +43,12 @@
 	    UPDATE MEMBER SET loginPw = #{loginPw} WHERE memberId = #{memberId}
 	</update>
  	
- 	<!-- profile Edit -->
- 	<select id="getMemberByMemberId" resultType="crafty.dto.Member">
-        SELECT *
-        FROM MEMBER
-        WHERE MEMBER_ID = #{memberId}
-    </select>
+ 	<!-- 주문자 정보 -->
+ 	<select id="getMemberByMemberId" resultType="crafty.dto.RequestPayment">
+ 		SELECT name, phone_num, email
+ 		FROM MEMBER
+ 		WHERE member_id = #{memberId}
+ 	</select>
+
  	
  </mapper>

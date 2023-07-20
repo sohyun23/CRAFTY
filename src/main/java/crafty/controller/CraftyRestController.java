@@ -1,7 +1,10 @@
 package crafty.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,13 +15,25 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import crafty.dto.OrderItems;
+import crafty.dto.Orders;
+import crafty.dto.PaymentInfo;
+import crafty.dto.RequestPayment;
 import crafty.service.GoodsService;
 import crafty.service.LikesService;
+import crafty.service.MemberService;
 import crafty.service.NondisclosureRequestService;
 import crafty.service.OpenAlarmService;
+import crafty.service.OrderItemsService;
+import crafty.service.OrdersService;
+import crafty.service.PaymentInfoService;
 
 @RestController
 public class CraftyRestController {
@@ -34,6 +49,19 @@ public class CraftyRestController {
 	
 	@Autowired
 	OpenAlarmService openAlarmService;
+	
+	@Autowired
+	OrdersService ordersService;
+	
+	@Autowired
+	OrderItemsService orderItemsService;
+	
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	PaymentInfoService paymentInfoService;
+	
 	
 	// 굿즈 등록 허가
 	@GetMapping("/request/register/allow/{goodsId}")
@@ -111,6 +139,66 @@ public class CraftyRestController {
 		}
 		
 		return "좋아요 취소 성공";
+	}
+	
+	
+	// 주문 번호와 주문자 정보 생성
+	@GetMapping("/create/consumer/info")
+	public RequestPayment createOrderId(HttpSession session) throws Exception {
+		int memberId = (int) session.getAttribute("memberId");
+		
+		// 주문자 정보
+		RequestPayment requestPayment = memberService.getMemberByMemberId(memberId);
+		// 주문 번호
+		int createdOrderId = ordersService.createOrderId();
+		
+		requestPayment.setOrderId(createdOrderId);
+		
+		return requestPayment;
+	}
+	
+	// 결제 - orders, order_items 메서드
+	@PostMapping(value = "/payment/order")
+	public int goodsOrder(HttpSession session, @RequestBody Map<String, Object> data) throws Exception {
+		int orderId = Integer.parseInt((String)data.get("orderId"));
+		String impUid = (String) data.get("impUid");
+		int payAmount = (int) data.get("payAmount");
+		String paymentMean = (String) data.get("paymentMean");
+		String status = (String) data.get("status");
+		int memberId = (int) session.getAttribute("memberId");
+		int goodsId = (int) data.get("goodsId");
+		int totalPrice = (int) data.get("totalPrice");
+		int delivery = (int) data.get("delivery");
+		int totalPayPrice = (int) data.get("totalPayPrice");
+		List<Integer> itemIdList = (List<Integer>) data.get("itemIdList");
+		
+		// 주문 정보
+		Orders order = Orders.builder()
+				.orderId(orderId)
+				.memberId(memberId)
+				.goodsId(goodsId)
+				.itemTotalAmount(totalPrice)
+				.deliveryFee(delivery)
+				.totalAmount(totalPayPrice)
+				.build();
+		
+		// 결제 정보
+		PaymentInfo payInfo = PaymentInfo.builder()
+				 .orderId(orderId)
+				 .impUid(impUid)
+				 .payAmount(payAmount)
+				 .paymentMean(paymentMean)
+				 .status(status)
+				 .build();
+		
+		boolean res = ordersService.insertOrders(order, itemIdList, payInfo);
+		
+		// res가 false
+		if(!res) {
+			throw new Exception("결제 정보 저장 실패");
+		}
+		
+		return orderId;
 	}
 	
 	@ExceptionHandler(value = {Exception.class})

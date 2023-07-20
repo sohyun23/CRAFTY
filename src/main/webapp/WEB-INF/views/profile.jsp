@@ -154,15 +154,15 @@
 	// 좋아요 취소 함수
 	function unlike(likeId) {
 		var url = "http://localhost:8081/goods/unlike/" + likeId;
-		
+		console.log(likeId);
 		axios.get(url)
 			 .then(response => {
-				 // 좋아요 성공
-		      
+				 // 좋아요 취소 성공
+		      	
 				 location.reload();
 		      })
 		      .catch(error => {
-		        // 좋아요 실패
+		        // 좋아요 취소 실패
 		         console.error("다시 시도해주세요.", error);
 		        
 		         location.reload();
