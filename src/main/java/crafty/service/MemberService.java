@@ -40,10 +40,8 @@ public class MemberService {
     	Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         
-        System.out.println(1);
         Member member = memberMapper.getMemberById(params);
-        System.out.println(member);
-        
+
         if(member == null) {
             throw new Exception("아이디 또는 비밀번호가 틀렸습니다.");
         }
@@ -103,6 +101,7 @@ public class MemberService {
 		// 비밀번로 재설정해서 전송
 		return null;
 	}
+
 	
 	// 결제 주문자 정보
 	public RequestPayment getMemberByMemberId(int memberId) throws Exception {
@@ -114,6 +113,7 @@ public class MemberService {
 		}
 		
 		return requestPayment;
+
 	}
     
 }

@@ -26,7 +26,9 @@ public interface MemberMapper {
 
 	ResponseProfile getProfileByMemberId(int memberId) throws SQLException;
 
+
 	RequestPayment getMemberByMemberId(int memberId) throws SQLException;
+
 	
 	
 }
