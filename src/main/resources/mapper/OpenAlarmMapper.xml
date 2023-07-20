@@ -38,7 +38,13 @@
      
     <insert id="insertAlarmByGoodsIdAndMemberId" parameterType="hashmap">
           INSERT INTO OPEN_ALARM
-          VALUES (open_alarm_seq.NEXTVAL, #{memberId}, #{goodsId})
+          VALUES (open_alarm_seq.NEXTVAL,
+          			#{memberId},
+          			#{goodsId},
+          			(SELECT start_date
+          			 FROM GOODS
+          			 WHERE goods_id = #{goodsId})
+          )
       </insert>
       
       <delete id="deleteAlarmByAlarmId">

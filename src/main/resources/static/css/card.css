@@ -66,7 +66,7 @@
     margin-top: 10px;
 }
  
-.heart-btn {
+.heart-btn, .alarm-btn {
 	width: 40px;
 	height: 40px;
 	margin-top: 10px;
@@ -79,6 +79,11 @@
 	margin-left: 7px;
 	/*border-radius: 70%;*/
 }
+
+.bell-btn {
+	color: #eedf10;
+}
+
 /*
 .heart-icon {
 	color: #ee281a;

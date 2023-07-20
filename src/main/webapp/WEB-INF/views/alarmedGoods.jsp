@@ -9,6 +9,7 @@
 	<title>Crafty</title>
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/alarmedGoods.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/card.css" rel="stylesheet" type="text/css"/>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<link rel="stylesheet" href="path/to/bootstrap-icons.css">
 </head>
@@ -116,22 +117,27 @@
         }
     });
     
-    // 좋아요 취소 함수
+ // 알림 취소 함수
     function unalarm(alarmId) {
-        var url = "http://localhost:8081/goods/unalarm/" + alarmId;
-        
-        axios.get(url)
-             .then(response => {
-                 // 좋아요 성공
-                
-                location.reload();
-              })
-              .catch(error => {
-                // 좋아요 실패
-                 console.error("다시 시도해주세요.", error);
-                
-                 location.reload();
-              });
+		
+    	if(!('${sessionScope.memberId}')) {
+	         window.location.href = "/login";
+	     } else {
+	        var url = "http://localhost:8081/goods/unalarm/" + alarmId;
+	        
+	        axios.get(url)
+	             .then(response => {
+	            	// 알림신청 취소 성공
+	                
+	                location.reload();
+	              })
+	              .catch(error => {
+	            	// 알림신청 취소 실패
+	                 console.error("다시 시도해주세요.", error);
+	                
+	                 location.reload();
+	              });
+	     }
     }
 
 </script>

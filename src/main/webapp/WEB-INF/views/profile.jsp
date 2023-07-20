@@ -134,39 +134,50 @@
 	
 	// 좋아요 함수
 	function like(goodsId) {
-		var url = "http://localhost:8081/goods/like/" + goodsId;
-		
-		axios.get(url)
-		     .then(response => {
-				 // 좋아요 성공
-		      
-				 location.reload();
-		     })
-		     .catch(error => {
-		        // 좋아요 실패
-		         /* console.error("다시 시도해주세요.", error); */
-		         confirm(error.response.data);
-		         location.reload();
-		     });
-		
+	    // 세션에 멤버 아이디 존재하지 않으면 로그인 페이지로 이동
+	    if(!('${sessionScope.memberId}')) {
+	        window.location.href = "/login";
+	    } else {
+	        
+	         var url = "http://localhost:8081/goods/like/" + goodsId;
+	         
+	         axios.get(url)
+	              .then(response => {
+	                  // 좋아요 성공
+	               
+	                  location.reload();
+	              })
+	              .catch(error => {
+	                 // 좋아요 실패
+	                  /* console.error("다시 시도해주세요.", error); */
+	                  confirm(error.response.data);
+	                  location.reload();
+	              });
+	         
+	    }
 	}
 	
 	// 좋아요 취소 함수
 	function unlike(likeId) {
-		var url = "http://localhost:8081/goods/unlike/" + likeId;
-		console.log(likeId);
-		axios.get(url)
-			 .then(response => {
-				 // 좋아요 취소 성공
-		      	
-				 location.reload();
-		      })
-		      .catch(error => {
-		        // 좋아요 취소 실패
-		         console.error("다시 시도해주세요.", error);
-		        
-		         location.reload();
-		      });
+	 
+		 if(!('${sessionScope.memberId}')) {
+	         window.location.href = "/login";
+	     } else {
+	    	 var url = "http://localhost:8081/goods/unlike/" + likeId;
+			 
+	    	 axios.get(url)
+			      .then(response => {
+			          // 좋아요 성공
+			       
+			          location.reload();
+			       })
+			       .catch(error => {
+			         // 좋아요 실패
+			          console.error("다시 시도해주세요.", error);
+			         
+			          location.reload();
+			       });
+	     }
 	}
 
 </script>
