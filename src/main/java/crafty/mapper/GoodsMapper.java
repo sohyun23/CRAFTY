@@ -72,7 +72,7 @@ public interface GoodsMapper {
 	// 프로필 페이지 굿즈 리스트
 	public List<MainCard> getGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException;
 	
-	public int getTotalGoodsByMemberId(int memberId) throws SQLException;
+	public int getTotalGoodsByMemberId(@Param("memberId") int memberId, @Param("ongoing") int ongoing) throws SQLException;
 	
 	// 굿즈 등록 
 	public int registerGoods(Goods goods) throws Exception;

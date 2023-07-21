@@ -195,38 +195,145 @@ public class MemberController {
         return "alarmedGoods";
     }
     
-//    프로필, 프로필 수정
+//  프로필
     @GetMapping(value = "/profile/{memberId}")
-    public String showProfile(HttpSession session, @ModelAttribute PageRequestDTO pageRequest,
-    						  @PathVariable("memberId") int memberId, Model model) throws SQLException {
-    	int sessionMemberId = (int) session.getAttribute("memberId");
+    public String profile(@PathVariable("memberId") int memberId,
+					            @ModelAttribute PageRequestDTO pageRequest,
+					            HttpSession session, Model model) throws SQLException {
     	
-    	// 한 페이지에 8개 카드 출력
-    	pageRequest.setAmount(8);
-    	
+    	int sessionMemberId = 0;
+        if (session.getAttribute("memberId") != null) {
+        	sessionMemberId = (int)session.getAttribute("memberId");
+        }
+        
+        // 한 페이지에 8개 카드
+        pageRequest.setAmount(8);
+        int ongoing = 1; // 진행중인 굿즈 목록
+        
     	HashMap<String, Object> hashmap = new HashMap<>();
     	// 좋아요 누른 굿즈의 like_id를 가져오기 위해 session에 등록된 id도 parameter로 넘겨줌
     	// like_id가 있는 굿즈 -> 빨간 하트(클릭 시 좋아요 취소)
     	// like_id가 없는 굿즈 -> 하얀 하트(클릭 시 좋아요)
     	hashmap.put("sessionMemberId", sessionMemberId);
     	hashmap.put("profileMemberId", memberId);
+    	hashmap.put("ongoing", ongoing);
     	hashmap.put("pageRequest", pageRequest);
     	
     	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
-		
 		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
-		
-		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId);
-		
+		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId, ongoing);
 		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
     	
+		model.addAttribute("ongoing", 1);
         model.addAttribute("profile", profile);
         model.addAttribute("goodsList", goodsList);
-        model.addAttribute("pageResponse", pageResponse);
-//        model.addAttribute("member", profile.getMember()); // 프로필 정보를 member 속성으로도 추가
+        model.addAttribute("pageInfo", pageResponse);
         
         return "profile";
     }
+    
+    // 진행 예정 굿즈
+    @GetMapping(value = "/profile/{memberId}", params = "ongoing=0")
+    public String profileOrderByScheduled(@PathVariable("memberId") int memberId,
+					            @ModelAttribute PageRequestDTO pageRequest,
+					            HttpSession session, Model model) throws SQLException {
+    	System.out.println("ongoing:0");
+    	int sessionMemberId = 0;
+        if (session.getAttribute("memberId") != null) {
+        	sessionMemberId = (int)session.getAttribute("memberId");
+        }
+        
+        // 한 페이지에 8개 카드
+        pageRequest.setAmount(8);
+        int ongoing = 0; // 진행 예정 굿즈 목록
+        
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	hashmap.put("sessionMemberId", sessionMemberId);
+    	hashmap.put("profileMemberId", memberId);
+    	hashmap.put("ongoing", ongoing);
+    	hashmap.put("pageRequest", pageRequest);
+    	
+    	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
+		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
+		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId, ongoing);
+		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
+    	
+		model.addAttribute("ongoing", 0);
+        model.addAttribute("profile", profile);
+        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("pageInfo", pageResponse);
+        
+        return "profile";
+    }
+    
+    // 진행중인 굿즈
+    @GetMapping(value = "/profile/{memberId}", params = "ongoing=1")
+    public String profileOrderByIng(@PathVariable("memberId") int memberId,
+					            @ModelAttribute PageRequestDTO pageRequest,
+					            HttpSession session, Model model) throws SQLException {
+    	
+    	int sessionMemberId = 0;
+        if (session.getAttribute("memberId") != null) {
+        	sessionMemberId = (int)session.getAttribute("memberId");
+        }
+        
+        // 한 페이지에 8개 카드
+        pageRequest.setAmount(8);
+        int ongoing = 1; // 진행 예정 굿즈 목록
+        
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	hashmap.put("sessionMemberId", sessionMemberId);
+    	hashmap.put("profileMemberId", memberId);
+    	hashmap.put("ongoing", ongoing);
+    	hashmap.put("pageRequest", pageRequest);
+    	
+    	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
+		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
+		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId, ongoing);
+		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
+    	
+		model.addAttribute("ongoing", 1);
+        model.addAttribute("profile", profile);
+        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("pageInfo", pageResponse);
+        
+        return "profile";
+    }
+    
+    // 종료된 굿즈
+    @GetMapping(value = "/profile/{memberId}", params = "ongoing=2")
+    public String profileOrderByCompleted(@PathVariable("memberId") int memberId,
+					            @ModelAttribute PageRequestDTO pageRequest,
+					            HttpSession session, Model model) throws SQLException {
+    	
+    	int sessionMemberId = 0;
+        if (session.getAttribute("memberId") != null) {
+        	sessionMemberId = (int)session.getAttribute("memberId");
+        }
+        
+        // 한 페이지에 8개 카드
+        pageRequest.setAmount(8);
+        int ongoing = 2; // 진행 예정 굿즈 목록
+        
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	hashmap.put("sessionMemberId", sessionMemberId);
+    	hashmap.put("profileMemberId", memberId);
+    	hashmap.put("ongoing", ongoing);
+    	hashmap.put("pageRequest", pageRequest);
+    	
+    	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
+		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
+		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId, ongoing);
+		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
+    	
+		model.addAttribute("ongoing", 2);
+        model.addAttribute("profile", profile);
+        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("pageInfo", pageResponse);
+        
+        return "profile";
+    }
+    
  // //    수정 중입니다 ~ 접속 안됩니다~ 일요일까지 작성해서 PR하겠습니다.
 //  // profile Edit(get)
 //  @GetMapping(value = "/profile/edit")

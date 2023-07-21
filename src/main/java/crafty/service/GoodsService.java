@@ -164,9 +164,9 @@ public class GoodsService {
 		return goodsList;
 	}
 
-	public int getTotalGoodsByMemberId(int memberId) throws SQLException {
+	public int getTotalGoodsByMemberId(int memberId, int ongoing) throws SQLException {
 		
-		int totalCnt = goodsMapper.getTotalGoodsByMemberId(memberId);
+		int totalCnt = goodsMapper.getTotalGoodsByMemberId(memberId, ongoing);
 		
 		return totalCnt;
 	}
