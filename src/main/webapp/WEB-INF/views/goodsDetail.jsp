@@ -252,7 +252,7 @@
 		
 		/* iamport 카카오페이 결제 */
 		var IMP = window.IMP; // 생략가능
-        IMP.init('imp48615214'); // 부여받은 "가맹점 식별코드"를 사용
+        IMP.init('imp34872754'); // 부여받은 "가맹점 식별코드"를 사용
         var msg;    
         
 		const goodsId = ${goods.goodsId};
