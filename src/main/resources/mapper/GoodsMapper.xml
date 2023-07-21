@@ -115,7 +115,7 @@
                 LEFT JOIN likes l ON l.member_id = #{sessionMemberId} AND l.goods_id = g.goods_id
                 JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
                 LEFT JOIN open_alarm oa ON oa.member_id = #{sessionMemberId} AND oa.goods_id = g.goods_id
-                WHERE g.member_id = #{profileMemberId} AND gd.img_position = 1
+                WHERE g.member_id = #{profileMemberId} AND gd.img_position = 1 and g.registration_status = 1 and g.nondisclosure_status = 0
                 <if test="ongoing == 0">AND g.ongoing_status = 0</if>
                 <if test="ongoing == 1">AND g.ongoing_status = 1</if>
                 <if test="ongoing == 2">AND g.ongoing_status = 2</if>
@@ -133,7 +133,7 @@
     <select id="getTotalGoodsByMemberId" resultType="_int">
         SELECT COUNT(goods_id)
         FROM GOODS
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{memberId} and registration_status = 1 and nondisclosure_status = 0
         <if test="ongoing == 0">AND ongoing_status = 0</if>
         <if test="ongoing == 1">AND ongoing_status = 1</if>
         <if test="ongoing == 2">AND ongoing_status = 2</if>
@@ -191,7 +191,7 @@
 									JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
 									LEFT JOIN likes l ON l.member_id = #{memberId} AND l.goods_id = g.goods_id
 									LEFT JOIN open_alarm oa ON oa.member_id = #{memberId} AND oa.goods_id = g.goods_id
-									WHERE gd.img_position = 1 and g.nondisclosure_status = 0
+									WHERE gd.img_position = 1 and g.nondisclosure_status = 0 and g.registration_status = 1
 								    <if test="pageRequest.keyword != null and pageRequest.keyword !=''">
                                     	AND g.goods_name LIKE '%'||#{pageRequest.keyword}||'%'
                                     </if>
@@ -226,8 +226,6 @@
 	    	<if test="pageProperties.order == 1">ORDER BY goods_created_at DESC</if>
 	</select>
 	
-	
-	
 	<select id="getMainGoodsTotalCount"
 			parameterType="crafty.pagination.dto.PageRequestDTO" 
 			resultType="_int">
@@ -241,7 +239,7 @@
 						LEFT JOIN likes l ON l.member_id = 1 AND l.goods_id = g.goods_id
 						JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
 						LEFT JOIN open_alarm oa ON oa.member_id = 1 AND oa.goods_id = g.goods_id
-						WHERE gd.img_position = 1 and g.nondisclosure_status = 0
+						WHERE gd.img_position = 1 and g.nondisclosure_status = 0 and g.registration_status = 1
 						<if test="pageRequest.keyword != null and pageRequest.keyword !=''">
                	    		AND g.goods_name LIKE '%'||#{pageRequest.keyword}||'%'
                         </if>
