@@ -43,8 +43,12 @@
 	
 		<div class = "main-search">
 			<form class="search-container" id="search-container">
-				<input type="text" id="search-bar" placeholder="search">
-				
+				<c:if test="${pageInfo.pageRequest.keyword == ''}">
+					<input type="text" id="search-bar" placeholder="search">
+				</c:if>
+				<c:if test="${pageInfo.pageRequest.keyword != ''}">
+					<input type="text" id="search-bar" placeholder="${pageInfo.pageRequest.keyword}">
+				</c:if>			
 				<div class="search-bar-BTN"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></div>
 			</form>
 		</div>
