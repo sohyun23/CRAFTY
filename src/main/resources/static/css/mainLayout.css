@@ -5,8 +5,12 @@ footer {
 }
 
 .main-total-container {
-	margin : auto;
 	width : 1440px;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+    margin: 0 auto;
+	padding-bottom: 80px;
 }
 
 /* search box */

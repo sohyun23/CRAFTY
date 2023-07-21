@@ -65,7 +65,7 @@
 	                        <div class="card-title-container">
 	                            <div class = "card-title"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></div>
 	                            <!-- 진행중 : 좋아요 버튼 -->
-								<c:if test="${pageProperties.ongoing == 1}">
+								<c:if test="${ongoing == 1}">
 									<!-- 좋아요 안한 굿즈: 빈 하트 -->
 									<c:if test="${card.likeId eq 0}">
 			                            <button class="heart-btn" id="like-btn" data-goods-id="${card.goodsId}">
@@ -84,7 +84,7 @@
 			                        </c:if>
 								</c:if>
 								<!-- 진행 예정: 알람 버튼 -->
-								<c:if test="${pageProperties.ongoing == 0}">
+								<c:if test="${ongoing == 0}">
 									<!-- 알람설정 안한 굿즈: 빈 종 -->
 									<c:if test="${card.alarmId eq 0}">
 			                            <button class="alarm-btn" id="alarm-btn" data-goods-id="${card.goodsId}">

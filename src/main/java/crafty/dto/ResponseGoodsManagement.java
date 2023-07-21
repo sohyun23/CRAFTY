@@ -14,5 +14,5 @@ public class ResponseGoodsManagement {
 	private String	nickname;
 	private int		amount;
 	private	Date	adjustmentCreatedAt;
-	private int		lastTotalAmount;
+	private Long	lastTotalAmount;
 }

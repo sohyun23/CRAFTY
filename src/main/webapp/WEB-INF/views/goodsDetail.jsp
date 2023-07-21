@@ -30,7 +30,7 @@
 			<div class="top-right">
 				<div id="block1">
 					<div id="seller-container">
-						<a href="/profile/${goods.memberId}"><img id="profile" src="/img/${goods.profileImg}"></a>
+						<a href="/profile/${goods.memberId}"><img id="profile" src="/img/${goods.profileImg}" onerror="this.src='/img/profile.png';"></a>
 						<div id="seller-name"><a href="/profile/${goods.memberId}">${goods.nickname}</a></div>
 					</div>
 					<div id="goods-name">${goods.goodsName}</div>

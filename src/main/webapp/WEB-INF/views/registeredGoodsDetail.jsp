@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -56,11 +57,16 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
+	                	<c:if test="${empty requestScope.orderList}">
+	                		<tr>
+	                			<td id="nothing" colspan="6">주문건이 존재하지 않습니다!</td>
+	                		</tr>
+	                	</c:if>
 	                	<c:if test="${not empty requestScope.orderList}">
 		                	<c:forEach items="${requestScope.orderList}" var="order">
 		                		<tr>
 			                        <td class="order-num">${order.orderId}</td>
-			                        <td class="order-date">${order.orderCreatedAt}</td>
+			                        <td class="order-date"><fmt:formatDate value="${order.orderCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			                        <td class="order-item">${order.orderItems}</td>
 			                        <td class="order-total-price">${order.totalAmount}</td>
 			                        <td class="order-nickname"><a href="/profile/${order.memberId}">${order.nickname}</a></td>
