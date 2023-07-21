@@ -1,6 +1,7 @@
 package crafty.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,11 +26,13 @@ public class Member {
 	private String	roadAddress;
 	private String	detailAddress;
 	private String	profileImg;
+	private String	profileIntroduction;
 	private	String	email;
 	private	Date	birth;
 	private String	gender;
-	private Date	lastLoginDate;
+	private Timestamp	lastLoginDate;
 	private	int		position;
-	private	Date	memberCreatedAt;
-	private	Date	memberUpdatedAt;
+	private	Timestamp	memberCreatedAt;
+	private	Timestamp	memberUpdatedAt;
+
 }

@@ -2,6 +2,7 @@ package crafty.controller;
 
 import java.sql.SQLException;
 import java.util.Map;
+import java.sql.Timestamp;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,13 +43,13 @@ public class LoginController {
 
 	    // id, pw로 db정보를 가져옴
 	    Member member = memberService.getMemberById(id);
-
-		System.out.println(member);
-		 
+		
 		// DB에 저장된 암호화된 비밀번호를 가져옴
 		boolean result = BCrypt.checkpw(pw, member.getLoginPw());
 		
 		System.out.println(result);
+		
+		
 		
 		 if (member != null && result) { // id, pw와 같다면
 			 
@@ -60,8 +61,10 @@ public class LoginController {
 		                
 		        
 		        model.addAttribute("nickname", member.getNickname());
-		        		               
-//		        System.out.println(member);
+		        
+		     // 로그인 성공 시 last_login_date 업데이트
+		        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		        memberService.updateLastLoginDate(member.getMemberId(), currentTimestamp);
 		        
 		        String returnData = "{\"nickname\": \"" + member.getNickname() + "\"}";
 
@@ -76,7 +79,7 @@ public class LoginController {
 		        // 로그인 실패
 //		        return "{\"success\": false}";
 		    	// 입력 정보가 다를 때 처리하는 로직 작성
-		    	throw new Exception("test");
+		    	throw new Exception("로그인 실패");
 		    }
 	}
 	

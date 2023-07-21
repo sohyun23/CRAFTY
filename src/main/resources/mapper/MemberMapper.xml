@@ -18,30 +18,61 @@
         SELECT member_seq.nextval FROM dual
     </selectKey>
 	    INSERT INTO MEMBER (member_id, name, nickname, login_id, login_pw, phone_num, zone_code, road_address,
-	                        detail_address, profile_img, email, birth, gender, last_login_date,
+	                        detail_address, email, birth, gender, last_login_date,
 	                        position, member_created_at, member_updated_at)
 	    VALUES (#{memberId}, #{name}, #{nickname}, #{loginId}, #{loginPw}, #{phoneNum}, #{zoneCode}, #{roadAddress},
-	            #{detailAddress}, #{profileImg}, #{email}, #{birth}, #{gender}, SYSDATE,
+	            #{detailAddress}, #{email}, #{birth}, #{gender}, SYSDATE,
 	            #{position}, SYSDATE, SYSDATE)
 	</insert>
+
+ 	<!-- signUp, validation-->
+	<!-- id -->
+	<select id="isIdExists" resultType="boolean">
+	    SELECT COUNT(*) > 0 FROM MEMBER WHERE LOGIN_ID = #{id}
+	</select>
+	
+	<!-- nickname -->
+	<select id="isNicknameExists" resultType="boolean">
+	    SELECT COUNT(*) > 0 FROM MEMBER WHERE NICKNAME = #{nickname}
+	</select>
+	
+	<!-- phoneNum -->
+	<select id="isPhoneNumExists" resultType="boolean">
+	    SELECT COUNT(*) > 0 FROM MEMBER WHERE PHONE_NUM = #{phoneNum}
+	</select>
+	
+	<!-- email -->
+	<select id="isEmailExists" resultType="boolean">
+	    SELECT COUNT(*) > 0 FROM MEMBER WHERE EMAIL = #{email}
+	</select>
 
 	<!-- login -->    
     <select id="getMemberById" parameterType="map" resultType="crafty.dto.Member">
     	SELECT * FROM member WHERE login_id = #{id}
 	</select>
+	<!-- last login time stamp update -->
+	<update id="updateLastLoginDate">
+	    UPDATE MEMBER
+	    SET last_login_date = #{lastLoginDate}
+	    WHERE member_id = #{memberId}
+	</update>
 
 	<!-- findAccount -->
 	<select id="getMemberByNameAndPhone" resultType="crafty.dto.Member">
-	    SELECT * FROM MEMBER WHERE name = #{name} AND phoneNum = #{phoneNum}
+	    SELECT * FROM MEMBER WHERE name = #{name} AND phone_num = #{phoneNum}
 	</select>
 
 	<select id="getMemberByIdAndPhone" resultType="crafty.dto.Member">
-	    SELECT * FROM MEMBER WHERE loginId = #{loginId} AND phoneNum = #{phoneNum}
+	    SELECT * FROM MEMBER WHERE login_id = #{loginId} AND phone_num = #{phoneNum}
 	</select>
 
 	<update id="updateMemberPassword">
-	    UPDATE MEMBER SET loginPw = #{loginPw} WHERE memberId = #{memberId}
+	    UPDATE MEMBER SET login_pw = #{loginPw} WHERE member_id = #{memberId}
 	</update>
+	
+ 	<select id="getMemberByEmail" parameterType="String" resultType="crafty.dto.Member">
+	    SELECT * FROM MEMBER WHERE email = #{email}
+	</select>
  	
  	<!-- 주문자 정보 -->
  	<select id="getMemberByMemberId" resultType="crafty.dto.RequestPayment">
