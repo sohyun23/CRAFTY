@@ -155,70 +155,62 @@
 			       like_id,
 			       alarm_id
 			FROM (
-					SELECT ROWNUM AS rn, goods_id,
-										   goods_name,
-										   introduction,
-										   img_path,
-										   img_name,
-										   category,
-										   total,
-									       target_amount,
-									       like_id,
-									       alarm_id,
-									       goods_created_at,
-									       like_cnt		       
+				   SELECT ROWNUM AS rn,
+				   goods_id,
+				   goods_name,
+				   introduction,
+				   img_path,
+				   img_name,
+				   category,
+				   total,
+			       target_amount,
+			       like_id,
+			       alarm_id,
+			       goods_created_at,
+			       like_cnt		       
 					FROM (  
-							SELECT *
-					        FROM (
-					        		SELECT *
-					        		FROM (
-							        		SELECT *
-											FROM (
-													SELECT g.goods_id,
-													       g.goods_name,
-													       g.introduction,   
-													       g.category,
-													       g.ongoing_status,
-													       g.production_status,
-													       g.target_amount,
-													       gd.img_path,
-													       gd.img_name,
-													       NVL(SUM(o.total_amount), 0) AS total,
-													       NVL(like_id, 0) AS like_id,
-													       NVL(alarm_id, 0) AS alarm_id,
-													       g.goods_created_at,
-													       (SELECT COUNT(*) FROM likes WHERE goods_id = g.goods_id) as like_cnt
-													FROM goods g
-													LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
-													JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
-													LEFT JOIN likes l ON l.member_id = #{memberId} AND l.goods_id = g.goods_id
-													LEFT JOIN open_alarm oa ON oa.member_id = #{memberId} AND oa.goods_id = g.goods_id
-													WHERE gd.img_position = 1 and g.nondisclosure_status = 0
-													GROUP BY g.goods_id,
-													         g.goods_name,
-													         g.introduction,   
-													         g.category,
-													         g.ongoing_status,
-													         g.production_status,
-													         g.target_amount,
-													         gd.img_path,
-													         gd.img_name,
-													         like_id,
-													         alarm_id,
-													         g.goods_created_at
-											)
-											<trim prefix="WHERE" prefixOverrides="AND |OR">
-												<if test="pageRequest.keyword != null and pageRequest.keyword !=''">
-												 	AND goods_name LIKE '%'||#{pageRequest.keyword}||'%'
-												</if>
-											</trim>
-									)
-								<where>
-									<if test="pageProperties.category != null and pageProperties.category !='' and pageProperties.category !='전체'">
-									 	category = #{pageProperties.category}
-									</if>
-								</where>
-						)
+
+			        		SELECT *
+							FROM (
+									SELECT g.goods_id,
+									       g.goods_name,
+									       g.introduction,   
+									       g.category,
+									       g.ongoing_status,
+									       g.production_status,
+									       g.target_amount,
+									       gd.img_path,
+									       gd.img_name,
+									       NVL(SUM(o.total_amount), 0) AS total,
+									       NVL(like_id, 0) AS like_id,
+									       NVL(alarm_id, 0) AS alarm_id,
+									       g.goods_created_at,
+									       (SELECT COUNT(*) FROM likes WHERE goods_id = g.goods_id) as like_cnt
+									FROM goods g
+									LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
+									JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
+									LEFT JOIN likes l ON l.member_id = #{memberId} AND l.goods_id = g.goods_id
+									LEFT JOIN open_alarm oa ON oa.member_id = #{memberId} AND oa.goods_id = g.goods_id
+									WHERE gd.img_position = 1 and g.nondisclosure_status = 0
+								    <if test="pageRequest.keyword != null and pageRequest.keyword !=''">
+                                    	AND g.goods_name LIKE '%'||#{pageRequest.keyword}||'%'
+                                    </if>
+                                    <if test="pageProperties.category != null and pageProperties.category !='' and pageProperties.category !='전체'">
+                                    	AND g.category = #{pageProperties.category}
+                                    </if>
+									GROUP BY g.goods_id,
+									         g.goods_name,
+									         g.introduction,   
+									         g.category,
+									         g.ongoing_status,
+									         g.production_status,
+									         g.target_amount,
+									         gd.img_path,
+									         gd.img_name,
+									         like_id,
+									         alarm_id,
+									         g.goods_created_at
+								)
 						<where>
 							<if test="pageProperties.ongoing == 0">ongoing_status = 0</if>
 							<if test="pageProperties.ongoing == 1">ongoing_status = 1</if>
@@ -235,43 +227,34 @@
 	</select>
 	
 	
+	
 	<select id="getMainGoodsTotalCount"
 			parameterType="crafty.pagination.dto.PageRequestDTO" 
 			resultType="_int">
 		SELECT COUNT(*)
 		FROM (  
-				SELECT *
-		        FROM (
-		        		SELECT *
-		        		FROM (
-				        		SELECT *
-								FROM (
-										SELECT g.goods_id, g.ongoing_status
-										FROM goods g
-										LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
-										LEFT JOIN likes l ON l.member_id = 1 AND l.goods_id = g.goods_id
-										JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
-										LEFT JOIN open_alarm oa ON oa.member_id = 1 AND oa.goods_id = g.goods_id
-										WHERE gd.img_position = 1 and g.nondisclosure_status = 0
-										GROUP BY g.goods_id, g.ongoing_status
-								)
-								<trim prefix="WHERE" prefixOverrides="AND |OR">
-									<if test="pageRequest.keyword != null and pageRequest.keyword !=''">
-									 	AND goods_name LIKE '%'||#{pageRequest.keyword}||'%'
-									</if>
-								</trim>
-						)
-					<where>
-						<if test="pageProperties.category != null and pageProperties.category !='' and pageProperties.category !='전체'">
-						 	category = #{pageProperties.category}
-						</if>
-					</where>
-			)
-			<where>
-				<if test="pageProperties.ongoing == 0">ongoing_status = 0</if>
-				<if test="pageProperties.ongoing == 1">ongoing_status = 1</if>
-				<if test="pageProperties.ongoing == 2">ongoing_status = 2</if>
-			</where>
+        		SELECT *
+				FROM (
+						SELECT g.goods_id, g.ongoing_status
+						FROM goods g
+						LEFT JOIN ORDERs o ON o.goods_id = g.goods_id
+						LEFT JOIN likes l ON l.member_id = 1 AND l.goods_id = g.goods_id
+						JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
+						LEFT JOIN open_alarm oa ON oa.member_id = 1 AND oa.goods_id = g.goods_id
+						WHERE gd.img_position = 1 and g.nondisclosure_status = 0
+						<if test="pageRequest.keyword != null and pageRequest.keyword !=''">
+               	    		AND g.goods_name LIKE '%'||#{pageRequest.keyword}||'%'
+                        </if>
+                        <if test="pageProperties.category != null and pageProperties.category !='' and pageProperties.category !='전체'">
+                       		AND g.category = #{pageProperties.category}
+                        </if>
+						GROUP BY g.goods_id, g.ongoing_status
+					)
+				<where>
+					<if test="pageProperties.ongoing == 0">ongoing_status = 0</if>
+					<if test="pageProperties.ongoing == 1">ongoing_status = 1</if>
+					<if test="pageProperties.ongoing == 2">ongoing_status = 2</if>
+				</where>
       		)
 	</select>
 	

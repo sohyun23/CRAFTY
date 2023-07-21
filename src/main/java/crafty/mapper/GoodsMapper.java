@@ -39,12 +39,10 @@ public interface GoodsMapper {
 	// 메인 페이지
 	public List<MainCard> getMainGoods(@Param("pageRequest") PageRequestDTO pageRequest,
 									   @Param("pageProperties") PageProperties pageProperties,
-									   @Param("keyword") String keyword,
 									   @Param("memberId") int memberId);
 
 	public int getMainGoodsTotalCount(@Param("pageRequest") PageRequestDTO pageRequest,
 								      @Param("pageProperties") PageProperties pageProperties,
-								      @Param("keyword") String keyword,
 								      @Param("memberId") int memberId);
 	
 	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException;
