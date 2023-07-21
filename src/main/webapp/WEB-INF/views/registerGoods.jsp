@@ -425,12 +425,13 @@
         window.location.href="http://localhost:8081/main";
       })
       .catch((error) => {
-        console.log(error);
+    	console.log("AAAAAAAAAAAAAaa");
+        console.log(error.response.data.code);
         // Error, handle the error
+        const url = "http://localhost:8081/error/" + error.response.data.code;
+        window.location.href=url;
       });
   }
 
-//  const registGoodsBtn = document.getElementById("registGoodsBtn");
-//  registGoodsBtn.addEventListener("click", validateForm);
 </script>
 </html>

@@ -14,7 +14,7 @@
 	<%@ include file="header.jsp" %>
 	
 	<div class="main-container">
-		<div id="errorMsg">오류가 발생했습니다!</div>
+		<div id="errorMsg">${errorCode} : ${errorMsg} </div>
 	</div>
 	
 	<%@ include file="footer.jsp" %>

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import crafty.dto.CustomException;
+import crafty.dto.ErrorCode;
 import crafty.dto.Goods;
 import crafty.dto.GoodsResponse;
 import crafty.dto.ItemResponse;
@@ -172,12 +174,12 @@ public class GoodsService {
 	
 	// 굿즈 등록
 	@Transactional
-	public int registerGoods(GoodsResponse goodsResponse) throws Exception {
+	public int registerGoods(GoodsResponse goodsResponse, int memberId) throws Exception {
 		
 		boolean result = false;
-		
+		System.out.println(memberId);
 		Goods goods = Goods.builder()
-//								.memberId(memberId)
+							.memberId(memberId)
 							.goodsName(goodsResponse.getGoodsName())
 							.startDate(goodsResponse.getStartDate())
 							.endDate(goodsResponse.getEndDate())
@@ -194,14 +196,16 @@ public class GoodsService {
 							.nondisclosureStatus(0)
 							.build();
 
-		
+
 		int res = goodsMapper.registerGoods(goods);
 		int generatedGoodsId = goods.getGoodsId(); 
-		
+
 		if(res != 0) {
+
 			result = true;
 		} else {
-			throw new Exception("굿즈 생성 실패");
+			throw new CustomException("Error", ErrorCode.FAILED_TO_CREATE_GOODS);
+
 		}
 		
 		return generatedGoodsId;

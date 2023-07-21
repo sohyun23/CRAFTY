@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import crafty.dto.CustomException;
+import crafty.dto.ErrorCode;
 import crafty.dto.GoodsDesciptionImg;
 import crafty.mapper.GoodsDescriptionImgMapper;
 
@@ -33,16 +35,21 @@ public class GoodsDescriptionImgService {
 		int res = goodsDescriptionImgMapper.registerGoodsImg(img);
 		if(res != 0) {
 			result = true;
-			FileOutputStream outputStream = new FileOutputStream(img.getImgPath());
+			System.out.println("1");
+			System.out.println(img.getImgPath());
+			FileOutputStream outputStream = new FileOutputStream(img.getImgPath()+ img.getImgName());
+			System.out.println("2");
 			FileCopyUtils.copy(file.getInputStream(), outputStream);
 			outputStream.close();
 		} else {
-			throw new Exception("파일 저장에 실패했습니다");
+//			throw new Exception("파일 저장에 실패했습니다");
+			throw new CustomException("Error", ErrorCode.FAILED_TO_CREATE_GOODS);
 		}
 		
 		return result;
 		
 	}
+	
 	
 
 }
