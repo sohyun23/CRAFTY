@@ -29,6 +29,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import crafty.dto.CustomException;
+import crafty.dto.ErrorCode;
+import crafty.dto.ErrorResponse;
 import crafty.dto.Goods;
 import crafty.dto.GoodsDesciptionImg;
 import crafty.dto.GoodsResponse;
@@ -152,43 +155,47 @@ public class GoodsController {
 	}
 	
 	// 굿즈 등록 페이지 전환 메서드
-	@GetMapping(value="/register")
-	public String registerGoodsForm() {
-		return "registerGoods";
-	}
+		@GetMapping(value="/register")
+		public String registerGoodsForm() {
+			return "registerGoods";
+		}
 	
 	// 굿즈 등록 페이지 전환 메서드
-	//[{"itemName":"1","itemPrice":"1","itemComposition":"1","itemQuantity":"1"},{"itemName":"2","itemPrice":"2","itemComposition":"2","itemQuantity":"2"}]
 	@PostMapping(value ="/register/goods")
-	public String registerGoods(
-//									HttpSession loginSession,
+	public ResponseEntity registerGoods(
+								HttpSession loginSession,
 								@RequestParam("thumbnailFile") MultipartFile thumbnailFile,
 								@RequestParam("descriptionFile") MultipartFile descriptionFile,
-								@ModelAttribute GoodsResponse goodsResponse) throws Exception{
+								@ModelAttribute GoodsResponse goodsResponse){
 		
 		if(thumbnailFile == null || descriptionFile == null){
-			throw new Exception("파일 전달 오류 발생");
+//			return	throw new Exception("파일 전달 오류 발생");
 		}
 		
+		List<ItemResponse> itemResList = new ArrayList<ItemResponse>();
 		try {
 			// itemList : json to Object
 			String jsonItemListStr = goodsResponse.getItemList();
 			ObjectMapper objectMapper = new ObjectMapper();
-			List<ItemResponse> itemResList;
 			itemResList = objectMapper.readValue(jsonItemListStr, new TypeReference<List<ItemResponse>>() {});
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		
+			int memberId = (int) loginSession.getAttribute("memberId");
 			
-//				String memberId = (String) loginSession.getAttribute("memberId");
-			
+			try {
 			// goods
-//			int generatedGoodsId = goodsService.registerGoods(goodsResponse, memberId);
-			int generatedGoodsId = goodsService.registerGoods(goodsResponse);
+			int generatedGoodsId = goodsService.registerGoods(goodsResponse, memberId);
 			System.out.println("goods 등록 완료");
 
 			// img
 			UUID uuid = UUID.randomUUID();
 			String imgOriginalName = thumbnailFile.getOriginalFilename();
 			String imgName = uuid.toString() + "_" + imgOriginalName;
-			String imgPath = craftyFilePath + "\\" + imgName;
+			String imgPath = craftyFilePath;
 			int imgThumbnailPosition = 1;
 			int imgDescriptionPosition = 0;
 		
@@ -230,20 +237,22 @@ public class GoodsController {
 			itemService.registerGoodsItems(itemList);
 			
 			System.out.println("item 등록 완료");
-
 			
-		} catch (JsonMappingException e) {
+			return new ResponseEntity("SUCCESS", HttpStatus.OK);
+		
+	}catch(CustomException e) {
+			ErrorResponse response = new ErrorResponse(e.getErrorCode());
+			System.out.println("response : " + response);
+			System.out.println("Exception occurred: " + e.getErrorCode() + e.getErrorCode().getMsg());
 			e.printStackTrace();
-		} catch (JsonProcessingException e) {
+			return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+		} catch (Exception e) {
+			ErrorResponse response = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-
-
-		return "redirect:/main";
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
 	}
-	
+
 	// 참여 굿즈 내역 페이지
 	@GetMapping(value="/goods/attended")
 	public String attendedGoods(HttpSession session, @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
