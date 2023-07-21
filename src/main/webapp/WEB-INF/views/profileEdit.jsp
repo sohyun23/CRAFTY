@@ -62,7 +62,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">닉네임</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="nickNameEdit" maxlength="8" placeholder="기존 닉네임" readonly>
+              <input class="form-control" type="text" name="nickNameEdit" maxlength="8" placeholder="기존 닉네임" value="${member.nickname}" readonly>
               <button id="duplicate-check-btn" onclick="duplicateCheck()">중복 확인</button>
               <p id="aleady-nickname">이미 존재하는 닉네임입니다.</p>
             </div>
@@ -71,7 +71,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">소개</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="introduceEdit" maxlength="100" placeholder="기존 소개글" readonly>
+              <input class="form-control" type="text" name="introduceEdit" maxlength="100" placeholder="기존 소개글" value="${member.profileIntroduction}" readonly>
             </div>
           </div>
 
@@ -80,7 +80,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Email</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="emailEdit" placeholder="기존 이메일" readonly>
+              <input class="form-control" type="text" name="emailEdit" placeholder="기존 이메일" value="${member.email}" readonly>
             </div>
           </div>
             
@@ -90,12 +90,12 @@
             <div class="col-md-8">
                <label for="confirm_password">주소</label>
                 <div class="input-wrapper">
-                <input class="form-control" type="text" id="sample6_postcode" onclick="sample6_execDaumPostcode()" placeholder="우편번호"readonly/>
+                <input class="form-control" type="text" id="sample6_postcode" onclick="sample6_execDaumPostcode()" placeholder="우편번호" value="${member.zoneCode}" readonly/>
                 <button type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" >주소 찾기<br></button>
                 </div>
 
                 <div class="input-container">
-                    <input class="form-control" type="text" id="sample6_address" placeholder="주소" readonly/>
+                    <input class="form-control" type="text" id="sample6_address" placeholder="주소" value="${member.detailAddress}" readonly/>
                     <input class="form-control" type="text" style="color:#9498a0;" id="sample6_extraAddress" placeholder="(참고 항목)" readonly/>
                 </div>
                 <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" maxlength="50">

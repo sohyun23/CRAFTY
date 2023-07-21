@@ -1,6 +1,7 @@
 package crafty.controller;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +39,6 @@ import crafty.service.OpenAlarmService;
  * */
 
 @Controller
-//@RequestMapping("member")
 public class MemberController {
 
     @Autowired
@@ -48,20 +49,43 @@ public class MemberController {
     
     @Autowired
     private LikesService likesService;
-//    private MemberService memberService;
     
     @Autowired
     private OpenAlarmService openAlarmService;
-    
-    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
-    public String signUpForm() {
+
+    @GetMapping("/signUp")
+    public String signUpForm(Model model) {
+        model.addAttribute("member", new Member());
         return "signUp";
     }
 
     // 회원가입
     @PostMapping(value = "/signUp")
-    public String signUp(@ModelAttribute Member member, @RequestParam("birthDate") String birthDate) throws SQLException, Exception {
+    public String signUp(@ModelAttribute Member member, @RequestParam("birthDate") String birthDate, Model model) throws SQLException, Exception {
+        // 아이디 중복 확인
+    	if (memberService.isIdExists(member.getLoginId())) {
+            model.addAttribute("error", "이미 사용 중인 아이디입니다.");
+            return "signUp";
+        }
+    	// 닉네임 중복 확인
+        if (memberService.isNicknameExists(member.getNickname())) {
+            model.addAttribute("error", "이미 사용 중인 닉네임입니다.");
+            return "signUp";
+        }
         
+        // 휴대폰 번호 중복 확인
+        if (memberService.isPhoneNumExists(member.getPhoneNum())) {
+            model.addAttribute("error", "이미 사용 중인 휴대폰 번호입니다.");
+            return "signUp";
+        }
+        
+        // 이메일 중복 확인
+        if (memberService.isEmailExists(member.getEmail())) {
+            model.addAttribute("error", "이미 사용 중인 이메일입니다.");
+            return "signUp";
+        }
+    	
+    	
     	// 생년월일 처리
         java.util.Date birthD = new java.text.SimpleDateFormat("yy/mm/dd").parse(birthDate);
         
@@ -87,29 +111,33 @@ public class MemberController {
     
     // ID,PW는 비동기로 프론트 단에서 구현
     @GetMapping(value = "/find")
-    public String findMember(Model model) {
-//        model.addAttribute("member", new Member());
+    public String findForm() {
         return "find";
     }
     
-    @PostMapping(value = "/findId")
-    public ResponseEntity<String> findId(@ModelAttribute Member member) {
-        try {
-            String id = memberService.findId(member);
-            return ResponseEntity.ok(id);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred.");
-        }
-    }
-    
-    @PostMapping(value = "/findPw")
-    public ResponseEntity<String> findPw(@ModelAttribute Member member) {
-        try {
-            String pw = memberService.resetPw(member);
-            return ResponseEntity.ok(pw);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred.");
-        }
+    @PostMapping(value = "/find")
+    public ResponseEntity<String> find(@RequestParam(value = "name", required = false) String name, 
+    								   @RequestParam(value ="phoneNum", required = false) String phoneNum, 
+    								   @RequestParam(value = "loginId", required = false) String loginId,
+    								   @RequestParam("action") String action) throws Exception {
+    	// find id
+    	if (action.equals("findId")) {
+    	    Member member = new Member();
+    	    member.setName(name);
+    	    member.setPhoneNum(phoneNum);
+    	    String id = memberService.findId(member);
+    	    return ResponseEntity.ok(id);
+    	} 
+    	// reset pw
+    	else if (action.equals("resetPw")) {
+    	    Member member = new Member();
+    	    member.setLoginId(loginId);
+    	    member.setPhoneNum(phoneNum);
+    	    String pw = memberService.resetPw(member);
+    	    System.out.println(pw);
+    	    return ResponseEntity.ok(pw);
+    	}
+    	return ResponseEntity.badRequest().body("Invalid action.");
     }
     
     
@@ -195,28 +223,31 @@ public class MemberController {
         model.addAttribute("profile", profile);
         model.addAttribute("goodsList", goodsList);
         model.addAttribute("pageResponse", pageResponse);
+//        model.addAttribute("member", profile.getMember()); // 프로필 정보를 member 속성으로도 추가
         
         return "profile";
     }
+ // //    수정 중입니다 ~ 접속 안됩니다~ 일요일까지 작성해서 PR하겠습니다.
+//  // profile Edit(get)
+//  @GetMapping(value = "/profile/edit")
+//  public String showProfileEditForm(Model model, HttpSession session) {
+//      int sessionMemberId = (int) session.getAttribute("memberId");
+//      // getMemberByMemberId 메소드 이름 바꿔서 사용 
+//      Member member = memberService.getMemberByMemberId(sessionMemberId);
+//      model.addAttribute("member", member);
+//      return "profile/Edit";
+//  }
+ 
+//  // profile Edit(post)
+//  @PostMapping(value = "/profile/edit")
+//  public String editProfile(@ModelAttribute Member member, HttpSession session) {
+//      int sessionMemberId = (int) session.getAttribute("memberId");
+//      Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+//      member.setMemberUpdatedAt(currentTime);
 
-    @GetMapping(value = "/profile/edit")
-    public String showProfileEditForm(Model model, HttpSession session) {
-//        // 프로필 수정 페이지
-    	int sessionMemberId = (int) session.getAttribute("memberId");
-    	
-        memberService.getMemberByMemberId(sessionMemberId);
-    	model.addAttribute("memberId", sessionMemberId);
-        return "profileEdit";
-    }
+//      // DB에 수정된 프로필 정보 저장
+//      memberService.updateMember(member.getMemberId(), member.getProfileImg(), member.getProfileIntroduction(), member.getNickname(), member.getRoadAddress(), member.getDetailAddress(), member.getMemberUpdatedAt());
 
-    @PostMapping(value = "/profile/edit")
-    public String editProfile(@ModelAttribute("member") Member memberUpdatedAt, HttpSession session) {
-        // 프로필 수정 후 다시 프로필 페이지로 이동 
-    	int sessionMemberId = (int) session.getAttribute("memberId");
-    	
-    	memberService.updateMember(sessionMemberId, memberUpdatedAt);
-        
-        return "profileEdit";
-//      crafty/profile/{id}
-    }
+//      return "redirect:/profile/" + sessionMemberId;
+//  }
 }

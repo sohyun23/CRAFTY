@@ -8,20 +8,28 @@
     <meta name="css" content="width=device-width, initial-scale=1">
     <link href="/css/login.css" rel="stylesheet" type="text/css"> 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>CRAFTY</h1>
-        <form method="post" action="/signUp">
+        <h1 id="craftyTitle" style="cursor: pointer;">CRAFTY</h1>
+        <form method="post" action="/signUp" >
             <label for="username">이름</label>
             <input type="text" placeholder="이름을 입력해주세요" name="name" maxlength="4" required>
-
+			
             <label for="nickname">닉네임</label>
+			<div class="input-wrapper">
             <input type="text" placeholder="닉네임을 입력해주세요" name="nickname" maxlength="8" required>
-
+			<button type="button" onclick="isNicknameExists()"><b>중복 확인</b></button>
+			</div>
+			
             <label for="id">아이디</label>
+            <div class="input-wrapper">
             <input type="text" placeholder="아이디를 입력해주세요" name="loginId" maxlength="20" required>
-
+			<button type="button" onclick="isIdExists()"><b>중복 확인</b></button>
+			</div>
+			
             <label for="password">비밀번호</label>
             <input type="password" placeholder="비밀번호를 입력하세요" name="loginPw" maxlength="20" required>
             
@@ -33,6 +41,7 @@
             <div class="input-wrapper">
             <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11" placeholder="휴대폰 번호" name="phoneNum" required>
             <!-- <button type="button" onclick="sendVerificationCode()"><b>인증번호 발송</b></button> -->
+            <button type="button" onclick="isPhoneNumExists()"><b>중복 확인</b></button>
             </div>
 
             <!-- <div class="input-wrapper">
@@ -105,8 +114,10 @@
             </script>
 
             <label for="email">E-mail</label>
+			<div class="input-wrapper">
             <input type="email" id="email" placeholder="이메일을 입력해주세요" name="email" maxlength="30" required>
-
+			<button type="button" onclick="isEmailExists()"><b>중복 확인</b></button>
+			</div>
             <label for="birthDate">생년월일(주민등록번호 앞 6자리)</label>
             <!-- <input type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" pattern="\d*" maxlength="6" placeholder="YYMMDD" name="birth" required> -->
             <input type="text" placeholder="YY/MM/DD" name="birthDate" required>
@@ -120,9 +131,83 @@
             </div>
             <!-- <input type="submit" value="Sign Up"> -->
 
-			<button><input type="submit" value="Sign Up"></button>
-
+			<button type="submit"><b>Sign Up</b></button>
         </form>
+        
+       	 	<!-- 유효성 검사 -->
+	        <script>
+	        function isNicknameExists() {
+	            let nickname = document.querySelector('input[name="nickname"]').value;
+	            axios.post('/nicknameExists', { nickname: nickname })
+	            .then(function (response) {
+	                if (response.data) {
+	                    alert('이미 사용중인 닉네임입니다.');
+	                } else {
+	                    alert('사용 가능한 닉네임입니다.');
+	                }
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	
+	        function isIdExists() {
+	            let id = document.querySelector('input[name="loginId"]').value;
+	            axios.post('/idExists', { id: id })
+	            .then(function (response) {
+	                if (response.data) {
+	                    alert('이미 사용중인 아이디입니다.');
+	                } else {
+	                    alert('사용 가능한 아이디입니다.');
+	                }
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	        
+	        function isPhoneNumExists() {
+	            let phoneNum = document.querySelector('input[name="phoneNum"]').value;
+	            axios.post('/phoneNumExists', { phoneNum: phoneNum })
+	            .then(function (response) {
+	                if (response.data) {
+	                    alert('이미 사용중인 휴대폰 번호입니다.');
+	                } else {
+	                    alert('사용 가능한 휴대폰 번호입니다.');
+	                }
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	
+	        function isEmailExists() {
+	            let email = document.querySelector('input[name="email"]').value;
+	            axios.post('/emailExists', { email: email })
+	            .then(function (response) {
+	                if (response.data) {
+	                    alert('이미 사용중인 이메일입니다.');
+	                } else {
+	                    alert('사용 가능한 이메일입니다.');
+	                }
+	            })
+	            .catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+			    
+			    var error = "${error}";
+			    if (error !== "") {
+			    	alert(error);
+			    }
+				<!-- 타이틀 클릭 시, 메인페이지 이동 -->
+			    $(document).ready(function() {
+			        $("#craftyTitle").on("click", function() {
+			                window.location.href = "/main";
+			        });
+			    });
+			</script>
+        
     </div>
 </body>
 </html>
