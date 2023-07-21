@@ -59,7 +59,7 @@ public class MemberController {
         return "signUp";
     }
 
-    // 회원가입
+    // Sign Up
     @PostMapping(value = "/signUp")
     public String signUp(@ModelAttribute Member member, @RequestParam("birthDate") String birthDate, Model model) throws SQLException, Exception {
         // 아이디 중복 확인
@@ -94,9 +94,6 @@ public class MemberController {
         
         
         member.setBirth(birth);
-        member.setProfileImg("default");
-
-        
         
         String encryptedPassword = BCrypt.hashpw(member.getLoginPw(), BCrypt.gensalt());
         member.setLoginPw(encryptedPassword);
@@ -115,6 +112,7 @@ public class MemberController {
         return "find";
     }
     
+    // find Account
     @PostMapping(value = "/find")
     public ResponseEntity<String> find(@RequestParam(value = "name", required = false) String name, 
     								   @RequestParam(value ="phoneNum", required = false) String phoneNum, 

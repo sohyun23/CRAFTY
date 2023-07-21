@@ -26,9 +26,6 @@ public class LoginController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-//	private BCryptPasswordEncoder passwordEncoder;
-	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginForm() {
 		return "login";
@@ -41,7 +38,7 @@ public class LoginController {
 	    String id = data.get("id");
 	    String pw = data.get("pw");
 
-	    // id, pw로 db정보를 가져옴
+	    // id로  멤버 db정보를 가져옴
 	    Member member = memberService.getMemberById(id);
 		
 		// DB에 저장된 암호화된 비밀번호를 가져옴
@@ -62,7 +59,7 @@ public class LoginController {
 		        
 		        model.addAttribute("nickname", member.getNickname());
 		        
-		     // 로그인 성공 시 last_login_date 업데이트
+		        // 로그인 성공 시 last_login_date 업데이트
 		        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		        memberService.updateLastLoginDate(member.getMemberId(), currentTimestamp);
 		        

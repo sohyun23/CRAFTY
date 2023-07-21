@@ -111,7 +111,6 @@ public class MemberService {
             
             // 해싱된 비밀번호로 멤버의 로그인 비밀번호 업데이트
             foundMember.setLoginPw(encryptedPassword);
-//            memberMapper.updateMemberPassword(foundMember);
             memberMapper.updateMemberPassword(foundMember.getLoginPw(), foundMember.getMemberId());
             
             // 임시 비밀번호를 이메일로 전송
@@ -176,8 +175,6 @@ public class MemberService {
 	    if (detailAddress != null) {
 	        member.setDetailAddress(detailAddress);
 	    }	    
-	    member.setMemberUpdatedAt(memberUpdatedAt);
-	    
 	    memberMapper.updateMember(member);
 	}
 

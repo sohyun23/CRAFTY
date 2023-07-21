@@ -13,7 +13,7 @@ import crafty.dto.ResponseProfile;
 
 @Mapper
 public interface MemberMapper {
-	// login
+		// login
 		Member getMemberById(Map<String, Object> params);
 		
 		// signUp(insert Member)

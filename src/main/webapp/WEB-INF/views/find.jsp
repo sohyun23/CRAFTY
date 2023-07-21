@@ -98,7 +98,8 @@
 		                },
 		                success: function(data) {
 		                    console.log(data);
-		                    alert("비밀번호를 재설정하여 가입하신 이메일로 전송하였습니다 :)" + data);
+		                    alert("비밀번호를 재설정하여 가입하신 이메일로 전송하였습니다 " + data);
+		                    window.location.href = "/login";
 		                },
 		                error: function(request, status, error) {
 		                    console.log(error);
@@ -110,11 +111,11 @@
 		        });
 		     	// "CRAFTY" 타이틀 클릭 이벤트
 		        $("#craftyTitleFindPw").on("click", function() {
-		            window.location.href = "/main";
+		            window.location.href = "/login";
 		        });
 
 		        $("#craftyTitleFindId").on("click", function() {
-		            window.location.href = "/main";
+		            window.location.href = "/login";
 		        });
 		    });
 		</script>

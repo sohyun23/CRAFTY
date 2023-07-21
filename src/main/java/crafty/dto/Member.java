@@ -32,7 +32,7 @@ public class Member {
 	private String	gender;
 	private Timestamp	lastLoginDate;
 	private	int		position;
-	private	Timestamp	memberCreatedAt;
-	private	Timestamp	memberUpdatedAt;
+	private	Date	memberCreatedAt;
+	private	Date	memberUpdatedAt;
 
 }
