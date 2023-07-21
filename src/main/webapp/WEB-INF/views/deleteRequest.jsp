@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +55,7 @@
                     		<td class="goods-num">${goods.goodsId}</td>
 	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
 	                        <td class="goods-applicant"><a href="/profile/${goods.memberId}">${goods.nickname}</a></td>
-	                        <td class="request-date">${goods.nondisclosureCreatedAt}</td>
+	                        <td class="request-date"><fmt:formatDate value="${goods.nondisclosureCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                        <td class="request-reason">${goods.nondisclosureReason}</td>
 	                        <td class="allow-btn">
 	                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>

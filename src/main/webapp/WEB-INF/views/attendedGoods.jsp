@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +59,7 @@
 					<c:forEach items="${requestScope.orderList}" var="order">
 	                    <tr>
 	                        <td class="goods-name"><a href="/goods/${order.goodsId}">${order.goodsName}</a></td>
-	                        <td class="payment-date">${order.orderCreatedAt}</td>
+	                        <td class="payment-date"><fmt:formatDate value="${order.orderCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                        <td class="status">
 	                        	<c:if test="${order.ongoingStatus eq 2}">
 	                        		<c:if test="${order.productionStatus eq 0}">
