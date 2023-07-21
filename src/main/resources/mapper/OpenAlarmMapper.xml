@@ -41,9 +41,9 @@
           VALUES (open_alarm_seq.NEXTVAL,
           			#{memberId},
           			#{goodsId},
-          			(SELECT start_date
-          			 FROM GOODS
-          			 WHERE goods_id = #{goodsId})
+          			(SELECT TRUNC(start_date) - INTERVAL '1' DAY
+			         FROM GOODS
+			         WHERE goods_id = #{goodsId})
           )
       </insert>
       

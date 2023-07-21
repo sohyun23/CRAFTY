@@ -353,6 +353,35 @@
 		WHERE goods_id = #{goodsId}
 	</update>
 	
+	<!-- 오픈 예정 굿즈의 진행 상태를 진행중으로 변경 -->
+	<update id="updateGoodsStatusToInProgress">
+		UPDATE GOODS
+		SET ongoing_status = 1
+		WHERE TRUNC(start_date) = TRUNC(SYSDATE)
+	</update>
 	
+	<!-- 진행중 & 목표 금액 미달 굿즈의 진행 상태와 제작 상태 변경 -->
+	<update id="updateGoodsStatusToInCompletedAndFailure">
+		UPDATE GOODS g
+		SET ongoing_status = 2, production_status = 1
+		WHERE TRUNC(end_date) = TRUNC(SYSDATE) AND
+		<![CDATA[
+		 g.target_amount < (select sum(total_amount)
+	                          from orders o
+	                          where g.goods_id = o.goods_id)
+		]]>
+	</update>
+	
+	<!-- 진행중 & 목표 금액 달성 굿즈의 진행 상태 변경 -->
+	<update id="updateGoodsStatusToInCompletedAndSuccess">
+		UPDATE GOODS g
+		SET ongoing_status = 2
+		WHERE TRUNC(end_date) = TRUNC(SYSDATE) AND
+		<![CDATA[
+		 g.target_amount >= (select sum(total_amount)
+	                          from orders o
+	                          where g.goods_id = o.goods_id)
+		]]>
+	</update>
 	
  </mapper>
