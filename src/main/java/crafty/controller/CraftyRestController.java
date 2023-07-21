@@ -200,9 +200,4 @@ public class CraftyRestController {
 		
 		return orderId;
 	}
-	
-	@ExceptionHandler(value = {Exception.class})
-	public ResponseEntity<String> handleException(Exception e){
-		return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 }

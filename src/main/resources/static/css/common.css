@@ -123,12 +123,12 @@ body {
 	background: #FFFFFF;
 	padding-bottom: 80px;
 	position: relative;
+	min-height: 1080px;
 }
 
 .main-container {
 	width : 1440px;
-	height: auto;
-	min-height: 100%;
+	min-height: 100vh;
 	display: flex;
     margin: 0 auto;
     margin-top: 20px;
@@ -152,7 +152,7 @@ footer {
 	font-size: 18px;
 	/* position: absolute;
   	bottom: 0; */
-  	position : fixed;
+  	position : absolute;
   	/* transform : translateY(-100%); */
   	left: 0;
 	right: 0;
@@ -179,20 +179,20 @@ footer {
 /* =======================================pagination========================================*/
 /* pagination */
 .pagination-box {
+	height: 50px;
+    text-align: center;
+}
+.pagination-nav {
     display: flex;
     justify-content: center;
 }
-.pagination-nav {
-    margin: auto;
+.pagination {
+	list-style: none;
 }
 
-.pagination>ul {
-    display: inline-block;
-    justify-content: center;
-}
 .pagination>li {
+	display: inline-block;
     color: black;
-    float: left;
     text-decoration: none;
 }
 
@@ -205,9 +205,18 @@ footer {
 }
  
 .pagination a.active {
-    background-color: #D9E6FF;
-    color: black;
-    border: 1px solid #D9E6FF;
+    background-color: #3D56B2;
+    color: white;
+    font-weight: 600;
+    border: 1px solid #3D56B2;
+}
+
+.pagination li.active a {
+    background-color: #3D56B2;
+    color: white;
+    font-weight: 600;
+    border: 1px solid #3D56B2;
+    opacity: 0.9;
 }
 
 .pagination a:hover:not(.active) {border: 1px solid #415F9D;}
@@ -248,7 +257,7 @@ footer {
     display: block;
     margin-top: 8px;
     margin-bottom: 15px;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 600;
 }
 .menu-container {
@@ -261,13 +270,13 @@ footer {
     list-style: none;
 }
 .menu-container>ul>li {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 8px;
 }
 #current-title {
     font-weight: 700;
     font-color: #3D56B2;
-    font-size: 22px;
+    font-size: 24px;
 }
 
 
@@ -329,7 +338,7 @@ thead {
     background-color: #3D56B2;
 }
 tbody {
-    font-size: 18px;
+    font-size: 20px;
 }
 td, th {
     border-bottom: 1px solid #444444;
@@ -337,6 +346,15 @@ td, th {
     padding-bottom: 7px;
     padding-left: 3px;
     padding-right: 3px;
+}
+
+tbody>tr>td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#nothing {
+	font-size: 24px;
 }
 
 /* =======================================a========================================*/

@@ -49,6 +49,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                	<c:if test="${empty requestScope.orderList}">
+                		<tr>
+                			<td id="nothing" colspan="4">아직 참여한 굿즈가 없어요!</td>
+                		</tr>
+                	</c:if>
 					<!-- 반복 출력 -->
 					<c:forEach items="${requestScope.orderList}" var="order">
 	                    <tr>
