@@ -63,27 +63,27 @@ public class MemberController {
     @PostMapping(value = "/signUp")
     public String signUp(@ModelAttribute Member member, @RequestParam("birthDate") String birthDate, Model model) throws SQLException, Exception {
         // 아이디 중복 확인
-    	if (memberService.isIdExists(member.getLoginId())) {
-            model.addAttribute("error", "이미 사용 중인 아이디입니다.");
-            return "signUp";
-        }
-    	// 닉네임 중복 확인
-        if (memberService.isNicknameExists(member.getNickname())) {
-            model.addAttribute("error", "이미 사용 중인 닉네임입니다.");
-            return "signUp";
-        }
-        
-        // 휴대폰 번호 중복 확인
-        if (memberService.isPhoneNumExists(member.getPhoneNum())) {
-            model.addAttribute("error", "이미 사용 중인 휴대폰 번호입니다.");
-            return "signUp";
-        }
-        
-        // 이메일 중복 확인
-        if (memberService.isEmailExists(member.getEmail())) {
-            model.addAttribute("error", "이미 사용 중인 이메일입니다.");
-            return "signUp";
-        }
+//    	if (memberService.isIdExists(member.getLoginId())) {
+//            model.addAttribute("error", "이미 사용 중인 아이디입니다.");
+//            return "signUp";
+//        }
+//    	// 닉네임 중복 확인
+//        if (memberService.isNicknameExists(member.getNickname())) {
+//            model.addAttribute("error", "이미 사용 중인 닉네임입니다.");
+//            return "signUp";
+//        }
+//        
+//        // 휴대폰 번호 중복 확인
+//        if (memberService.isPhoneNumExists(member.getPhoneNum())) {
+//            model.addAttribute("error", "이미 사용 중인 휴대폰 번호입니다.");
+//            return "signUp";
+//        }
+//        
+//        // 이메일 중복 확인
+//        if (memberService.isEmailExists(member.getEmail())) {
+//            model.addAttribute("error", "이미 사용 중인 이메일입니다.");
+//            return "signUp";
+//        }
     	
     	
     	// 생년월일 처리

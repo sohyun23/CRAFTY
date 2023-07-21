@@ -308,10 +308,10 @@ public class GoodsController {
 	@GetMapping(value="/goods/registered/{goodsId}")
 	public String registerGoodsDetail(HttpSession session, @PathVariable("goodsId") int goodsId,
 									  @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
-		int memberId = (int) session.getAttribute("memberId");
+//		int memberId = (int) session.getAttribute("memberId");
 		
 		HashMap<String, Object> hashmap = new HashMap<>();
-		hashmap.put("memberId", memberId);
+//		hashmap.put("memberId", memberId);
 		hashmap.put("goodsId", goodsId);
 		hashmap.put("pageRequest", pageRequest);
 		
@@ -402,11 +402,11 @@ public class GoodsController {
 		hashmap.put("reason", reason);
 		hashmap.put("goodsId", goodsId);
 		
-//		int result = nondisclosureRequestService.insertNondisclosureRequest(hashmap);
-//
-//		if(result != 1) {
-//			throw new Exception("다시 시도해주세요.");
-//		}
+		int result = nondisclosureRequestService.insertNondisclosureRequest(hashmap);
+
+		if(result != 1) {
+			throw new Exception("다시 시도해주세요.");
+		}
 			
 		return "redirect:/goods/registered/sales/" + Integer.toString(goodsId);
 	}
