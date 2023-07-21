@@ -92,8 +92,8 @@ public class GoodsController {
         
         PageRequestDTO pageRequest = new PageRequestDTO(1, 8, "");
         PageProperties pageProperties = new PageProperties("전체", 1, 0); // category, ongoing, order
-        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);        
-        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);    
+        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, memberId);        
+        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);    
         PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
         MainCategoryList categoryList = new MainCategoryList();
         
@@ -120,11 +120,11 @@ public class GoodsController {
             memberId = (int)session.getAttribute("memberId");
             System.out.println(memberId);
         }
-        
+                
         PageProperties pageProperties = new PageProperties(category, ongoing, order);
         PageRequestDTO pageRequest = new PageRequestDTO(pageNum, amount, keyword);
-        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);    
-        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);        
+        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, memberId);    
+        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);        
         PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
         MainCategoryList categoryList = new MainCategoryList();
         
