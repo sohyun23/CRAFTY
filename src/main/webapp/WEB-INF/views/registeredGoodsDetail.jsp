@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>Crafty</title>
+	<title>CRAFTY</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/registeredGoodsDetail.css" rel="stylesheet" type="text/css" />

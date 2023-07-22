@@ -21,23 +21,25 @@
 				<div id="thumbnail-box">
 					<img class="thumbnail" src="/img/${thumbnailImgName}" />
 				</div>
-				<div id="detail">
-					${goods.introduction}
+				<div id="detail"><b>
+					${goods.introduction}</b>
 				</div>
 				<!-- input 빼고 div안에 삽입되도록 -->
 			</div>
 			<!-- 박스크기 정하기 -->
 			<div class="top-right">
 				<div id="block1">
+					<div id="goods-info">
 					<div id="seller-container">
 						<a href="/profile/${goods.memberId}"><img id="profile" src="/img/${goods.profileImg}" onerror="this.src='/img/profile.png';"></a>
 						<div id="seller-name"><a href="/profile/${goods.memberId}">${goods.nickname}</a></div>
 					</div>
 					<div id="goods-name">${goods.goodsName}</div>
-					<div id="period">기간: ${goods.startDate} - ${goods.endDate}</div>
+					<div id="period"> ${goods.startDate} - ${goods.endDate}</div>
+					<hr>
 					<div id="goods-list">
                         <div id="goods-select" onclick="toggleItemContainer()">
-                            <div id="select-text">======아이템을 선택해주세요=====</div>
+                            <div id="select-text">=========아이템을 선택해주세요=========</div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
                                 <path id="chevron-path" fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
                             </svg>
@@ -53,22 +55,22 @@
                         	</c:forEach>
                         </div>
                     </div>
-                    <div id="selected-item">선택 아이템</div>
-						
+                    <hr>
+                    <div id="selected-item"><b>선택 아이템</b></div>
 					<div id="goods-composition">
 						<ul id="goods-cart"></ul>
 					</div>
-				</div>
+					<hr>	
 				<div class="price-cal">
 					<div class="cal-name">
-						<div id="total-goods">총 아이템 금액</div>
+						<div id="total-goods"><b>총 아이템 금액</b></div>
 						<div id="total-price" value="0">
 							0원
 							<!--db에서 받아온 정보를 더하기-->
 						</div>
 					</div>
 					<div class="cal-name">
-						<div id="delivery">배송 금액</div>
+						<div id="delivery"><b>배송 금액</b></div>
 						
 						<div id="delivery-price" value="2500">2500원</div>
 						<!--db에서 받아온 정보를 출력하기-->
@@ -77,18 +79,21 @@
 					<hr>
 					
 					<div class="cal-name">
-						<div id="total-pay-amount">총 결제 금액</div>
+						<div id="total-pay-amount"><b>총 결제 금액</b></div>
 						<div id="total-pay-amount-price" value="0">0원</div>
 						<!--db에서 받아온 정보를 더하기-->
 					</div>
-					<div>
+						<br>
+					<div id= "kakao-pay">
 						<c:if test="${goods.ongoingStatus eq 1}">
 							<img id="API-icon" src="/craftyimg/payicon.png">						
 						</c:if>
 					</div>
 				</div>
 		
+				</div>
 			</div>
+					</div>
 		</div>
 		
 		<hr>
@@ -133,7 +138,7 @@
 								'<div class="items-id" id="selected-items-id" value="' + itemId + '">' + itemId + '</div>' +
 	                            '<div class="items-name" id="selected-items-name" value="' + itemName + '">' + itemName + '</div>' +
 	                            '<div class="items-price" id="selected-items-price" value="' + itemPrice + '">' + itemPrice + '원</div>' +
-								'<button class="item-delete" id="delete-btn" onclick="deleteitem(' + itemPrice + ')">삭제</button>'+
+								'<button class="item-delete" id="delete-btn" onclick="deleteitem(' + itemPrice + ')"> 삭제</button>'+
 								'<div>';
 		goodsCart.appendChild(createitem);
 		

@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
+    <title>CRAFTY</title>
   </head>
   <link
     href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css"
@@ -283,6 +283,17 @@
 
 
  const itemList = document.getElementById("itemList");
+ 
+ 
+ if (!itemList.hasChildNodes()) {
+     itemList.style.display = "none"; // Hide the list if there are no child nodes
+   }else{
+	   
+	   itemList.style.display = "block";
+   }
+ 
+ 
+ 
  function itemInfoList() {
    if (
      itemName.value == "" ||
@@ -304,6 +315,12 @@
 							     '</div>';
      itemList.appendChild(createitem);
 	
+     if (!itemList.hasChildNodes()) {
+         itemList.style.display = "none"; // Hide the list if there are no child nodes
+       } else {
+         itemList.style.display = "block"; // Show the list if there are child nodes
+       }
+     
      itemName.value = "";
      itemPrice.value = "";
      itemComposition.value = "";
@@ -315,6 +332,10 @@
  function deleteitem(event) {
 	 const listItem = event.target.closest("li");
 	  listItem.remove();
+	  if (!itemList.hasChildNodes()) {
+	      itemList.style.display = "none"; // 자식 노드가 없으면 리스트를 숨김
+	    }
+	  
    }
  
 
