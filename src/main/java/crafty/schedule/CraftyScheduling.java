@@ -29,10 +29,10 @@ public class CraftyScheduling {
         this.javaMailSender = javaMailSender;
     }
     
-    @Scheduled(cron = "0/5 * * * * *", zone = "Asia/Seoul")
-    public void scheduleTest() {
-    	System.out.println(LocalTime.now());
-    }
+//    @Scheduled(cron = "0/5 * * * * *", zone = "Asia/Seoul")
+//    public void scheduleTest() {
+//    	System.out.println(LocalTime.now());
+//    }
 	
 	// 매일 정각, 오픈 예정 굿즈의 상태를 진행중으로 변경
 	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
