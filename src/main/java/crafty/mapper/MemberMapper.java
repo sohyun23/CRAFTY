@@ -2,11 +2,13 @@ package crafty.mapper;
 import java.sql.Timestamp;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import crafty.dto.AlarmedMemberEmail;
 import crafty.dto.Member;
 import crafty.dto.RequestPayment;
 import crafty.dto.ResponseProfile;
@@ -47,6 +49,8 @@ public interface MemberMapper {
 
 
 	RequestPayment getMemberByMemberId(int memberId) throws SQLException;
+
+	List<AlarmedMemberEmail> getAlarmedMemberEmail() throws SQLException;
 
 	
 	

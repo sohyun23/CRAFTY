@@ -74,4 +74,13 @@ public interface GoodsMapper {
 	
 	// 굿즈 등록 
 	public int registerGoods(Goods goods) throws Exception;
+	
+	// 오픈 예정 굿즈의 상태를 진행중으로 변경
+	public void updateGoodsStatusToInProgress() throws Exception;
+	
+	// 매일 정각, 목표 금액에 도달하지 못한 진행중인 굿즈의 상태를 종료로 변경
+	public void updateGoodsStatusToInCompletedAndFailure() throws Exception;
+	
+	// 매일 정각, 목표 금액에 도달한 진행중인 굿즈의 상태를 종료로 변경
+	public void updateGoodsStatusToInCompletedAndSuccess() throws Exception;
 }
