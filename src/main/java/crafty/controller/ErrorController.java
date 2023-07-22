@@ -18,6 +18,7 @@ public class ErrorController {
 		System.out.println(errorCode);
 		String errorMsg = ErrorCode.getMessageByCode(errorCode);
 		model.addAttribute("errorMsg", errorMsg);
+		
 		return "error";
 	}
 }

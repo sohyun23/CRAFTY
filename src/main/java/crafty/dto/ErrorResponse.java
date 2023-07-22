@@ -12,6 +12,7 @@ public class ErrorResponse {
 	private final String code;
     private final String message;
     
+    
     public ErrorResponse(ErrorCode errorCode) {
     	super();
     	this.code = errorCode.getCode();

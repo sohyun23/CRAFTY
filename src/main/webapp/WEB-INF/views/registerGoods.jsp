@@ -249,10 +249,38 @@
   </body>
 
  <script>
+ // 금일 날짜 구하기
+ const today = new Date().toISOString().split("T")[0];
+
+ // 7일 후의 날짜 구하기
+ const sevenDaysLater = new Date();
+ sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+ const sevenDaysLaterFormatted = sevenDaysLater.toISOString().split("T")[0];
+
+ // startDateInput 요소에 최소 날짜를 오늘로부터 7일 이후로 설정
+ const startDateInput = document.getElementById("startDateInput");
+ startDateInput.min = sevenDaysLaterFormatted;
+
+ // endDateInput 요소의 최소 날짜를 startDateInput의 선택된 값 이후로 설정
+ const endDateInput = document.getElementById("endDateInput");
+ endDateInput.min = sevenDaysLaterFormatted;
+
+ // startDateInput의 값이 변경될 때 endDateInput의 최소 날짜를 업데이트
+ startDateInput.addEventListener("change", function () {
+   endDateInput.min = startDateInput.value;
+   postDateInput.min = startDateInput.value;
+ });
+
+ // endDateInput 요소에 변경되는 값에 따라 postDateInput의 최소 날짜도 업데이트
+ endDateInput.addEventListener("change", function () {
+   postDateInput.min = endDateInput.value;
+ });
+ 
  const itemName = document.getElementById("itemName");
  const itemPrice = document.getElementById("itemPrice");
  const itemComposition = document.getElementById("itemComposition");
  const itemQuantity = document.getElementById("itemQuantity");
+
 
  const itemList = document.getElementById("itemList");
  function itemInfoList() {
@@ -327,6 +355,16 @@
       return;
     }
 
+    if (!descriptionFile) {
+      alert("굿즈 상세 설명 사진을 등록해 주세요.");
+      return;
+    }
+    
+    if (!itemList.hasChildNodes()) {
+      alert("상품을 등록해 주세요.");
+      return;
+    }
+    
     if (targetAmountInput.trim() === "") {
       alert("목표 금액을 입력해 주세요.");
       return;
@@ -337,17 +375,6 @@
       return;
     }
 
-
-    if (!descriptionFile) {
-      alert("굿즈 상세 설명 사진을 등록해 주세요.");
-      return;
-    }
-
-    if (!itemList.hasChildNodes()) {
-      alert("상품을 등록해 주세요.");
-      return;
-    }
-    
     if (bankAccountNumberInput.trim() === "") {
         alert("계좌번호를 입력해 주세요.");
         return;
@@ -425,7 +452,6 @@
         window.location.href="http://localhost:8081/main";
       })
       .catch((error) => {
-    	console.log("AAAAAAAAAAAAAaa");
         console.log(error.response.data.code);
         // Error, handle the error
         const url = "http://localhost:8081/error/" + error.response.data.code;
