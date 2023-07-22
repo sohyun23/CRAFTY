@@ -101,7 +101,7 @@
 		<div id="expbottom">
 			<!-- 상품설명 -->
 			<div id="goods-explanation">
-				<figure><img src="/img/${contentImgName}"></figure>
+				<img src="/img/${contentImgName}">
 			</div>
 		</div>
 	</div>

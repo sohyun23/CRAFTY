@@ -270,3 +270,7 @@ div.top-right{
     width: 1000px;
     text-align: center;
 }
+#goods-explanation img {
+	width: 100%;
+	height: auto;
+}
