@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
-	
 	NVALID_INPUT_VALUE(400, "COMMON-001", "유효성 검증에 실패했습니다."),
     INTERNAL_SERVER_ERROR(500, "COMMON-002", "서버에서 처리할 수 없는 오류입니다."),
 
