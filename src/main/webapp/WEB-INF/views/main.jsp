@@ -60,7 +60,7 @@
 	<div class = "main-total-container">
 		
 		<div class="main-bar">
-			<div class="main-bar-title"><h1>메인</h1></div>
+			<div class="main-bar-title"><h1>${pageProperties.category}</h1></div>
 			<div class="main-bar-dropdown-bundle">
 				<select class="main-bar-dropdown main-bar-dropdown-1" onchange="goMain('dropdown1', this.value)">
 					<c:if test="${pageProperties.ongoing == 1}">
