@@ -169,11 +169,11 @@ div.top-right{
 	display:flex;
 	justify-content:center;
 	align-items: center;
-	overflow:hidden;
+	overflow: hidden;
 }
-#thumbnail{
+.thumbnail{
 	max-width:100%;
-    max-height: 100%;
+    height: auto;
 }
 #detail{
     width: 380px;
@@ -269,4 +269,8 @@ div.top-right{
 #goods-explanation{
     width: 1000px;
     text-align: center;
+}
+#goods-explanation img {
+	width: 100%;
+	height: auto;
 }
