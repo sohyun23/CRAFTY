@@ -44,6 +44,9 @@
             	좋아요한 굿즈
             </div>
 			<div class="cards-container">
+				<c:if test="${empty goodsList}">
+		        	<div class="nothing">아직 좋아요한 굿즈가 없어요!</div>
+		    	</c:if>
 				<c:forEach items="${goodsList}" var="goods">
 					<div class="card">
 						<div class="card-top">
@@ -67,7 +70,7 @@
 									<c:set var="rate" value="${(goods.total * 100) / goods.targetAmount}" />
 									<%
 									   double rateValue = (double)pageContext.getAttribute("rate");
-									   DecimalFormat decimalFormat = new DecimalFormat("0.0");
+									   DecimalFormat decimalFormat = new DecimalFormat("0.00");
 									   String formattedRate = decimalFormat.format(rateValue);
 									%>
 									<c:set var="formattedRate" value="<%= formattedRate %>" />

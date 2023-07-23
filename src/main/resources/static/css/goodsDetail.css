@@ -1,24 +1,19 @@
-footer {
-	position: absolute;
-}
 
 li{
     list-style-type: none;
 }
-.main-container {
+.goods-container {
     width: 1000px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
-/*div{
-	border:1px solid;
-}*/
 
-div.top-row{
+.top-row{
+	margin-top: 25px;
     display:flex;
     justify-content: space-between;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-
 }
 b{
 	 font-weight: 600;
@@ -112,10 +107,21 @@ div.top-right{
 	margin-bottom: 10px;
 }
 
+.item-name-price {
+	width: 550px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
 .item-id {
 	display: none;
 }
+.item-name {
+	width: 400px;
+}
 .item-price {
+	width: 150px;
+	align-items: center;
     font-size: 18px;
 }
 .item-config {
@@ -126,12 +132,12 @@ div.top-right{
     width: 570px;
 	display: flex;
 	flex-direction: row;
+	justify-content:center;
 	align-items: center;
     margin: 5px 0;
 }
 
 .items-id {
-
 	display: none;
 }
 
@@ -139,7 +145,7 @@ div.top-right{
 	width: 430px;
     font-size: 22px;
     margin-right:5px;
-    margin-bottom:5px;
+	margin: auto 0;
 }
 .items-price {
     width: 100px;
@@ -148,10 +154,11 @@ div.top-right{
 }
 
 .item-delete{
-    width: 60px;
+    width: 55px;
 	height:32px;
     margin-left: 5px;
 	margin-bottom: 3px;
+	margin-right: 5px;
 }
 
 #container-bar {
@@ -166,14 +173,16 @@ div.top-right{
 #thumbnail-box{
 	width:400px;
 	height:400px;
+	padding: 5px;
 	display:flex;
 	justify-content:center;
 	align-items: center;
-	overflow:hidden;
+	overflow: hidden;
 }
-#thumbnail{
+.thumbnail{
 	max-width:100%;
     max-height: 100%;
+    object-fit: contain;
 }
 #detail{
     width: 380px;

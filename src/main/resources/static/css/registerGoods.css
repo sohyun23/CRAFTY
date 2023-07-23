@@ -1,22 +1,11 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css");
 
-/*
-body {
- 
-   font-family: "Pretendard Variable";
-	background-color: linear-gradient(to top, red, yellow);
-}
-*/
-.content {
- 
-	background: linear-gradient(white, #eff1f9d7);
-}
-
 .main-container{
 	flex-direction: column;
 	background-color: white;
-	
+	width: 660px;
+	margin: 0 auto;
 }
 
 .main-container> div {
@@ -242,13 +231,22 @@ ul {
 }
 
 /* 정산받을 계좌 정보 */
+#bankCategorySelect {
+	width: 150px;
+	margin-right: 10px;
+}
+
 #bankAccountNumber {
-  width: 380px;
+  width: 425px;
   color : #3D56B2;
 	border : 1px solid #3D56B2;
 	border-radius : 5px;
 	background-color : #ffffff;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#registGoods {
+	margin-bottom: 20px;
 }
 
 /* 굿즈 만들기 */

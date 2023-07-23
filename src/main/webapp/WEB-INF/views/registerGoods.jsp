@@ -5,8 +5,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
     <link href="/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -22,11 +22,10 @@
   <body>
   <%@ include file="header.jsp" %>
   
-	<div class="content">
     <div class="main-container">
     	
       <div id="thumnail">
-      	<h1>이미지 등록</h1>
+      	<h1>썸네일 이미지</h1>
       	<input type="file" name="thumbnailFile" id="thumnailBtn"/>
         <!-- 
         <button id="thumnailBtn">이미지 등록</button>
@@ -95,7 +94,7 @@
       </div>
 
       <div id="goodsDescription">
-        <h1>상세 설명</h1>
+        <h1>굿즈 설명 이미지</h1>
         <input type="file" id="descriptionBtn"/>
         <!-- <button id="descriptionBtn">이미지 등록</button> -->
       </div>
@@ -243,7 +242,6 @@
         <button id="registGoodsBtn" type="submit" onclick="validateForm()">굿즈 만들기</button>
       </div>
     </div>
-		</div>
 
      <%@ include file="footer.jsp" %>
   </body>
