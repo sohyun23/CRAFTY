@@ -209,6 +209,9 @@ ul {
 	width : 450px;
 	
 }
+.listItemQuantity{
+	padding-bottom: 3px;
+}
 
 .item-row{
 	display: flex;
