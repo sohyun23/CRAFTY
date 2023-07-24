@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import crafty.dto.Member;
+import crafty.dto.MemberEmailInfo;
 import crafty.dto.RequestPayment;
 import crafty.dto.ResponseProfile;
 import crafty.mapper.MemberMapper;
@@ -204,6 +205,17 @@ public class MemberService {
 		
 		return requestPayment;
 
+	}
+	
+	// 굿즈 등록/삭제 신청 메일 정보
+	public MemberEmailInfo getMemberEmailInfoByGoodsId(int goodsId) throws Exception {
+		MemberEmailInfo member = memberMapper.getMemberEmailInfoByGoodsId(goodsId);
+		
+		if(member == null) {
+			throw new Exception("멤버 정보를 불러오지 못했습니다.");
+		}
+		
+		return member;
 	}
     
 }
