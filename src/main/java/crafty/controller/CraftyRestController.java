@@ -11,8 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import crafty.dto.MemberEmailInfo;
 import crafty.dto.OrderItems;
 import crafty.dto.Orders;
 import crafty.dto.PaymentInfo;
@@ -40,8 +37,6 @@ import crafty.service.PaymentInfoService;
 
 @RestController
 public class CraftyRestController {
-	
-	private final JavaMailSender javaMailSender;
 	
 	@Autowired
 	GoodsService goodsService;
@@ -67,31 +62,13 @@ public class CraftyRestController {
 	@Autowired
 	PaymentInfoService paymentInfoService;
 	
-	@Autowired
-    public CraftyRestController(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
 	
 	// 굿즈 등록 허가
 	@GetMapping("/request/register/allow/{goodsId}")
 	public String registerRequestAllow(@PathVariable("goodsId") int goodsId) throws Exception{
 		int result = goodsService.updateGoodsRegistrationStatusAllowByGoodsId(goodsId);
-		
-		if(result != 0) {
-			// 굿즈 등록 허가 메일 전송
-			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
-			
-			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 등록 신청하신 굿즈가 등록 허가되었습니다.";
-			String text = member.getNickname() + "님!\n"
-	                    + "등록 신청하신 굿즈 '" + member.getGoodsName() + "'가 등록 허가 되었습니다!\n";
-			
-			SimpleMailMessage message = new SimpleMailMessage();
-	        message.setTo(to);
-	        message.setSubject(subject);
-	        message.setText(text);
-	        javaMailSender.send(message);
-		} else {
+
+		if(result == 0) {
 			throw new Exception("다시 시도해주세요.");
 		}
 		
@@ -103,21 +80,7 @@ public class CraftyRestController {
 	public String registerRequestDisallow(@PathVariable("goodsId") int goodsId) throws Exception{
 		int result = goodsService.updateGoodsRegistrationStatusDisallowByGoodsId(goodsId);
 		
-		if(result != 0) {
-			// 굿즈 등록 불허가 메일 전송
-			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
-			
-			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 등록 신청하신 굿즈가 등록 불허가되었습니다.";
-			String text = member.getNickname() + "님!\n"
-	                    + "등록 신청하신 굿즈 '" + member.getGoodsName() + "'가 등록 불허가 되었습니다.\n";
-			
-			SimpleMailMessage message = new SimpleMailMessage();
-	        message.setTo(to);
-	        message.setSubject(subject);
-	        message.setText(text);
-	        javaMailSender.send(message);
-		} else {
+		if(result == 0) {
 			throw new Exception("다시 시도해주세요.");
 		}
 		
@@ -129,21 +92,7 @@ public class CraftyRestController {
 	public String nondisclosureRequestAllow(@PathVariable("goodsId") int goodsId) throws Exception, SQLException{
 		int result = goodsService.updateGoodsNondisclosureStatusByGoodsId(goodsId);
 
-		if(result != 0) {
-			// 굿즈 삭제 허가 메일 전송
-			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
-			
-			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 삭제 신청하신 굿즈가 삭제 허가되었습니다.";
-			String text = member.getNickname() + "님!\n"
-	                    + "삭제 신청하신 굿즈 '" + member.getGoodsName() + "'가 삭제 허가 되었습니다.\n";
-			
-			SimpleMailMessage message = new SimpleMailMessage();
-	        message.setTo(to);
-	        message.setSubject(subject);
-	        message.setText(text);
-	        javaMailSender.send(message);
-		} else {
+		if(result == 0) {
 			throw new Exception("다시 시도해주세요.");
 		}
 		
@@ -155,21 +104,7 @@ public class CraftyRestController {
 	public String nondisclosureRequestDisallow(@PathVariable("goodsId") int goodsId) throws Exception, SQLException{
 		int result = nondisclosureRequestService.updateNondisclosureRequestNondisclosureStatusByGoodsId(goodsId);
 		
-		if(result != 0) {
-			// 굿즈 삭제 불허가 메일 전송
-			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
-			
-			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 삭제 신청하신 굿즈가 삭제 불허가되었습니다.";
-			String text = member.getNickname() + "님!\n"
-	                    + "삭제 신청하신 굿즈 '" + member.getGoodsName() + "'가 삭제 불허가 되었습니다.\n";
-			
-			SimpleMailMessage message = new SimpleMailMessage();
-	        message.setTo(to);
-	        message.setSubject(subject);
-	        message.setText(text);
-	        javaMailSender.send(message);
-		} else {
+		if(result == 0) {
 			throw new Exception("다시 시도해주세요.");
 		}
 		
