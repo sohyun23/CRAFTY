@@ -74,6 +74,13 @@
     justify-content: space-between;
     margin-bottom: 5px;
 }
+.item-name {
+	width: 400px;
+}
+.item-price {
+	width: 100px;
+	text-align: right;
+}
 .info-container>hr {
     width: 450px;
     height: 0px;

@@ -80,6 +80,14 @@
  		FROM MEMBER
  		WHERE member_id = #{memberId}
  	</select>
+ 	
+ 	<select id="getMemberEmailInfoByOrderId" resultType="crafty.dto.MemberEmailInfo">
+ 		SELECT m.nickname, m.email, g.goods_name
+ 		FROM ORDERS o
+ 		JOIN MEMBER m ON m.member_id = o.member_id
+ 		JOIN GOODS g ON g.goods_id = o.goods_id
+ 		WHERE o.order_id = #{orderId}
+ 	</select>
 	
 	<!-- 알림 신청한 고객들의 email, 굿즈 이름 -->
  	<select id="getAlarmedMemberEmail" resultType="crafty.dto.MemberEmailInfo">
@@ -94,6 +102,6 @@
  		SELECT m.nickname, m.email, g.goods_name
  		FROM GOODS g
  		JOIN MEMBER m ON m.member_id = g.member_id
- 		WHERE goods_id = #{goodsId}
+ 		WHERE g.goods_id = #{goodsId}
  	</select>
  </mapper>
