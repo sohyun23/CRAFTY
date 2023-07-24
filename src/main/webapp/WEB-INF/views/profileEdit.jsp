@@ -62,7 +62,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">닉네임</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="nickNameEdit" maxlength="8" placeholder="기존 닉네임" value="${member.nickname}" readonly>
+              <input class="form-control" type="text" name="nickNameEdit" maxlength="8" placeholder="기존 닉네임" value="${member.nickname}">
               <button id="duplicate-check-btn" onclick="duplicateCheck()">중복 확인</button>
               <p id="aleady-nickname">이미 존재하는 닉네임입니다.</p>
             </div>
@@ -71,7 +71,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">소개</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="introduceEdit" maxlength="100" placeholder="기존 소개글" value="${member.profileIntroduction}" readonly>
+              <input class="form-control" type="text" name="introduceEdit" maxlength="100" placeholder="기존 소개글" value="${member.profileIntroduction}">
             </div>
           </div>
 
@@ -80,7 +80,7 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Email</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="emailEdit" placeholder="기존 이메일" value="${member.email}" readonly>
+              <input class="form-control" type="text" name="emailEdit" placeholder="기존 이메일" value="${member.email}">
             </div>
           </div>
             
@@ -95,10 +95,10 @@
                 </div>
 
                 <div class="input-container">
-                    <input class="form-control" type="text" id="sample6_address" placeholder="주소" value="${member.detailAddress}" readonly/>
+                    <input class="form-control" type="text" id="sample6_address" placeholder="주소" value="${member.roadAddress}" readonly/>
                     <input class="form-control" type="text" style="color:#9498a0;" id="sample6_extraAddress" placeholder="(참고 항목)" readonly/>
                 </div>
-                <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" maxlength="50">
+                <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" value="${member.detailAddress}" maxlength="50">
                 
             </div>
           </div>
@@ -106,8 +106,8 @@
               <div class="form-group">
                 <label class="col-md-3 control-label"></label>
                 <div class="col-md-8" id="form-btn-right">
-                  <input  id="edit-save-btn" type="button" onclick="clickFollow()" value="Edit"></input>
-                </div>
+			    <input id="edit-save-btn" type="button" onclick="clickFollow()" value="Save"></input>
+			</div>
             </div>
 
         </form>
@@ -169,37 +169,52 @@
 
                  
                 function readOnlyFalse(){
-                  const formInput = document.getElementsByClassName("form-control");
-                  let len = formInput.length;
-                  for (let i = 0; i < len; i++){
-                      formInput.item(i).readOnly = false;
-                  }
-
+                    const formInput = document.getElementsByClassName("form-control");
+                    let len = formInput.length;
+                    for (let i = 0; i < len; i++){
+                        formInput.item(i).readOnly = false;
+                    }
                 }
 
                 function readOnlyTrue(){
-                  const formInput = document.getElementsByClassName("form-control");
-                  let len = formInput.length;
-                  for (let i = 0; i < len; i++){
-                      formInput.item(i).readOnly = true;
-                  }
+                    const formInput = document.getElementsByClassName("form-control");
+                    let len = formInput.length;
+                    for (let i = 0; i < len; i++){
+                        formInput.item(i).readOnly = true;
+                    }
                 }
 
                 function clickFollow(){
-                  const btn = document.getElementById('edit-save-btn') //id가 'btn'인 요소를 반환한다.
-                  if(btn.value == "Edit" ){ //버튼의 텍스트값 확인
-                    btn.value = 'Save'  // 텍스트를 unfollow로 변경
-                    readOnlyFalse();
-
-                  }else{  // 반대일 경우 다시 변경
-                    btn.value = "Edit"
-                    readOnlyTrue();
-
-                  }
+                    const btn = document.getElementById('edit-save-btn'); //id가 'edit-save-btn'인 요소를 반환한다.
+                    if(btn.value === "Edit" ){ //버튼의 텍스트값 확인
+                        btn.value = 'Save';  // 텍스트를 Save로 변경
+                        readOnlyFalse();
+                    } else {  // 반대일 경우 다시 변경
+                        btn.value = "Edit";
+                        readOnlyTrue();
+                    }
                 }
                 
                 function duplicateCheck(){
 
                 }
+                
+                function clickSave() {
+                    const form = document.querySelector(".form-horizontal");
+                    const formData = new FormData(form);
+
+                    axios.post("/profile/edit", formData)
+                         .then(response => {
+                             // 수정 성공 시 처리할 코드 작성
+                             alert("프로필이 수정되었습니다.");
+                             // 필요하다면 페이지 리로드 또는 이동 처리 등 추가 가능
+                         })
+                         .catch(error => {
+                             // 에러 발생 시 처리할 코드 작성
+                             alert("프로필 수정에 실패했습니다. 다시 시도해주세요.");
+                             console.error(error);
+                         });
+                }
+                
             </script>
 </html>

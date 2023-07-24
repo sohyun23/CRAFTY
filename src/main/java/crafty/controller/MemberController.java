@@ -1,5 +1,6 @@
 package crafty.controller;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,31 +62,10 @@ public class MemberController {
     }
 
     // Sign Up
-    @PostMapping(value = "/signUp")
-    public String signUp(@ModelAttribute Member member, @RequestParam("birthDate") String birthDate, Model model) throws SQLException, Exception {
-        // 아이디 중복 확인
-//    	if (memberService.isIdExists(member.getLoginId())) {
-//            model.addAttribute("error", "이미 사용 중인 아이디입니다.");
-//            return "signUp";
-//        }
-//    	// 닉네임 중복 확인
-//        if (memberService.isNicknameExists(member.getNickname())) {
-//            model.addAttribute("error", "이미 사용 중인 닉네임입니다.");
-//            return "signUp";
-//        }
-//        
-//        // 휴대폰 번호 중복 확인
-//        if (memberService.isPhoneNumExists(member.getPhoneNum())) {
-//            model.addAttribute("error", "이미 사용 중인 휴대폰 번호입니다.");
-//            return "signUp";
-//        }
-//        
-//        // 이메일 중복 확인
-//        if (memberService.isEmailExists(member.getEmail())) {
-//            model.addAttribute("error", "이미 사용 중인 이메일입니다.");
-//            return "signUp";
-//        }
-    	
+    @RequestMapping("/signUp")
+    public String signUp(@ModelAttribute Member member, 
+    					@RequestParam("birthDate") String birthDate, 
+    					Model model) throws SQLException, Exception {  	
     	
     	// 생년월일 처리
         java.util.Date birthD = new java.text.SimpleDateFormat("yy/mm/dd").parse(birthDate);
@@ -104,7 +85,29 @@ public class MemberController {
         
         return "redirect:/login";  // 회원가입 성공 시, 로그인 페이지로 redirect
     }
-
+    
+    // signUp, validation
+    @GetMapping("/isExists")
+    public ResponseEntity<String> isExists( @RequestParam(value = "nickname", required = false) String nickname, 
+    									    @RequestParam(value = "loginId", required = false) String loginId,
+    									    @RequestParam(value = "phoneNum", required = false) String phoneNum,
+    									    @RequestParam(value = "email", required = false) String email) throws Exception{
+    	
+    	System.out.println(nickname);
+    	
+    	if (nickname != null && memberService.isNicknameExists(nickname)) {
+    		System.out.println(nickname);
+            return ResponseEntity.ok("이미 사용중인 닉네임입니다.");
+        } else if (loginId != null && memberService.isIdExists(loginId)) {
+            return ResponseEntity.ok("이미 사용중인 아이디입니다.");
+        } else if (phoneNum != null && memberService.isPhoneNumExists(phoneNum)) {
+            return ResponseEntity.ok("이미 사용중인 휴대폰 번호입니다.");
+        } else if (email != null && memberService.isEmailExists(email)) {
+            return ResponseEntity.ok("이미 사용중인 이메일입니다.");
+        } else {
+            return ResponseEntity.ok("사용 가능합니다.");
+        }
+    }
     
     // ID,PW는 비동기로 프론트 단에서 구현
     @GetMapping(value = "/find")
@@ -193,42 +196,6 @@ public class MemberController {
         return "alarmedGoods";
     }
     
-//  프로필
-    @GetMapping(value = "/profile/{memberId}")
-    public String profile(@PathVariable("memberId") int memberId,
-					            @ModelAttribute PageRequestDTO pageRequest,
-					            HttpSession session, Model model) throws SQLException {
-    	
-    	int sessionMemberId = 0;
-        if (session.getAttribute("memberId") != null) {
-        	sessionMemberId = (int)session.getAttribute("memberId");
-        }
-        
-        // 한 페이지에 8개 카드
-        pageRequest.setAmount(8);
-        int ongoing = 1; // 진행중인 굿즈 목록
-        
-    	HashMap<String, Object> hashmap = new HashMap<>();
-    	// 좋아요 누른 굿즈의 like_id를 가져오기 위해 session에 등록된 id도 parameter로 넘겨줌
-    	// like_id가 있는 굿즈 -> 빨간 하트(클릭 시 좋아요 취소)
-    	// like_id가 없는 굿즈 -> 하얀 하트(클릭 시 좋아요)
-    	hashmap.put("sessionMemberId", sessionMemberId);
-    	hashmap.put("profileMemberId", memberId);
-    	hashmap.put("ongoing", ongoing);
-    	hashmap.put("pageRequest", pageRequest);
-    	
-    	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
-		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
-		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId, ongoing);
-		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
-    	
-		model.addAttribute("ongoing", 1);
-        model.addAttribute("profile", profile);
-        model.addAttribute("goodsList", goodsList);
-        model.addAttribute("pageInfo", pageResponse);
-        
-        return "profile";
-    }
     
     // 진행 예정 굿즈
     @GetMapping(value = "/profile/{memberId}", params = "ongoing=0")
@@ -332,27 +299,70 @@ public class MemberController {
         return "profile";
     }
     
- // //    수정 중입니다 ~ 접속 안됩니다~ 일요일까지 작성해서 PR하겠습니다.
-//  // profile Edit(get)
-//  @GetMapping(value = "/profile/edit")
-//  public String showProfileEditForm(Model model, HttpSession session) {
-//      int sessionMemberId = (int) session.getAttribute("memberId");
-//      // getMemberByMemberId 메소드 이름 바꿔서 사용 
-//      Member member = memberService.getMemberByMemberId(sessionMemberId);
-//      model.addAttribute("member", member);
-//      return "profile/Edit";
-//  }
- 
-//  // profile Edit(post)
-//  @PostMapping(value = "/profile/edit")
-//  public String editProfile(@ModelAttribute Member member, HttpSession session) {
-//      int sessionMemberId = (int) session.getAttribute("memberId");
-//      Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-//      member.setMemberUpdatedAt(currentTime);
+//  프로필
+    @GetMapping(value = "/profile/{memberId}")
+    public String profile(@PathVariable("memberId") int memberId,
+					            @ModelAttribute PageRequestDTO pageRequest,
+					            HttpSession session, Model model) throws SQLException {
+    	
+    	int sessionMemberId = 0;
+        if (session.getAttribute("memberId") != null) {
+        	sessionMemberId = (int)session.getAttribute("memberId");
+        }
+        
+        // 한 페이지에 8개 카드
+        pageRequest.setAmount(8);
+        int ongoing = 1; // 진행중인 굿즈 목록
+        
+    	HashMap<String, Object> hashmap = new HashMap<>();
+    	// 좋아요 누른 굿즈의 like_id를 가져오기 위해 session에 등록된 id도 parameter로 넘겨줌
+    	// like_id가 있는 굿즈 -> 빨간 하트(클릭 시 좋아요 취소)
+    	// like_id가 없는 굿즈 -> 하얀 하트(클릭 시 좋아요)
+    	hashmap.put("sessionMemberId", sessionMemberId);
+    	hashmap.put("profileMemberId", memberId);
+    	hashmap.put("ongoing", ongoing);
+    	hashmap.put("pageRequest", pageRequest);
+    	
+    	ResponseProfile profile = memberService.getProfileByMemberId(memberId);
+		List<MainCard> goodsList = goodsService.getGoodsByMemberId(hashmap);
+		int totalCnt = goodsService.getTotalGoodsByMemberId(memberId, ongoing);
+		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
+    	
+		model.addAttribute("ongoing", 1);
+        model.addAttribute("profile", profile);
+        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("pageInfo", pageResponse);
+        
+        return "profile";
+    }
+    
+ // profile Edit(get)
+    @GetMapping(value = "/profile/edit/{memberId}")
+    public String showProfileEditForm(Model model, HttpSession session) throws SQLException {
+        int sessionMemberId = (int) session.getAttribute("memberId");
+        // getMemberByMemberId 메소드 이름 바꿔서 사용 
+        ResponseProfile member = memberService.getProfileEditByMemberId(sessionMemberId);
+        model.addAttribute("member", member);
+        System.out.println(member);
+        return "profileEdit";
+    }
+   
+    // profile Edit(post)
+    @PostMapping(value = "/profile/edit/{memberId}")
+    public String editProfile(@ModelAttribute Member member, HttpSession session, Model model) throws SQLException {
+        int sessionMemberId = (int) session.getAttribute("memberId");
+        Date currentTime = new Date(System.currentTimeMillis());
+        member.setMemberUpdatedAt(currentTime);
+        ResponseProfile profile = memberService.getProfileEditByMemberId(sessionMemberId);
+        model.addAttribute("member", member);
 
-//      // DB에 수정된 프로필 정보 저장
-//      memberService.updateMember(member.getMemberId(), member.getProfileImg(), member.getProfileIntroduction(), member.getNickname(), member.getRoadAddress(), member.getDetailAddress(), member.getMemberUpdatedAt());
+        // DB에 수정된 프로필 정보 저장
+        memberService.updateMember(member.getMemberId(), member.getProfileImg(), 
+      		  					member.getNickname(), member.getProfileIntroduction(), 
+      		  					member.getRoadAddress(), member.getDetailAddress(),
+      		  					member.getMemberUpdatedAt());
 
-//      return "redirect:/profile/" + sessionMemberId;
-//  }
+        
+        return "redirect:/profile/" + sessionMemberId;
+    }
 }
