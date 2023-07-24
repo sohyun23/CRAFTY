@@ -1,16 +1,5 @@
-footer {
-	position: absolute;
-}
-.content {
-	background: linear-gradient( white, white, #eff1f9d7);
-}
-.footer-container{
-	background-color: #eff1f9d7;
-}
-
 .main-container {
     flex-direction: column;
-    background-color: white;
 }
 
 .top {
@@ -29,6 +18,9 @@ footer {
     border-radius: 100%;
     overflow: hidden;
     margin-right: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .profile-img {
@@ -65,13 +57,16 @@ footer {
 }
 
 .profile-bio {
-    height: 100px;
+    height: 110px;
     margin-top: 10px;
     font-size: 25px;
+    border: 1px solid #415F9D;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 hr {
-    height: 1px;
+    height: 0px;
     width: 1440px;
 }
 

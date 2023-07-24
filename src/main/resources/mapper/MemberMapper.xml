@@ -82,11 +82,18 @@
  	</select>
 	
 	<!-- 알림 신청한 고객들의 email, 굿즈 이름 -->
- 	<select id="getAlarmedMemberEmail" resultType="crafty.dto.AlarmedMemberEmail">
+ 	<select id="getAlarmedMemberEmail" resultType="crafty.dto.MemberEmailInfo">
  		SELECT m.nickname, m.email, g.goods_name
 		from OPEN_ALARM oa
 		JOIN MEMBER m ON m.member_id = oa.member_id
 		JOIN GOODS g ON g.goods_id = oa.goods_id
 		WHERE TRUNC(oa.send_date) = TRUNC(SYSDATE)
+ 	</select>
+ 	
+ 	<select id="getMemberEmailInfoByGoodsId" resultType="crafty.dto.MemberEmailInfo">
+ 		SELECT m.nickname, m.email, g.goods_name
+ 		FROM GOODS g
+ 		JOIN MEMBER m ON m.member_id = g.member_id
+ 		WHERE goods_id = #{goodsId}
  	</select>
  </mapper>

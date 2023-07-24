@@ -39,31 +39,33 @@
             <div class="title">
                	 등록 신청 굿즈
             </div>
-            <table>
-                <thead>
-                    <tr>
-                    	<td class="goods-num">굿즈 번호</td>
-                        <td class="goods-name">굿즈명</td>
-                        <td class="goods-applicant">신청자</td>
-                        <td class="request-date">요청일</td>
-                        <td class="allow-btn"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach items="${requestScope.goodsList}" var="goods">
+            <div class="table-container">
+	            <table>
+	                <thead>
 	                    <tr>
-	                        <td class="goods-num">${goods.goodsId}</td>
-	                        <td class="goods-name"><a href="/goods/${goodsId}">${goods.goodsName}</a></td>
-	                        <td class="goods-applicant"><a href="/profile/${memberId}">${goods.nickname}</a></td>
-	                        <td class="request-date"><fmt:formatDate value="${goods.goodsCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	                        <td class="allow-btn">
-	                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>
-	                            <button class="disallowBtn" onclick="disallow(${goods.goodsId})">불허</button>
-	                        </td>
+	                    	<td class="goods-num">굿즈 번호</td>
+	                        <td class="goods-name">굿즈명</td>
+	                        <td class="goods-applicant">신청자</td>
+	                        <td class="request-date">요청일</td>
+	                        <td class="allow-btn"></td>
 	                    </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+	                </thead>
+	                <tbody>
+	                	<c:forEach items="${requestScope.goodsList}" var="goods">
+		                    <tr>
+		                        <td class="goods-num">${goods.goodsId}</td>
+		                        <td class="goods-name"><a href="/goods/${goodsId}">${goods.goodsName}</a></td>
+		                        <td class="goods-applicant"><a href="/profile/${memberId}">${goods.nickname}</a></td>
+		                        <td class="request-date"><fmt:formatDate value="${goods.goodsCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		                        <td class="allow-btn">
+		                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>
+		                            <button class="disallowBtn" onclick="disallow(${goods.goodsId})">불허</button>
+		                        </td>
+		                    </tr>
+	                    </c:forEach>
+	                </tbody>
+	            </table>
+	        </div>
             <div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">

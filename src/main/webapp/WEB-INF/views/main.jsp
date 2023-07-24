@@ -13,11 +13,6 @@
 <link href="/css/card.css" rel="stylesheet" type="text/css">
 <link href="/css/mainLayout.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="path/to/bootstrap-icons.css">
-<style type="text/css">
-	.main-search-category-container {
-		width : 100%;
-	}
-</style>
 </head>
 <body>
 
@@ -27,21 +22,19 @@
 <div class = "main-search-category-container">
 	<div class = "main-search-category-bundle">
 		<div class="main-category">
-			<div class="main-category-container">
-				<div class="main-category-list">
-					<c:forEach var="cList" items="${categoryList}"> 
-						<c:if test="${pageProperties.category == cList}">
-							<div class="main-category-cell active">${cList}</div>
-						</c:if>
-						<c:if test="${pageProperties.category != cList}">
-							<div class="main-category-cell">${cList}</div>
-						</c:if>
-					</c:forEach>
-				</div>
+			<div class="main-category-list">
+				<c:forEach var="cList" items="${categoryList}"> 
+					<c:if test="${pageProperties.category == cList}">
+						<div class="main-category-cell active">${cList}</div>
+					</c:if>
+					<c:if test="${pageProperties.category != cList}">
+						<div class="main-category-cell">${cList}</div>
+					</c:if>
+				</c:forEach>
 			</div>
 		</div>
 	
-		<div class = "main-search">
+		<div class="main-search">
 			<form class="search-container" id="search-container">
 				<c:if test="${pageInfo.pageRequest.keyword == ''}">
 					<input type="text" id="search-bar" placeholder="search">
@@ -95,7 +88,9 @@
 	<!-- ======================================================= -->
 		
 	<div class="cards-container">
-		
+		<c:if test="${empty goodsList}">
+        	<div class="nothing">검색하신 굿즈가 존재하지 않아요!</div>
+       	</c:if>
 		<c:forEach var="card" items="${goodsList}">
 			
 			<div class="card">
@@ -150,7 +145,7 @@
 							<c:set var="rate" value="${(card.total * 100) / card.targetAmount}" />
 							<%
 							   double rateValue = (double)pageContext.getAttribute("rate");
-							   DecimalFormat decimalFormat = new DecimalFormat("0.0");
+							   DecimalFormat decimalFormat = new DecimalFormat("0.00");
 							   String formattedRate = decimalFormat.format(rateValue);
 							%>
 							<c:set var="formattedRate" value="<%= formattedRate %>" />
@@ -206,7 +201,6 @@
 	// 폼 제출 이벤트를 감지하여 URL을 동적으로 구성하고 페이지로 이동	
 	document.getElementById('search-container').addEventListener('submit', function(event) {
 		event.preventDefault(); // 폼 제출 기본 동작 취소
-		console.log('들어옴');
 		var keyword = document.getElementById('search-bar').value; // 검색어 값 가져오기
 		var url = '/main/search?keyword=' + encodeURIComponent(keyword) +'&category=전체&ongoing=1&order=0&pageNum=1&amount=8'; // URL 동적 구성
 		window.location.href = url; // 페이지 이동
