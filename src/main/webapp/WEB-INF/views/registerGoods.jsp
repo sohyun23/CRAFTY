@@ -339,6 +339,7 @@
    }
  
 
+ 
   function validateForm() {
     const goodsNameInput = document.getElementById("goodsNameInput").value;
     const goodsIntroInput = document.getElementById("goodsIntroInput").value;

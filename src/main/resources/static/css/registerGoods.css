@@ -209,6 +209,9 @@ ul {
 	width : 450px;
 	
 }
+.listItemQuantity{
+	padding-bottom: 3px;
+}
 
 .item-row{
 	display: flex;
@@ -243,9 +246,6 @@ ul {
 }
 .listItemName{
 	padding-top: 3px;
-}
-.listItemQuantity{
-	padding-bottom: 3px;
 }
 .itemdelete:hover{
   	background-color : white;
@@ -292,6 +292,3 @@ ul {
     background: white;
   }
 }
-
-
-
