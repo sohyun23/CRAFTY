@@ -5,8 +5,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/common.css" rel="stylesheet" type="text/css" />
     <link href="/css/registerGoods.css" rel="stylesheet" type="text/css" />
+    <link href="/css/common.css" rel="stylesheet" type="text/css" />
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -22,10 +22,11 @@
   <body>
   <%@ include file="header.jsp" %>
   
+	<div class="content">
     <div class="main-container">
     	
       <div id="thumnail">
-      	<h1>썸네일 이미지</h1>
+      	<h1>이미지 등록</h1>
       	<input type="file" name="thumbnailFile" id="thumnailBtn"/>
         <!-- 
         <button id="thumnailBtn">이미지 등록</button>
@@ -94,7 +95,7 @@
       </div>
 
       <div id="goodsDescription">
-        <h1>굿즈 설명 이미지</h1>
+        <h1>상세 설명</h1>
         <input type="file" id="descriptionBtn"/>
         <!-- <button id="descriptionBtn">이미지 등록</button> -->
       </div>
@@ -103,7 +104,7 @@
         <h1>상품 정보 입력</h1>
         <div class="divLeft">
          <!--  <form id="itemInfoForm">--> 
-         <div id= itemInfoForm>
+         <div id= "itemInfoForm">
             <div id="itemInputBox">
               상품명<span class="ness">*</span>
               <div>
@@ -242,6 +243,7 @@
         <button id="registGoodsBtn" type="submit" onclick="validateForm()">굿즈 만들기</button>
       </div>
     </div>
+		</div>
 
      <%@ include file="footer.jsp" %>
   </body>
@@ -305,11 +307,11 @@
    } else {
      const createitem = document.createElement("li");
      createitem.innerHTML = '<div class="item">' +
-							     '<input class="listItemName" value="' + itemName.value + '" type="text"></input>' +
-							     '<input class="listItemPrice" value="' + itemPrice.value + '" type="hidden"></input>' +
-							     '<input class="listItemComposition" value="' + itemComposition.value + '" type="hidden"></input>' +
-							     '<input class="listItemQuantity" value="' + itemQuantity.value + '" type="hidden"></input>' +
-							     '<button class="itemdelete" onclick="deleteitem(event)">x</button>' +
+							     '<div class= "item-row"> <div class="listItemName" value="' + itemName.value + ' ">' + itemName.value + ' </div>' +
+							     ' <button class="itemdelete" onclick="deleteitem(event)">x</button></div> ' +
+							     '<div class="listItemPrice" value="' + itemPrice.value + ' ">' + itemPrice.value  + ' 원  </div> '  +
+							     '<div class="listItemComposition" value="' + itemComposition.value +  ' ">' + itemComposition.value + ' </div> ' +
+							     '<div class="listItemQuantity" value="' + itemQuantity.value +  ' ">' + itemQuantity.value + ' 개 </div> '  +
 							     '</div>';
      itemList.appendChild(createitem);
 	
@@ -441,10 +443,10 @@
     if (itemList.hasChildNodes()) {
       const children = itemList.childNodes;
       for (let i = 0; i < children.length; i++) {
-        const listItemName = children[i].getElementsByClassName("listItemName")[0].value;
-        const listItemPrice = children[i].getElementsByClassName("listItemPrice")[0].value;
-        const listItemComposition = children[i].getElementsByClassName("listItemComposition")[0].value;
-        const listItemQuantity = children[i].getElementsByClassName("listItemQuantity")[0].value;
+    	  const listItemName = children[i].querySelector(".listItemName").getAttribute("value");
+    	  const listItemPrice = children[i].querySelector(".listItemPrice").getAttribute("value");
+    	  const listItemComposition = children[i].querySelector(".listItemComposition").getAttribute("value");
+    	  const listItemQuantity = children[i].querySelector(".listItemQuantity").getAttribute("value");
         const itemPayload = {
           itemName: listItemName,
           itemPrice: listItemPrice,
@@ -453,7 +455,7 @@
         };
         itemListPayload.push(itemPayload);
       }
-    }
+    }	
 
     formData.append("itemList", JSON.stringify(itemListPayload));
 
