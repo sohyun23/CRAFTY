@@ -13,9 +13,16 @@
 <body>
 	<%@ include file="header.jsp" %>
 	
-	<div class="main-container">
-		<div id="errorMsg">${errorCode} : ${errorMsg} </div>
-	</div>
+	<c:if test="${not empty errorCode}">
+		<div class="main-container">
+			<div id="errorMsg">${errorCode} : ${errorMsg} </div>
+		</div>
+	</c:if>
+	<c:if test="${empty errorCode}">
+		<div class="main-container">
+			<div id="errorMsg">오류가 발생하였습니다.</div>
+		</div>
+	</c:if>
 	
 	<%@ include file="footer.jsp" %>
 </body>
