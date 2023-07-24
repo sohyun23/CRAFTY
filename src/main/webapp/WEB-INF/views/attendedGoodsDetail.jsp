@@ -64,7 +64,7 @@
 									<input type="hidden" class="form-control" id="t_code" name="t_code" value="${order.deliveryCompany}">
 								</div>
 								<div class="form-group">
-									<input type="hidden" class="form-control" name="t_invoice" id="t_invoice" value="${order.deliveryStatus}">
+									<input type="hidden" class="form-control" name="t_invoice" id="t_invoice" value="${order.deliveryNum}">
 								</div>
 								<button type="submit" class="btn btn-default">배송 조회</button>
 					 		</form>
