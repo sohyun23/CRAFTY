@@ -40,6 +40,7 @@ public class LoginController {
 
 	    // id로  멤버 db정보를 가져옴
 	    Member member = memberService.getMemberById(id);
+	    System.out.println(id);
 		
 		// DB에 저장된 암호화된 비밀번호를 가져옴
 		boolean result = BCrypt.checkpw(pw, member.getLoginPw());

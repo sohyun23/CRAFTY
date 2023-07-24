@@ -26,24 +26,33 @@
 	</insert>
 
  	<!-- signUp, validation-->
-	<!-- id -->
-	<select id="isIdExists" resultType="boolean">
-	    SELECT COUNT(*) > 0 FROM MEMBER WHERE LOGIN_ID = #{id}
+	<!-- nickname -->
+	<select id="isNicknameExists" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM MEMBER 
+	    WHERE NICKNAME = #{nickname}
 	</select>
 	
-	<!-- nickname -->
-	<select id="isNicknameExists" resultType="boolean">
-	    SELECT COUNT(*) > 0 FROM MEMBER WHERE NICKNAME = #{nickname}
+	<!-- id -->
+	<select id="isIdExists" resultType="int">
+	    SELECT COUNT(*)
+	    FROM MEMBER 
+	    WHERE LOGIN_ID = #{id}
 	</select>
+	
 	
 	<!-- phoneNum -->
-	<select id="isPhoneNumExists" resultType="boolean">
-	    SELECT COUNT(*) > 0 FROM MEMBER WHERE PHONE_NUM = #{phoneNum}
+	<select id="isPhoneNumExists" resultType="int">
+	    SELECT COUNT(*)
+	    FROM MEMBER 
+	    WHERE PHONE_NUM = #{phoneNum}
 	</select>
 	
 	<!-- email -->
-	<select id="isEmailExists" resultType="boolean">
-	    SELECT COUNT(*) > 0 FROM MEMBER WHERE EMAIL = #{email}
+	<select id="isEmailExists" resultType="int">
+	    SELECT COUNT(*)
+		FROM MEMBER 
+		WHERE EMAIL = #{email}
 	</select>
 
 	<!-- login -->    

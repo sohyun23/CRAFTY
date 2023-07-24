@@ -28,6 +28,7 @@
                 <button id="findIdButton">아이디 찾기</button>
             </form>
         </div>
+        
         <!-- 오버레이 -->
         <div class="overlay-container">
             <div class="overlay">

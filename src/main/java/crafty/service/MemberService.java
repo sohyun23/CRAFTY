@@ -1,5 +1,6 @@
 package crafty.service;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -24,7 +25,11 @@ public class MemberService {
 
 	@Autowired
 	MemberMapper memberMapper;
+	
+	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
     private JavaMailSender emailSender;
 	
 	public ResponseProfile getProfileByMemberId(int memberId) throws SQLException {
@@ -71,21 +76,44 @@ public class MemberService {
         return result;
     }
     
-    // 회원가입 유효성 검사
-    public boolean isIdExists(String id) {
-    	return memberRepository.findByLoginId(id).isPresent();
-    }
-
+ // 회원가입 유효성 검사
     public boolean isNicknameExists(String nickname) {
-    	return memberRepository.findByNickname(nickname).isPresent();
+    	     	
+    	System.out.println("nickname :" + nickname);
+    	
+    	if(memberMapper.isNicknameExists(nickname) > 0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}			
     }
 
+    public boolean isIdExists(String id) {
+    	if(memberMapper.isIdExists(id) > 0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
     public boolean isPhoneNumExists(String phoneNum) {
-    	return memberRepository.findByPhoneNum(phoneNum).isPresent();
+    	if(memberMapper.isPhoneNumExists(phoneNum) > 0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
     }
 
     public boolean isEmailExists(String email) {
-		return memberRepository.findByEmail(email).isPresent();
+    	if(memberMapper.isEmailExists(email) > 0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
     }
     
     
@@ -157,27 +185,33 @@ public class MemberService {
 	// }
 	
 	// profile Edit
-	public void updateMember(int memberId, String profileImg, String profileIntroduction, String nickname, String roadAddress, String detailAddress, Timestamp memberUpdatedAt) {
-	    Member member = new Member();
-	    member.setMemberId(memberId);
-	    
-	    if (profileImg != null) {
-	        member.setProfileImg(profileImg);
-	    }	    
-	    if (profileIntroduction != null) {
-	        member.setProfileIntroduction(profileIntroduction);
-	    }	    
-	    if (nickname != null) {
-	        member.setNickname(nickname);
-	    }	    
-	    if (roadAddress != null) {
-	        member.setRoadAddress(roadAddress);
-	    }	    
-	    if (detailAddress != null) {
-	        member.setDetailAddress(detailAddress);
-	    }	    
-	    memberMapper.updateMember(member);
-	}
+		public void updateMember(int memberId, String profileImg, String profileIntroduction, String nickname, String roadAddress, String detailAddress, Date memberUpdatedAt) {
+		    Member member = new Member();
+		    member.setMemberId(memberId);
+		    
+		    if (profileImg != null) {
+		        member.setProfileImg(profileImg);
+		    }	    
+		    if (profileIntroduction != null) {
+		        member.setProfileIntroduction(profileIntroduction);
+		    }	    
+		    if (nickname != null) {
+		        member.setNickname(nickname);
+		    }	    
+		    if (roadAddress != null) {
+		        member.setRoadAddress(roadAddress);
+		    }	    
+		    if (detailAddress != null) {
+		        member.setDetailAddress(detailAddress);
+		    }	    
+		    memberMapper.updateMember(member);
+		}
+		
+		public ResponseProfile getProfileEditByMemberId(int sessionMemberId) {
+			ResponseProfile profile = memberMapper.getProfileEditByMemberId(sessionMemberId);
+			
+			return profile;
+		}
 
 
 	// Last login date update
