@@ -24,6 +24,7 @@
 		</div>
 	</c:if>
 	
+	
 	<%@ include file="footer.jsp" %>
 </body>
 </html>
