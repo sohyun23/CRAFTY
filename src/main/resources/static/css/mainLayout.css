@@ -55,7 +55,10 @@ input#search-bar{
 	}
 }
 .search-bar-BTN {
-	height: 80px;
+	height: 43px;
+	border : 0;
+	outline : 0;
+	box-shadow: none;
 }
 .search-icon{
 	max-height: 100%;

@@ -42,7 +42,7 @@
 				<c:if test="${pageInfo.pageRequest.keyword != ''}">
 					<input type="text" id="search-bar" placeholder="${pageInfo.pageRequest.keyword}">
 				</c:if>			
-				<div class="search-bar-BTN"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></div>
+				<button class="search-bar-BTN"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></button>
 			</form>
 		</div>
 	</div>
@@ -214,21 +214,7 @@
 	let categorys= document.getElementsByClassName("main-category-cell");
 	for (var i = 0; i < categorys.length; i++) {
 		categorys[i].addEventListener("click", goMain);
-		}
-	
-	
-	let searchIcon = document.getElementsByClassName("search-icon");
-	console.log(searchIcon);
-	searchBTN.addEventListener("click", goSearchMain);
-	
-	
-	function goSearchMain() {
-		
-		console.log(document.getElementsById("search-bar").value);
-		
-		let url = '/main/search?keyword=' + keyword + '&category=전체&ongoing=1&order=0&pageNum=1&amount=8';
 	}
-	
 	
 	function goMain(state, value){	
 		let keyword = '${pageInfo.pageRequest.keyword}';
