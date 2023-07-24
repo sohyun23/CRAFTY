@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import crafty.dto.AlarmedMemberEmail;
+import crafty.dto.MemberEmailInfo;
 import crafty.mapper.GoodsMapper;
 import crafty.mapper.MemberMapper;
 
@@ -56,14 +56,14 @@ public class CraftyScheduling {
 	@Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
 	public void sendEmailToAlarmedMembers() throws Exception {
 		// 알림 보내야 할 멤버의 이메일과 굿즈 이름 List 가져오기
-		List<AlarmedMemberEmail> memberList = memberMapper.getAlarmedMemberEmail();
+		List<MemberEmailInfo> memberList = memberMapper.getAlarmedMemberEmail();
 		
 		// for문으로 메일 보내기
-		for(AlarmedMemberEmail member : memberList) {
+		for(MemberEmailInfo member : memberList) {
 			String to = member.getEmail();
 			String subject = member.getNickname() + "님이 알림 신청하신 굿즈가 내일 자정에 오픈됩니다!";
 			String text = member.getNickname() + "님!\n"
-	                    + "알림 신청하신 굿즈" + member.getGoodsName() + "가 내일 자정에 오픈됩니다!\n"
+	                    + "알림 신청하신 굿즈 '" + member.getGoodsName() + "'가 내일 자정에 오픈됩니다!\n"
 	                    + "기회를 놓치지 마세요!\n";
 			
 			SimpleMailMessage message = new SimpleMailMessage();

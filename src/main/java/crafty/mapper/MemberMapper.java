@@ -8,8 +8,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import crafty.dto.AlarmedMemberEmail;
 import crafty.dto.Member;
+import crafty.dto.MemberEmailInfo;
 import crafty.dto.RequestPayment;
 import crafty.dto.ResponseProfile;
 
@@ -46,12 +46,14 @@ public interface MemberMapper {
 		void updateLastLoginDate(Member member);
 
 	ResponseProfile getProfileByMemberId(int memberId) throws SQLException;
-
-
-	RequestPayment getMemberByMemberId(int memberId) throws SQLException;
-
-	List<AlarmedMemberEmail> getAlarmedMemberEmail() throws SQLException;
-
 	
+	// 결제 정보 저장을 위한 멤버 정보
+	RequestPayment getMemberByMemberId(int memberId) throws SQLException;
+	
+	// 오픈 알람 메일 전송을 위한 멤버 리스트
+	List<MemberEmailInfo> getAlarmedMemberEmail() throws SQLException;
+
+	// 굿즈 허가 / 불허가 메일 전송을 위한 멤버 정보
+	MemberEmailInfo getMemberEmailInfoByGoodsId(int goodsId) throws SQLException;
 	
 }
