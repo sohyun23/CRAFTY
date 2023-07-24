@@ -182,4 +182,7 @@ select {
 .header{
 	border-bottom : none;
 }
-
+.nothing {
+	width: 1440px;
+	text-align: center;
+}

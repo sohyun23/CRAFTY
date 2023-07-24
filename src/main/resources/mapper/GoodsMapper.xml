@@ -24,7 +24,6 @@
 			    LEFT JOIN ORDERS o ON g.goods_id = o.goods_id
 			    LEFT JOIN ADJUSTMENT_ORDER ao ON g.goods_id = ao.goods_id
 			    GROUP BY g.goods_id, g.goods_name, g.member_id, m.nickname, ao.adjustment_created_at, ao.last_total_amount
-			    ORDER BY g.goods_created_at DESC
 			)
 		<![CDATA[
 			WHERE rn > (#{pageNum} - 1) * #{amount}
