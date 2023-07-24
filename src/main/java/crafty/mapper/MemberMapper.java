@@ -47,12 +47,17 @@ public interface MemberMapper {
 
 	ResponseProfile getProfileByMemberId(int memberId) throws SQLException;
 
-
+	// 결제를 위한 멤버 정보
 	RequestPayment getMemberByMemberId(int memberId) throws SQLException;
 
+	// 결제 내역 알림 메일을 위한 멤버 정보 
+	MemberEmailInfo getMemberEmailInfoByOrderId(int orderId) throws SQLException;
+
+	// 알림신청 멤버 메일 정보
 	List<MemberEmailInfo> getAlarmedMemberEmail() throws SQLException;
 	
 	// 굿즈 등록/삭제 신청 메일 정보
 	MemberEmailInfo getMemberEmailInfoByGoodsId(int goodsId) throws SQLException;
+
 
 }

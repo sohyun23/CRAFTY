@@ -61,7 +61,7 @@ public class CraftyScheduling {
 		// for문으로 메일 보내기
 		for(MemberEmailInfo member : memberList) {
 			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 알림 신청하신 굿즈가 내일 자정에 오픈됩니다!";
+			String subject = "[CRAFTY]" + member.getNickname() + "님이 알림 신청하신 굿즈가 내일 자정에 오픈됩니다!";
 			String text = member.getNickname() + "님!\n"
 	                    + "알림 신청하신 굿즈" + member.getGoodsName() + "가 내일 자정에 오픈됩니다!\n"
 	                    + "기회를 놓치지 마세요!\n";

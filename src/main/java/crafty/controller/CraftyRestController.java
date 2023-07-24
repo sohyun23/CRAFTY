@@ -82,7 +82,7 @@ public class CraftyRestController {
 			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
 					
 			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 등록 신청하신 굿즈가 등록 허가되었습니다!";
+			String subject = "[CRAFTY]" + member.getNickname() + "님이 등록 신청하신 굿즈가 등록 허가되었습니다!";
 			String text = member.getNickname() + "님!\n"
 	                    + "등록 신청하신 굿즈" + member.getGoodsName() + "가 등록 허가되었습니다!\n";
 			
@@ -107,7 +107,7 @@ public class CraftyRestController {
 			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
 					
 			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 등록 신청하신 굿즈가 등록 불허가되었습니다.";
+			String subject = "[CRAFTY]" + member.getNickname() + "님이 등록 신청하신 굿즈가 등록 불허가되었습니다.";
 			String text = member.getNickname() + "님!\n"
 	                    + "등록 신청하신 굿즈" + member.getGoodsName() + "가 등록 불허가되었습니다.\n";
 			
@@ -132,7 +132,7 @@ public class CraftyRestController {
 			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
 					
 			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 비공개 신청하신 굿즈가 비공개 허가되었습니다!";
+			String subject = "[CRAFTY]" + member.getNickname() + "님이 비공개 신청하신 굿즈가 비공개 허가되었습니다!";
 			String text = member.getNickname() + "님!\n"
 	                    + "비공개 신청하신 굿즈" + member.getGoodsName() + "가 비공개 허가되었습니다!\n";
 			
@@ -157,7 +157,7 @@ public class CraftyRestController {
 			MemberEmailInfo member = memberService.getMemberEmailInfoByGoodsId(goodsId);
 					
 			String to = member.getEmail();
-			String subject = member.getNickname() + "님이 비공개 신청하신 굿즈가 비공개 불허가되었습니다.";
+			String subject = "[CRAFTY]" + member.getNickname() + "님이 비공개 신청하신 굿즈가 비공개 불허가되었습니다.";
 			String text = member.getNickname() + "님!\n"
 	                    + "비공개 신청하신 굿즈" + member.getGoodsName() + "가 비공개 불허가되었습니다.\n";
 			

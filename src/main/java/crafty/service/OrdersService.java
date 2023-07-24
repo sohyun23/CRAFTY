@@ -6,20 +6,31 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import crafty.dto.MemberEmailInfo;
 import crafty.dto.OrderItems;
 import crafty.dto.Orders;
 import crafty.dto.PaymentInfo;
 import crafty.dto.ResponseAttendedGoods;
 import crafty.dto.ResponseAttendedGoodsDetail;
 import crafty.dto.ResponseRegisteredGoodsDetailOrders;
+import crafty.mapper.MemberMapper;
 import crafty.mapper.OrdersMapper;
 
 @Service
 public class OrdersService {
-
+	
+	private final JavaMailSender javaMailSender;
+	
+	@Autowired
+    public OrdersService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
+	
 	@Autowired
 	OrdersMapper ordersMapper;
 	
@@ -28,6 +39,9 @@ public class OrdersService {
 	
 	@Autowired
 	PaymentInfoService paymentInfoService;
+	
+	@Autowired
+	MemberMapper memberMapper;
 	
 	public List<Orders> getOrdersByGoodsId(HashMap hashMap) {
 		List<Orders> ordersList = ordersMapper.getOrdersByGoodsId(hashMap);
@@ -102,10 +116,27 @@ public class OrdersService {
 		    	orderItemsList.add(orderItem);
 		    };
 			
-		    // order_items
+		    // order_items 
 		    orderItemsService.insertOrderItems(orderItemsList);
 		    
-		    int paymentRes = paymentInfoService.insertPaymentInfo(payInfo);
+		    // payment_info
+		    paymentInfoService.insertPaymentInfo(payInfo);
+		    
+		    // 결제 정보 메일 전송
+		    MemberEmailInfo member = memberMapper.getMemberEmailInfoByOrderId(order.getOrderId());
+			
+			String to = member.getEmail();
+			String subject = "[CRAFTY] " + member.getGoodsName() + "주문 내역을 안내드립니다.";
+			String text = member.getNickname() + "님이 주문하신 굿즈 결제 내역을 알려드립니다.\n"
+						 + "굿즈명: " + member.getGoodsName() + "\n"
+						 + "결제 금액: " + order.getItemTotalAmount();
+	                    
+			
+			SimpleMailMessage message = new SimpleMailMessage();
+	        message.setTo(to);
+	        message.setSubject(subject);
+	        message.setText(text);
+	        javaMailSender.send(message);
 		    
 		    result = true;
 		} else {
