@@ -50,7 +50,11 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
-						<!-- 반복 출력 -->
+						<c:if test="${empty requestScope.goodsList}">
+	                		<tr>
+	                			<td id="nothing" colspan="4">아직 등록한 굿즈가 없어요!</td>
+	                		</tr>
+	                	</c:if>
 						<c:forEach items="${requestScope.goodsList}" var="goods">
 		                    <tr>
 		                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
