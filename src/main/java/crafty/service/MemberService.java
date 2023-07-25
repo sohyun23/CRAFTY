@@ -76,7 +76,7 @@ public class MemberService {
         return result;
     }
     
- // 회원가입 유효성 검사
+    // 회원가입 유효성 검사
     public boolean isNicknameExists(String nickname) {
     	     	
     	System.out.println("nickname :" + nickname);
@@ -184,27 +184,24 @@ public class MemberService {
 	// 	return memberMapper.getMemberByMemberId(memberId);
 	// }
 	
-	// profile Edit
-		public void updateMember(int memberId, String profileImg, String profileIntroduction, String nickname, String roadAddress, String detailAddress, Date memberUpdatedAt) {
-		    Member member = new Member();
-		    member.setMemberId(memberId);
-		    
-		    if (profileImg != null) {
-		        member.setProfileImg(profileImg);
-		    }	    
-		    if (profileIntroduction != null) {
-		        member.setProfileIntroduction(profileIntroduction);
-		    }	    
-		    if (nickname != null) {
-		        member.setNickname(nickname);
-		    }	    
-		    if (roadAddress != null) {
-		        member.setRoadAddress(roadAddress);
-		    }	    
-		    if (detailAddress != null) {
-		        member.setDetailAddress(detailAddress);
-		    }	    
-		    memberMapper.updateMember(member);
+		// profile Edit
+		public void updateMember(String profileImg, String nickname, String profileIntroduction, String email,
+	            String zoneCode, String roadAddress, String detailAddress, Date memberUpdatedAt){
+				Member member = memberRepository.findByEmail(email);
+				if (member != null) {
+				// 프로필 정보를 업데이트합니다.
+					member.setProfileImg(profileImg);
+					member.setNickname(nickname);
+					member.setProfileIntroduction(profileIntroduction);
+					member.setEmail(email);
+					member.setZoneCode(zoneCode);
+					member.setRoadAddress(roadAddress);
+					member.setDetailAddress(detailAddress);
+				// 변경사항을 저장합니다.
+					memberRepository.save(member);
+				} else {
+					throw new RuntimeException("해당 회원을 찾을 수 없습니다.");
+				}
 		}
 		
 		public ResponseProfile getProfileEditByMemberId(int sessionMemberId) {

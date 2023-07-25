@@ -31,7 +31,7 @@
                     	내 정보
                 </div>
                 <ul>
-                    <li><a href="/profile/edit">프로필 수정</a></li>
+                    <li><a onclick="window.location.href='/profile/edit/${sessionScope.memberId}'">프로필 수정</a></li>
                 </ul>
             </div>
         </div>
