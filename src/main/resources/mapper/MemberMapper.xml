@@ -12,6 +12,15 @@
  		WHERE member_id = #{memberId}
  	</select>
  	
+ 	<!-- profileEdit -->
+ 	<select id="getProfileEditByMemberId" resultType="crafty.dto.ResponseProfile">
+        SELECT member_id, profile_img, nickname, profile_introduction,
+               email, zone_code, road_address, detail_address
+        FROM MEMBER
+        WHERE member_id = #{memberId}
+    </select>
+ 	
+ 	
  	<!-- signUp, Insert a new member -->
     <insert id="signUp" parameterType="crafty.dto.Member">
     <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
