@@ -23,7 +23,7 @@
         <div class="form-container find-id-container">
             <form action="/submit" method="post">
                 <h1 id="craftyTitleFindId" style="cursor: pointer;">CRAFTY</h1>
-                <input type="text" id="findIdName" name="name" maxlength="4" placeholder="이름를 입력해주세요" />
+                <input type="text" id="findIdName" name="name" maxlength="4" placeholder="이름을 입력해주세요" />
                 <input type="text" id="findIdPhone" name="phone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" pattern="\d*" maxlength="11" placeholder="휴대폰 번호를 입력해주세요" />
                 <button id="findIdButton">아이디 찾기</button>
             </form>

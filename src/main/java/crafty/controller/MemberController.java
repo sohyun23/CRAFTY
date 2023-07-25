@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import crafty.dto.Goods;
 import crafty.dto.Member;
@@ -102,6 +105,23 @@ public class MemberController {
             return ResponseEntity.ok("이미 사용중인 아이디입니다.");
         } else if (phoneNum != null && memberService.isPhoneNumExists(phoneNum)) {
             return ResponseEntity.ok("이미 사용중인 휴대폰 번호입니다.");
+        } else if (email != null && memberService.isEmailExists(email)) {
+            return ResponseEntity.ok("이미 사용중인 이메일입니다.");
+        } else {
+            return ResponseEntity.ok("사용 가능합니다.");
+        }
+    }
+    
+    // ProfileEdit, validation
+    @GetMapping("/isExistsProfileEdit")
+    public ResponseEntity<String> isExistsProfileEdit(@RequestParam(value = "nickname", required = false) String nickname,
+    									    		@RequestParam(value = "email", required = false) String email) throws Exception{
+    	
+    	System.out.println(nickname);
+    	
+    	if (nickname != null && memberService.isNicknameExists(nickname)) {
+    		System.out.println(nickname);
+            return ResponseEntity.ok("이미 사용중인 닉네임입니다.");
         } else if (email != null && memberService.isEmailExists(email)) {
             return ResponseEntity.ok("이미 사용중인 이메일입니다.");
         } else {
@@ -336,7 +356,7 @@ public class MemberController {
         return "profile";
     }
     
- // profile Edit(get)
+    // profile Edit(get)
     @GetMapping(value = "/profile/edit/{memberId}")
     public String showProfileEditForm(Model model, HttpSession session) throws SQLException {
         int sessionMemberId = (int) session.getAttribute("memberId");
@@ -347,22 +367,26 @@ public class MemberController {
         return "profileEdit";
     }
    
-    // profile Edit(post)
-    @PostMapping(value = "/profile/edit/{memberId}")
-    public String editProfile(@ModelAttribute Member member, HttpSession session, Model model) throws SQLException {
-        int sessionMemberId = (int) session.getAttribute("memberId");
-        Date currentTime = new Date(System.currentTimeMillis());
-        member.setMemberUpdatedAt(currentTime);
-        ResponseProfile profile = memberService.getProfileEditByMemberId(sessionMemberId);
-        model.addAttribute("member", member);
-
-        // DB에 수정된 프로필 정보 저장
-        memberService.updateMember(member.getMemberId(), member.getProfileImg(), 
-      		  					member.getNickname(), member.getProfileIntroduction(), 
-      		  					member.getRoadAddress(), member.getDetailAddress(),
-      		  					member.getMemberUpdatedAt());
-
-        
-        return "redirect:/profile/" + sessionMemberId;
+    // profile(post)
+    @PostMapping("/profile/edit")
+//    @ResponseBody
+    public ResponseEntity<String> updateProfile(@RequestParam("profileImg") String profileImg,
+    											@RequestParam("nickname") String nickname,
+                                                @RequestParam("profileIntroduction") String profileIntroduction,
+                                                @RequestParam("email") String email,
+                                                @RequestParam("zoneCode") String zoneCode,
+                                                @RequestParam("roadAddress") String roadAddress,
+                                                @RequestParam("detailAddress") String detailAddress) {
+        try {
+        	// 현재 시간을 memberUpdatedAt으로 설정합니다.
+            Date memberUpdatedAt = new Date(0);
+            
+            // 서비스를 통해 프로필 정보를 업데이트합니다.
+            memberService.updateMember(profileImg, nickname, profileIntroduction, email, zoneCode, roadAddress, detailAddress, memberUpdatedAt);
+            return ResponseEntity.ok("프로필이 업데이트되었습니다.");
+        } catch (Exception e) {
+            // 업데이트 실패 시 에러 메시지를 반환합니다.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 업데이트에 실패했습니다.");
+        }
     }
 }
