@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+
 
 import crafty.dto.Goods;
 import crafty.dto.Member;
@@ -365,6 +368,7 @@ public class MemberController {
         return "profileEdit";
     }
    
+
     // profile Edit(post)
     @PostMapping("/profile/edit")
     @ResponseBody
@@ -378,6 +382,7 @@ public class MemberController {
         try {
         	// 현재 시간을 memberUpdatedAt으로 설정합니다.
             Date memberUpdatedAt = new Date(0);
+
             // 서비스를 통해 프로필 정보를 업데이트합니다.
             memberService.updateMember(profileImg, nickname, profileIntroduction, email, zoneCode, roadAddress, detailAddress, memberUpdatedAt);
             return ResponseEntity.ok("프로필이 업데이트되었습니다.");

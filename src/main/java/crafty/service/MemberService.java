@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import crafty.dto.Member;
 import crafty.dto.MemberEmailInfo;
@@ -180,6 +183,7 @@ public class MemberService {
 	    return sb.toString();
 	}
 	
+
 	// public Member getMemberByMemberId(int memberId) {
 	// 	return memberMapper.getMemberByMemberId(memberId);
 	// }
@@ -203,12 +207,13 @@ public class MemberService {
 					throw new RuntimeException("해당 회원을 찾을 수 없습니다.");
 				}
 		}
+
 		
-		public ResponseProfile getProfileEditByMemberId(int sessionMemberId) {
-			ResponseProfile profile = memberMapper.getProfileEditByMemberId(sessionMemberId);
-			
-			return profile;
-		}
+		
+	public ResponseProfile getProfileEditByMemberId(int sessionMemberId) {			
+		ResponseProfile profile = memberMapper.getProfileEditByMemberId(sessionMemberId);					
+		return profile;	
+	}
 
 
 	// Last login date update
@@ -218,12 +223,6 @@ public class MemberService {
 	    member.setLastLoginDate(lastLoginDate);
 	    memberMapper.updateLastLoginDate(member);
 	}
-	
-
-	public void updateMember(Member member) {
-	    memberMapper.updateMember(member);
-	}
-
 	
 	// 결제 주문자 정보
 	public RequestPayment getMemberByMemberId(int memberId) throws Exception {
@@ -248,5 +247,30 @@ public class MemberService {
 		
 		return member;
 	}
+	
+	// profile Edit
+	@Transactional
+	public void updateMember(String profileImgName, String nickname, String profileIntroduction, String email,
+	                         String zoneCode, String roadAddress, String detailAddress, Date memberUpdatedAt) throws Exception {
+	    Member member = memberRepository.findByEmail(email);
+	    if (member != null) {
+	        // 프로필 이미지 업로드된 파일명을 설정합니다.
+	        member.setProfileImg(profileImgName);
+
+	        // 프로필 정보를 업데이트합니다.
+	        member.setNickname(nickname);
+	        member.setProfileIntroduction(profileIntroduction);
+	        member.setEmail(email);
+	        member.setZoneCode(zoneCode);
+	        member.setRoadAddress(roadAddress);
+	        member.setDetailAddress(detailAddress);
+	        member.setMemberUpdatedAt(memberUpdatedAt);
+
+	        // 변경사항을 저장합니다.
+	        memberRepository.save(member);
+	    } else {
+	        throw new RuntimeException("해당 회원을 찾을 수 없습니다.");
+	    }
+    }
     
 }

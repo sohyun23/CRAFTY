@@ -76,9 +76,8 @@
 			<button type="submit"><b>Sign Up</b></button>
         </form>
         
-       	 	<!-- 유효성 검사 -->
+       	 	<!-- 중복 검사 -->
  	        <script>
-	
 	 	    	function isNicknameExists() {
 	 	    	    let nickname = document.querySelector('input[name="nickname"]').value;
 	 	    	    console.log(nickname)
@@ -128,67 +127,7 @@
 		                .catch(function (error) {
 		                    console.log(error);
 		                });
-	 	    	}
- 	        
-	        /* function isNicknameExists() {
-	            let nickname = document.querySelector('input[name="nickname"]').value;
-	            axios.post('/nicknameExists', nickname)
-	                .then(function (response) {
-	                    if (response.data.data) {
-	                        alert('이미 사용중인 닉네임입니다.');
-	                    } else {
-	                        alert('사용 가능한 닉네임입니다.');
-	                    }
-	                })
-	                .catch(function (error) {
-	                    console.log(error);
-	                });
-	        }
-
-	        function isIdExists() {
-	            let id = document.querySelector('input[name="loginId"]').value;
-	            axios.post('/idExists', id)
-	                .then(function (response) {
-	                    if (response.data.data) {
-	                        alert('이미 사용중인 아이디입니다.');
-	                    } else {
-	                        alert('사용 가능한 아이디입니다.');
-	                    }
-	                })
-	                .catch(function (error) {
-	                    console.log(error);
-	                });
-	        }
-
-	        function isPhoneNumExists() {
-	            let phoneNum = document.querySelector('input[name="phoneNum"]').value;
-	            axios.post('/phoneNumExists', phoneNum)
-	                .then(function (response) {
-	                    if (response.data.data) {
-	                        alert('이미 사용중인 휴대폰 번호입니다.');
-	                    } else {
-	                        alert('사용 가능한 휴대폰 번호입니다.');
-	                    }
-	                })
-	                .catch(function (error) {
-	                    console.log(error);
-	                });
-	        }
-
-	        function isEmailExists() {
-	            let email = document.querySelector('input[name="email"]').value;
-	            axios.post('/emailExists', email)
-	                .then(function (response) {
-	                    if (response.data.data) {
-	                        alert('이미 사용중인 이메일입니다.');
-	                    } else {
-	                        alert('사용 가능한 이메일입니다.');
-	                    }
-	                })
-	                .catch(function (error) {
-	                    console.log(error);
-	                });
-	        } */
+	 	    	}       
 			    
 			    var error = "${error}";
 			    if (error !== "") {

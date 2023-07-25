@@ -1,6 +1,6 @@
 package crafty.mapper;
 import java.sql.Timestamp;
-
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +45,7 @@ public interface MemberMapper {
 		// last login date(time stamp)
 		void updateLastLoginDate(Member member);
 		
+		// 프로필 가져오기
 		ResponseProfile getProfileEditByMemberId(int sessionMemberId);
 
 		ResponseProfile getProfileByMemberId(int memberId) throws SQLException;
@@ -60,6 +61,9 @@ public interface MemberMapper {
 		
 		// 굿즈 등록/삭제 신청 메일 정보
 		MemberEmailInfo getMemberEmailInfoByGoodsId(int goodsId) throws SQLException;
+
+		// 프로필 수정하기
+		void updateProfileEdit(ResponseProfile profile, Date memberUpdatedAt);
 
 
 }

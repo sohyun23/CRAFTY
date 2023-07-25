@@ -20,6 +20,7 @@
         WHERE member_id = #{memberId}
     </select>
  	
+
  	<!-- signUp, Insert a new member -->
     <insert id="signUp" parameterType="crafty.dto.Member">
     <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
