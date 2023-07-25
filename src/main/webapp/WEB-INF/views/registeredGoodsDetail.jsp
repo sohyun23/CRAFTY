@@ -41,7 +41,9 @@
 	                <div id="attend-number">
 	                	참여 수 : ${goods.salesNum}
 	                </div>
-	                <button id="delete-popup-btn">삭제 신청</button>
+	                <c:if test="${isEndDateBeforeToday}">
+		                <button id="delete-popup-btn">삭제 신청</button>
+	                </c:if>
 	            </div>
 	        </div>
 	        <div id="bottom">

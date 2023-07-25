@@ -2,6 +2,7 @@ package crafty.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -335,9 +336,15 @@ public class GoodsController {
 		
 		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
 		
+		// endDate와 오늘 날짜 비교하여 결과를 boolean 변수에 저장
+        Date endDate = goods.getEndDate(); // goods에 있는 endDate를 가져옴
+        Date today = new Date();
+        boolean isEndDateBeforeToday = endDate.before(today);
+		
 		model.addAttribute("goods", goods);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("pageInfo", pageResponse);
+		model.addAttribute("isEndDateBeforeToday", isEndDateBeforeToday);
 		
 		return "registeredGoodsDetail";
 	}
@@ -396,9 +403,15 @@ public class GoodsController {
 		
 		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
 		
+		// endDate와 오늘 날짜 비교하여 결과를 boolean 변수에 저장
+        Date endDate = goods.getEndDate(); // goods에 있는 endDate를 가져옴
+        Date today = new Date();
+        boolean isEndDateBeforeToday = endDate.before(today);
+		
 		model.addAttribute("goods", goods);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("pageInfo", pageResponse);
+		model.addAttribute("isEndDateBeforeToday", isEndDateBeforeToday);
 		
 		return "registeredGoodsSalesByItem";
 	}
