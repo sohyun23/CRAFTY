@@ -183,6 +183,31 @@ public class MemberService {
 	    return sb.toString();
 	}
 	
+
+	// public Member getMemberByMemberId(int memberId) {
+	// 	return memberMapper.getMemberByMemberId(memberId);
+	// }
+	
+		// profile Edit
+		public void updateMember(String profileImg, String nickname, String profileIntroduction, String email,
+	            String zoneCode, String roadAddress, String detailAddress, Date memberUpdatedAt){
+				Member member = memberRepository.findByEmail(email);
+				if (member != null) {
+				// 프로필 정보를 업데이트합니다.
+					member.setProfileImg(profileImg);
+					member.setNickname(nickname);
+					member.setProfileIntroduction(profileIntroduction);
+					member.setEmail(email);
+					member.setZoneCode(zoneCode);
+					member.setRoadAddress(roadAddress);
+					member.setDetailAddress(detailAddress);
+				// 변경사항을 저장합니다.
+					memberRepository.save(member);
+				} else {
+					throw new RuntimeException("해당 회원을 찾을 수 없습니다.");
+				}
+		}
+
 		
 		
 	public ResponseProfile getProfileEditByMemberId(int sessionMemberId) {			

@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
+
+
 
 import crafty.dto.Goods;
 import crafty.dto.Member;
@@ -319,7 +320,7 @@ public class MemberController {
         return "profile";
     }
     
-//  프로필
+    //  프로필
     @GetMapping(value = "/profile/{memberId}")
     public String profile(@PathVariable("memberId") int memberId,
 					            @ModelAttribute PageRequestDTO pageRequest,
@@ -367,9 +368,10 @@ public class MemberController {
         return "profileEdit";
     }
    
-    // profile(post)
+
+    // profile Edit(post)
     @PostMapping("/profile/edit")
-//    @ResponseBody
+    @ResponseBody
     public ResponseEntity<String> updateProfile(@RequestParam("profileImg") String profileImg,
     											@RequestParam("nickname") String nickname,
                                                 @RequestParam("profileIntroduction") String profileIntroduction,
@@ -380,7 +382,7 @@ public class MemberController {
         try {
         	// 현재 시간을 memberUpdatedAt으로 설정합니다.
             Date memberUpdatedAt = new Date(0);
-            
+
             // 서비스를 통해 프로필 정보를 업데이트합니다.
             memberService.updateMember(profileImg, nickname, profileIntroduction, email, zoneCode, roadAddress, detailAddress, memberUpdatedAt);
             return ResponseEntity.ok("프로필이 업데이트되었습니다.");
