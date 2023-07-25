@@ -28,6 +28,10 @@
 
 .search-icon:hover {
 	cursor : pointer;
+	
+  	background-color : white;
+  	color : white;
+  
 }
 
 input#search-bar{
@@ -59,7 +63,14 @@ input#search-bar{
 	border : 0;
 	outline : 0;
 	box-shadow: none;
+	background-color : white;
+  	color : white;
 }
+.search-bar-BTN:hover{
+	background-color : white;
+  	color : white;
+}
+
 .search-icon{
 	max-height: 100%;
 }

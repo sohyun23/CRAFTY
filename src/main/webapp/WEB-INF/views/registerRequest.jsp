@@ -54,8 +54,8 @@
 	                	<c:forEach items="${requestScope.goodsList}" var="goods">
 		                    <tr>
 		                        <td class="goods-num">${goods.goodsId}</td>
-		                        <td class="goods-name"><a href="/goods/${goodsId}">${goods.goodsName}</a></td>
-		                        <td class="goods-applicant"><a href="/profile/${memberId}">${goods.nickname}</a></td>
+		                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
+		                        <td class="goods-applicant"><a href="/profile/${goods.memberId}">${goods.nickname}</a></td>
 		                        <td class="request-date"><fmt:formatDate value="${goods.goodsCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		                        <td class="allow-btn">
 		                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>

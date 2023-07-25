@@ -129,7 +129,7 @@ public class OrdersService {
 			String subject = "[CRAFTY] " + member.getGoodsName() + "주문 내역을 안내드립니다.";
 			String text = member.getNickname() + "님이 주문하신 굿즈 결제 내역을 알려드립니다.\n"
 						 + "굿즈명: " + member.getGoodsName() + "\n"
-						 + "결제 금액: " + order.getItemTotalAmount();
+						 + "결제 금액: " + order.getTotalAmount();
 	                    
 			
 			SimpleMailMessage message = new SimpleMailMessage();
