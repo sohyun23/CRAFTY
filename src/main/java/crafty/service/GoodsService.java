@@ -31,16 +31,22 @@ public class GoodsService {
 	@Autowired
 	GoodsMapper goodsMapper;
 	
-	// 메인 굿즈 가져오기. 카테고리, 인기순, 진행상황, 키워드 등 정렬 기준 모두 적용 가능
-	public List<MainCard> getMainGoods(PageRequestDTO pageRequest, PageProperties pageProperties, int memberId) {
-		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest, pageProperties, memberId);
-		return goodsList;
+	// 메인 - 오늘 가장 많이 팔린 굿즈
+	public List<MainCard> getMostOrderGoods() throws Exception {
+		List<MainCard> getmostOrderGoodsList = goodsMapper.getMostOrderGoods();
+		return getmostOrderGoodsList;
 	}
 
-	// 메인 굿즈 토탈 카운트 들고 오기
-	public int getMainGoodsTotalCount(PageRequestDTO pageRequest, PageProperties pageProperties, int memberId) {
-		int result = goodsMapper.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);
-		return result;
+	// 메인 - 오늘 오픈한 굿즈
+	public List<MainCard> getDebutGoods() throws Exception {
+		List<MainCard> debutGoodsList = goodsMapper.getDebutGoods();
+		return debutGoodsList;
+	}
+	
+	// 메인 - 오픈 예정 굿즈
+	public List<MainCard> getOpenScheduledGoods() throws Exception {
+		List<MainCard> getOpenScheduledGoodsList = goodsMapper.getOpenScheduledGoods();
+		return getOpenScheduledGoodsList;
 	}
 	
 	// 등록된 모든 굿즈를 반환하는 메서드
@@ -91,8 +97,8 @@ public class GoodsService {
 	}
 	
 	// 굿즈 상세 정보
-	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException{
-		ResponseGoodsDetail goods = goodsMapper.getGoodsByGoodsId(goodsId);
+	public ResponseGoodsDetail getGoodsByGoodsId(HashMap<String, Object> hashmap) throws SQLException{
+		ResponseGoodsDetail goods = goodsMapper.getGoodsByGoodsId(hashmap);
 		
 		return goods;
 	}
