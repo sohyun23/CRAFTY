@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,7 @@
                     	내 정보
                 </div>
                 <ul>
-                    <li><a href="/profile/edit">프로필 수정</a></li>
+                    <li><a onclick="window.location.href='/profile/edit/${sessionScope.memberId}'">프로필 수정</a></li>
                 </ul>
             </div>
         </div>
@@ -39,39 +40,46 @@
             <div class="title">
                 	참여 굿즈 내역
             </div>
-            <table class="goods-table">
-                <thead >
-                    <tr>
-                        <td class="goods-name">굿즈명</td>
-                        <td class="payment-date">결제 일자</td>
-                        <td class="status">상태</td>
-                        <td class="detail"></td>
-                    </tr>
-                </thead>
-                <tbody>
-					<!-- 반복 출력 -->
-					<c:forEach items="${requestScope.orderList}" var="order">
+            <div class="table-container">
+	            <table class="goods-table">
+	                <thead >
 	                    <tr>
-	                        <td class="goods-name"><a href="/goods/${order.goodsId}">${order.goodsName}</a></td>
-	                        <td class="payment-date">${order.orderCreatedAt}</td>
-	                        <td class="status">
-	                        	<c:if test="${order.ongoingStatus eq 2}">
-	                        		<c:if test="${order.productionStatus eq 0}">
-	                        			제작 확정
-	                        		</c:if>
-	                        		<c:if test="${order.productionStatus eq 1}">
-										제작 무산	                        		
-	                        		</c:if>
-	                        	</c:if>
-	                        	<c:if test="${order.ongoingStatus eq 1}">
-	                        		진행중
-	                        	</c:if>
-	                        </td>
-	                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/attended/${order.orderId}'">상세</button></td>
+	                        <td class="goods-name">굿즈명</td>
+	                        <td class="payment-date">결제 일자</td>
+	                        <td class="status">상태</td>
+	                        <td class="detail"></td>
 	                    </tr>
-	                </c:forEach>
-                </tbody>
-            </table>
+	                </thead>
+	                <tbody>
+	                	<c:if test="${empty requestScope.orderList}">
+	                		<tr>
+	                			<td id="nothing" colspan="4">아직 참여한 굿즈가 없어요!</td>
+	                		</tr>
+	                	</c:if>
+						<!-- 반복 출력 -->
+						<c:forEach items="${requestScope.orderList}" var="order">
+		                    <tr>
+		                        <td class="goods-name"><a href="/goods/${order.goodsId}">${order.goodsName}</a></td>
+		                        <td class="payment-date"><fmt:formatDate value="${order.orderCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		                        <td class="status">
+		                        	<c:if test="${order.ongoingStatus eq 2}">
+		                        		<c:if test="${order.productionStatus eq 0}">
+		                        			제작 확정
+		                        		</c:if>
+		                        		<c:if test="${order.productionStatus eq 1}">
+											제작 무산	                        		
+		                        		</c:if>
+		                        	</c:if>
+		                        	<c:if test="${order.ongoingStatus eq 1}">
+		                        		진행중
+		                        	</c:if>
+		                        </td>
+		                        <td class="detail"><button class="detail-btn" onclick="location.href='/goods/attended/${order.orderId}'">상세</button></td>
+		                    </tr>
+		                </c:forEach>
+	                </tbody>
+	            </table>
+	        </div>
           	<div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +44,7 @@
                     	<td class="order-num">주문 번호</td>
                         <td class="order-purchaser">구매자</td>
                         <td class="order-date">결제 날짜</td>
-                        <td class="order-means">결제 수단</td> <!-- 이거 하려면 결제 테이블에 수단도 저장해야됨 -->
+                        <td class="order-means">결제 수단</td>
                         <td class="order-amount">결제 금액</td>
                     </tr>
                 </thead>
@@ -53,7 +54,7 @@
 	                    <tr>
 	                    	<td class="order-num">${order.orderId}</td>
 	                        <td class="order-purchaser"><a href="/profile/${order.memberId}">${order.nickname}</a></td>
-	                        <td class="order-date">${order.orderCreatedAt}</td>
+	                        <td class="order-date"><fmt:formatDate value="${order.orderCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                        <td class="order-means">${order.paymentMean}</td>
 	                        <td class="order-amount">${order.totalAmount}</td>
 	                    </tr>

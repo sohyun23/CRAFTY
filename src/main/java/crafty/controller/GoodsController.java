@@ -2,6 +2,7 @@ package crafty.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +30,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import crafty.dto.CustomException;
+import crafty.dto.ErrorCode;
+import crafty.dto.ErrorResponse;
 import crafty.dto.Goods;
 import crafty.dto.GoodsDesciptionImg;
 import crafty.dto.GoodsResponse;
@@ -92,8 +96,8 @@ public class GoodsController {
         
         PageRequestDTO pageRequest = new PageRequestDTO(1, 8, "");
         PageProperties pageProperties = new PageProperties("전체", 1, 0); // category, ongoing, order
-        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);        
-        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);    
+        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, memberId);        
+        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);    
         PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
         MainCategoryList categoryList = new MainCategoryList();
         
@@ -120,11 +124,11 @@ public class GoodsController {
             memberId = (int)session.getAttribute("memberId");
             System.out.println(memberId);
         }
-        
+                
         PageProperties pageProperties = new PageProperties(category, ongoing, order);
         PageRequestDTO pageRequest = new PageRequestDTO(pageNum, amount, keyword);
-        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);    
-        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, pageRequest.getKeyword(), memberId);        
+        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, memberId);    
+        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);        
         PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
         MainCategoryList categoryList = new MainCategoryList();
         
@@ -152,43 +156,47 @@ public class GoodsController {
 	}
 	
 	// 굿즈 등록 페이지 전환 메서드
-	@GetMapping(value="/register")
-	public String registerGoodsForm() {
-		return "registerGoods";
-	}
+		@GetMapping(value="/register")
+		public String registerGoodsForm() {
+			return "registerGoods";
+		}
 	
 	// 굿즈 등록 페이지 전환 메서드
-	//[{"itemName":"1","itemPrice":"1","itemComposition":"1","itemQuantity":"1"},{"itemName":"2","itemPrice":"2","itemComposition":"2","itemQuantity":"2"}]
 	@PostMapping(value ="/register/goods")
-	public String registerGoods(
-//									HttpSession loginSession,
+	public ResponseEntity registerGoods(
+								HttpSession loginSession,
 								@RequestParam("thumbnailFile") MultipartFile thumbnailFile,
 								@RequestParam("descriptionFile") MultipartFile descriptionFile,
-								@ModelAttribute GoodsResponse goodsResponse) throws Exception{
+								@ModelAttribute GoodsResponse goodsResponse){
 		
 		if(thumbnailFile == null || descriptionFile == null){
-			throw new Exception("파일 전달 오류 발생");
+//			return	throw new Exception("파일 전달 오류 발생");
 		}
 		
+		List<ItemResponse> itemResList = new ArrayList<ItemResponse>();
 		try {
 			// itemList : json to Object
 			String jsonItemListStr = goodsResponse.getItemList();
 			ObjectMapper objectMapper = new ObjectMapper();
-			List<ItemResponse> itemResList;
 			itemResList = objectMapper.readValue(jsonItemListStr, new TypeReference<List<ItemResponse>>() {});
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		
+			int memberId = (int) loginSession.getAttribute("memberId");
 			
-//				String memberId = (String) loginSession.getAttribute("memberId");
-			
+			try {
 			// goods
-//			int generatedGoodsId = goodsService.registerGoods(goodsResponse, memberId);
-			int generatedGoodsId = goodsService.registerGoods(goodsResponse);
+			int generatedGoodsId = goodsService.registerGoods(goodsResponse, memberId);
 			System.out.println("goods 등록 완료");
 
 			// img
 			UUID uuid = UUID.randomUUID();
 			String imgOriginalName = thumbnailFile.getOriginalFilename();
 			String imgName = uuid.toString() + "_" + imgOriginalName;
-			String imgPath = craftyFilePath + "\\" + imgName;
+			String imgPath = craftyFilePath;
 			int imgThumbnailPosition = 1;
 			int imgDescriptionPosition = 0;
 		
@@ -230,20 +238,22 @@ public class GoodsController {
 			itemService.registerGoodsItems(itemList);
 			
 			System.out.println("item 등록 완료");
-
 			
-		} catch (JsonMappingException e) {
+			return new ResponseEntity("SUCCESS", HttpStatus.OK);
+		
+	}catch(CustomException e) {
+			ErrorResponse response = new ErrorResponse(e.getErrorCode());
+			System.out.println("response : " + response);
+			System.out.println("Exception occurred: " + e.getErrorCode() + e.getErrorCode().getMsg());
 			e.printStackTrace();
-		} catch (JsonProcessingException e) {
+			return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+		} catch (Exception e) {
+			ErrorResponse response = new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-
-
-		return "redirect:/main";
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		} 
 	}
-	
+
 	// 참여 굿즈 내역 페이지
 	@GetMapping(value="/goods/attended")
 	public String attendedGoods(HttpSession session, @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
@@ -308,10 +318,10 @@ public class GoodsController {
 	@GetMapping(value="/goods/registered/{goodsId}")
 	public String registerGoodsDetail(HttpSession session, @PathVariable("goodsId") int goodsId,
 									  @ModelAttribute PageRequestDTO pageRequest, Model model) throws SQLException{
-		int memberId = (int) session.getAttribute("memberId");
+//		int memberId = (int) session.getAttribute("memberId");
 		
 		HashMap<String, Object> hashmap = new HashMap<>();
-		hashmap.put("memberId", memberId);
+//		hashmap.put("memberId", memberId);
 		hashmap.put("goodsId", goodsId);
 		hashmap.put("pageRequest", pageRequest);
 		
@@ -326,9 +336,15 @@ public class GoodsController {
 		
 		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
 		
+		// endDate와 오늘 날짜 비교하여 결과를 boolean 변수에 저장
+        Date endDate = goods.getEndDate(); // goods에 있는 endDate를 가져옴
+        Date today = new Date();
+        boolean isEndDateBeforeToday = endDate.before(today);
+		
 		model.addAttribute("goods", goods);
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("pageInfo", pageResponse);
+		model.addAttribute("isEndDateBeforeToday", isEndDateBeforeToday);
 		
 		return "registeredGoodsDetail";
 	}
@@ -387,9 +403,15 @@ public class GoodsController {
 		
 		PageResponseDTO pageResponse = new PageResponseDTO(totalCnt, 5, pageRequest);
 		
+		// endDate와 오늘 날짜 비교하여 결과를 boolean 변수에 저장
+        Date endDate = goods.getEndDate(); // goods에 있는 endDate를 가져옴
+        Date today = new Date();
+        boolean isEndDateBeforeToday = endDate.before(today);
+		
 		model.addAttribute("goods", goods);
 		model.addAttribute("itemList", itemList);
 		model.addAttribute("pageInfo", pageResponse);
+		model.addAttribute("isEndDateBeforeToday", isEndDateBeforeToday);
 		
 		return "registeredGoodsSalesByItem";
 	}
@@ -402,11 +424,11 @@ public class GoodsController {
 		hashmap.put("reason", reason);
 		hashmap.put("goodsId", goodsId);
 		
-//		int result = nondisclosureRequestService.insertNondisclosureRequest(hashmap);
-//
-//		if(result != 1) {
-//			throw new Exception("다시 시도해주세요.");
-//		}
+		int result = nondisclosureRequestService.insertNondisclosureRequest(hashmap);
+
+		if(result != 1) {
+			throw new Exception("다시 시도해주세요.");
+		}
 			
 		return "redirect:/goods/registered/sales/" + Integer.toString(goodsId);
 	}

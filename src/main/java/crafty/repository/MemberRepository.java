@@ -11,10 +11,14 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
+	// find Account
 	Optional<Member> findByLoginIdAndPhoneNum(String loginId, String phoneNum);
-
+	
     @Modifying
     @Transactional
     @Query("UPDATE Member m SET m.loginPw = :password WHERE m.loginId = :loginId AND m.phoneNum = :phoneNum")
     void updatePassword(@Param("loginId") String loginId, @Param("phoneNum") String phoneNum, @Param("password") String password);
+
+	Member findByEmail(String email);
+
 }

@@ -17,7 +17,7 @@
 				LEFT JOIN likes l ON l.member_id = #{memberId} AND l.goods_id = g.goods_id
 				JOIN GOODS_DESCRIPTION_IMG gd ON gd.goods_id = g.goods_id
 				JOIN open_alarm oa ON oa.member_id = #{memberId} AND oa.goods_id = g.goods_id
-				WHERE gd.img_position = 1
+				WHERE gd.img_position = 1 and g.registration_status = 1 and g.nondisclosure_status = 0
 				GROUP BY g.goods_id, g.goods_name, g.introduction, gd.img_path, gd.img_name, 
 				        g.category, like_id, alarm_id, g.goods_created_at, g.target_amount
 				ORDER BY g.goods_created_at DESC
@@ -41,9 +41,9 @@
           VALUES (open_alarm_seq.NEXTVAL,
           			#{memberId},
           			#{goodsId},
-          			(SELECT start_date
-          			 FROM GOODS
-          			 WHERE goods_id = #{goodsId})
+          			(SELECT TRUNC(start_date) - INTERVAL '1' DAY
+			         FROM GOODS
+			         WHERE goods_id = #{goodsId})
           )
       </insert>
       

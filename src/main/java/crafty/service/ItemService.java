@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import crafty.dto.CustomException;
+import crafty.dto.ErrorCode;
 import crafty.dto.Item;
 import crafty.dto.ResponseRegisteredGoodsSalesByItem;
 import crafty.mapper.ItemMapper;
@@ -48,6 +50,7 @@ public class ItemService {
 	}
 	
 	
+	@Transactional
 	public boolean registerGoodsItems(List<Item> itemList) throws Exception {
 		boolean result = false;
 
@@ -56,7 +59,8 @@ public class ItemService {
 		if(res != 0) {
 			result = true;
 		} else {
-			throw new Exception("item 생성 실패");
+//			throw new Exception("item 생성 실패");
+			throw new CustomException("Error", ErrorCode.FAILED_TO_CREATE_GOODS);
 		}
 		
 		

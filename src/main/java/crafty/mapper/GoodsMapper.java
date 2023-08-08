@@ -39,12 +39,10 @@ public interface GoodsMapper {
 	// 메인 페이지
 	public List<MainCard> getMainGoods(@Param("pageRequest") PageRequestDTO pageRequest,
 									   @Param("pageProperties") PageProperties pageProperties,
-									   @Param("keyword") String keyword,
 									   @Param("memberId") int memberId);
 
 	public int getMainGoodsTotalCount(@Param("pageRequest") PageRequestDTO pageRequest,
 								      @Param("pageProperties") PageProperties pageProperties,
-								      @Param("keyword") String keyword,
 								      @Param("memberId") int memberId);
 	
 	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException;
@@ -72,8 +70,17 @@ public interface GoodsMapper {
 	// 프로필 페이지 굿즈 리스트
 	public List<MainCard> getGoodsByMemberId(HashMap<String, Object> hashmap) throws SQLException;
 	
-	public int getTotalGoodsByMemberId(int memberId) throws SQLException;
+	public int getTotalGoodsByMemberId(@Param("memberId") int memberId, @Param("ongoing") int ongoing) throws SQLException;
 	
 	// 굿즈 등록 
 	public int registerGoods(Goods goods) throws Exception;
+	
+	// 오픈 예정 굿즈의 상태를 진행중으로 변경
+	public void updateGoodsStatusToInProgress() throws Exception;
+	
+	// 매일 정각, 목표 금액에 도달하지 못한 진행중인 굿즈의 상태를 종료로 변경
+	public void updateGoodsStatusToInCompletedAndFailure() throws Exception;
+	
+	// 매일 정각, 목표 금액에 도달한 진행중인 굿즈의 상태를 종료로 변경
+	public void updateGoodsStatusToInCompletedAndSuccess() throws Exception;
 }

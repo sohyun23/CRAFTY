@@ -47,9 +47,9 @@
       <!-- left column -->
       <div class="col-md-3">
         <div class="text-center">
-          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar" id="images"> <!-- 보조 강사 b-->
           <div>
-            <input type="file" class="form-control" id="file-load">
+            <input type="file" class="form-control" id="profileImg" onchange="uploadImage(this);"> <!-- 보조 강사b -->
           </div>
         </div>
       </div>
@@ -62,16 +62,17 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">닉네임</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="nickNameEdit" maxlength="8" placeholder="기존 닉네임" readonly>
-              <button id="duplicate-check-btn" onclick="duplicateCheck()">중복 확인</button>
-              <p id="aleady-nickname">이미 존재하는 닉네임입니다.</p>
+              <input class="form-control" type="text" id="nickname" name="nickname" maxlength="8" placeholder="기존 닉네임" value="${member.nickname}">
+              <button type="button" onclick="isNicknameExists()">중복 확인</button>
+            <!-- id="duplicate-check-btn" -->
             </div>
           </div>
+          
           <!-- 소개 -->
           <div class="form-group">
             <label class="col-lg-3 control-label">소개</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="introduceEdit" maxlength="100" placeholder="기존 소개글" readonly>
+              <input id="introduceInput" class="form-control" type="text" name="introduceEdit" maxlength="100" placeholder="${member.profileIntroduction}" value="${member.profileIntroduction}">
             </div>
           </div>
 
@@ -80,7 +81,8 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Email</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" name="emailEdit" placeholder="기존 이메일" readonly>
+              <input class="form-control" type="text" id="email" name="email" placeholder="기존 이메일" value="${member.email}">
+              <button type="button" onclick="isEmailExists()">중복 확인</button>
             </div>
           </div>
             
@@ -90,15 +92,15 @@
             <div class="col-md-8">
                <label for="confirm_password">주소</label>
                 <div class="input-wrapper">
-                <input class="form-control" type="text" id="sample6_postcode" onclick="sample6_execDaumPostcode()" placeholder="우편번호"readonly/>
+                <input class="form-control" type="text" id="sample6_postcode" onclick="sample6_execDaumPostcode()" placeholder="우편번호" value="${member.zoneCode}" readonly/>
                 <button type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" >주소 찾기<br></button>
                 </div>
 
                 <div class="input-container">
-                    <input class="form-control" type="text" id="sample6_address" placeholder="주소" readonly/>
+                    <input class="form-control" type="text" id="sample6_address" placeholder="주소" value="${member.roadAddress}" readonly/>
                     <input class="form-control" type="text" style="color:#9498a0;" id="sample6_extraAddress" placeholder="(참고 항목)" readonly/>
                 </div>
-                <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" maxlength="50">
+                <input class="form-control" type="text" id="sample6_detailAddress" placeholder="상세주소" value="${member.detailAddress}" maxlength="50">
                 
             </div>
           </div>
@@ -106,8 +108,8 @@
               <div class="form-group">
                 <label class="col-md-3 control-label"></label>
                 <div class="col-md-8" id="form-btn-right">
-                  <input  id="edit-save-btn" type="button" onclick="clickFollow()" value="Edit"></input>
-                </div>
+			    <input id="edit-save-btn" type="button" onclick="clickFollow()" value="Save">
+				</div>
             </div>
 
         </form>
@@ -169,37 +171,134 @@
 
                  
                 function readOnlyFalse(){
-                  const formInput = document.getElementsByClassName("form-control");
-                  let len = formInput.length;
-                  for (let i = 0; i < len; i++){
-                      formInput.item(i).readOnly = false;
-                  }
-
+                    const formInput = document.getElementsByClassName("form-control");
+                    let len = formInput.length;
+                    for (let i = 0; i < len; i++){
+                        formInput.item(i).readOnly = false;
+                    }
                 }
 
                 function readOnlyTrue(){
-                  const formInput = document.getElementsByClassName("form-control");
-                  let len = formInput.length;
-                  for (let i = 0; i < len; i++){
-                      formInput.item(i).readOnly = true;
-                  }
+                    const formInput = document.getElementsByClassName("form-control");
+                    let len = formInput.length;
+                    for (let i = 0; i < len; i++){
+                        formInput.item(i).readOnly = true;
+                    }
                 }
 
-                function clickFollow(){
-                  const btn = document.getElementById('edit-save-btn') //id가 'btn'인 요소를 반환한다.
-                  if(btn.value == "Edit" ){ //버튼의 텍스트값 확인
-                    btn.value = 'Save'  // 텍스트를 unfollow로 변경
-                    readOnlyFalse();
+                
+                
+                function clickFollow() {
+                	const profileImg = document.getElementById("profileImg").files[0];
+                    const nickname = document.getElementById("nickname").value;
+                    const profileIntroduction = document.getElementById("introduceInput").value;
+                    const email = document.getElementById("email").value;
+                    const zoneCode = document.getElementById("sample6_postcode").value;
+                    const roadAddress = document.getElementById("sample6_address").value;
+                    const detailAddress = document.getElementById("sample6_detailAddress").value;
 
-                  }else{  // 반대일 경우 다시 변경
-                    btn.value = "Edit"
-                    readOnlyTrue();
-
-                  }
+                    // 서버로 전송할 데이터를 FormData로 생성합니다.
+                    const formData = new FormData();
+                    formData.append("profileImg", profileImg);
+                    formData.append("nickname", nickname);
+                    formData.append("profileIntroduction", profileIntroduction);
+                    formData.append("email", email);
+                    formData.append("zoneCode", zoneCode);
+                    formData.append("roadAddress", roadAddress);
+                    formData.append("detailAddress", detailAddress);
+                    
+                    // 서버로 데이터를 전송합니다.
+                    axios({
+					      method: "post",
+					      url: "/profile/edit",
+					      headers: {
+					        "Content-Type": "multipart/form-data",
+					      },
+					      data: formData,
+					    })
+                        
+                    
+                    .then((response)=> {
+                            // 수정 성공 시 처리할 코드 작성
+                            alert("프로필이 수정되었습니다.");
+                            window.location.href = "/profile/" + ${member.memberId};
+                            // 필요하다면 페이지 리로드 또는 이동 처리 등 추가 가능
+                        })
+                        .catch(error => {
+                            // 에러 발생 시 처리할 코드 작성
+                            alert("프로필 수정에 실패했습니다. 다시 시도해주세요.");
+                            console.error(error);
+                        });
                 }
                 
-                function duplicateCheck(){
+                
+             	// 페이지 로딩 후 실행할 함수	
+             	document.addEventListener("DOMContentLoaded", function() {
+                // 입력 필드를 클릭할 때 이벤트 리스너 추가  
+                document.getElementById("introduceInput").addEventListener("click", function() {
+                    // 입력 필드의 값을 비웁니다.
+                    this.value = "";
+                  });
+                });
+                
+                /* 닉네임 중복 검사 */
+                function isNicknameExists() {
+	 	    	    let nickname = document.querySelector('input[name="nickname"]').value;
+	 	    	    console.log(nickname)
+	 	    	    axios.get('/isExistsProfileEdit', {params: {nickname: nickname}})
+		                .then(function (response) {
+		                    alert(response.data)
+		                    console.log(response)
+		                })
+		                .catch(function (error) {
+		                    console.log(error);
+	                });
+	 	    	}
+                
+                /* 이메일 중복 검사 */
+                function isEmailExists() {
+	 	    	    let email = document.querySelector('input[name="email"]').value;
+	 	    	   	console.log(email)
+	 	    	    axios.get('/isExistsProfileEdit', {params: {email: email}})
+		                .then(function (response) {
+		                    alert(response.data)
+		                    console.log(response)
+		                })
+		                .catch(function (error) {
+		                    console.log(error);
+		                });
+	 	    	}
+                
+                function clickSave() {
+                    const form = document.querySelector(".form-horizontal");
+                    const formData = new FormData(form);
 
+                    axios.post("/profile/edit", formData)
+                         .then(response => {
+                             // 수정 성공 시 처리할 코드 작성
+                             alert("프로필이 수정되었습니다.");                          
+                             // 필요하다면 페이지 리로드 또는 이동 처리 등 추가 가능
+                         })
+                         .catch(error => {
+                             // 에러 발생 시 처리할 코드 작성
+                             alert("프로필 수정에 실패했습니다. 다시 시도해주세요.");
+                             console.error(error);
+                         });
                 }
+                
+             	// 보조 강사
+                function uploadImage(input){
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            document.getElementById('images').setAttribute('src', e.target.result)
+                              
+                        };
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                
             </script>
 </html>

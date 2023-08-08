@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Document</title>
+    <title>CRAFTY</title>
   </head>
   <link
     href="https://hangeul.pstatic.net/hangeul_static/css/nanum-gothic.css"
@@ -104,7 +104,7 @@
         <h1>상품 정보 입력</h1>
         <div class="divLeft">
          <!--  <form id="itemInfoForm">--> 
-         <div id= itemInfoForm>
+         <div id= "itemInfoForm">
             <div id="itemInputBox">
               상품명<span class="ness">*</span>
               <div>
@@ -249,12 +249,51 @@
   </body>
 
  <script>
+ // 금일 날짜 구하기
+ const today = new Date().toISOString().split("T")[0];
+
+ // 7일 후의 날짜 구하기
+ const sevenDaysLater = new Date();
+ sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+ const sevenDaysLaterFormatted = sevenDaysLater.toISOString().split("T")[0];
+
+ // startDateInput 요소에 최소 날짜를 오늘로부터 7일 이후로 설정
+ const startDateInput = document.getElementById("startDateInput");
+ startDateInput.min = sevenDaysLaterFormatted;
+
+ // endDateInput 요소의 최소 날짜를 startDateInput의 선택된 값 이후로 설정
+ const endDateInput = document.getElementById("endDateInput");
+ endDateInput.min = sevenDaysLaterFormatted;
+
+ // startDateInput의 값이 변경될 때 endDateInput의 최소 날짜를 업데이트
+ startDateInput.addEventListener("change", function () {
+   endDateInput.min = startDateInput.value;
+   postDateInput.min = startDateInput.value;
+ });
+
+ // endDateInput 요소에 변경되는 값에 따라 postDateInput의 최소 날짜도 업데이트
+ endDateInput.addEventListener("change", function () {
+   postDateInput.min = endDateInput.value;
+ });
+ 
  const itemName = document.getElementById("itemName");
  const itemPrice = document.getElementById("itemPrice");
  const itemComposition = document.getElementById("itemComposition");
  const itemQuantity = document.getElementById("itemQuantity");
 
+
  const itemList = document.getElementById("itemList");
+ 
+ 
+ if (!itemList.hasChildNodes()) {
+     itemList.style.display = "none"; // Hide the list if there are no child nodes
+   }else{
+	   
+	   itemList.style.display = "block";
+   }
+ 
+ 
+ 
  function itemInfoList() {
    if (
      itemName.value == "" ||
@@ -268,14 +307,20 @@
    } else {
      const createitem = document.createElement("li");
      createitem.innerHTML = '<div class="item">' +
-							     '<input class="listItemName" value="' + itemName.value + '" type="text"></input>' +
-							     '<input class="listItemPrice" value="' + itemPrice.value + '" type="hidden"></input>' +
-							     '<input class="listItemComposition" value="' + itemComposition.value + '" type="hidden"></input>' +
-							     '<input class="listItemQuantity" value="' + itemQuantity.value + '" type="hidden"></input>' +
-							     '<button class="itemdelete" onclick="deleteitem(event)">x</button>' +
+							     '<div class= "item-row"> <div class="listItemName" value="' + itemName.value + ' ">' + itemName.value + ' </div>' +
+							     ' <button class="itemdelete" onclick="deleteitem(event)">x</button></div> ' +
+							     '<div class="listItemPrice" value="' + itemPrice.value + ' ">' + itemPrice.value  + ' 원  </div> '  +
+							     '<div class="listItemComposition" value="' + itemComposition.value +  ' ">' + itemComposition.value + ' </div> ' +
+							     '<div class="listItemQuantity" value="' + itemQuantity.value +  ' ">' + itemQuantity.value + ' 개 </div> '  +
 							     '</div>';
      itemList.appendChild(createitem);
 	
+     if (!itemList.hasChildNodes()) {
+         itemList.style.display = "none"; // Hide the list if there are no child nodes
+       } else {
+         itemList.style.display = "block"; // Show the list if there are child nodes
+       }
+     
      itemName.value = "";
      itemPrice.value = "";
      itemComposition.value = "";
@@ -287,9 +332,14 @@
  function deleteitem(event) {
 	 const listItem = event.target.closest("li");
 	  listItem.remove();
+	  if (!itemList.hasChildNodes()) {
+	      itemList.style.display = "none"; // 자식 노드가 없으면 리스트를 숨김
+	    }
+	  
    }
  
 
+ 
   function validateForm() {
     const goodsNameInput = document.getElementById("goodsNameInput").value;
     const goodsIntroInput = document.getElementById("goodsIntroInput").value;
@@ -327,6 +377,16 @@
       return;
     }
 
+    if (!descriptionFile) {
+      alert("굿즈 상세 설명 사진을 등록해 주세요.");
+      return;
+    }
+    
+    if (!itemList.hasChildNodes()) {
+      alert("상품을 등록해 주세요.");
+      return;
+    }
+    
     if (targetAmountInput.trim() === "") {
       alert("목표 금액을 입력해 주세요.");
       return;
@@ -337,17 +397,6 @@
       return;
     }
 
-
-    if (!descriptionFile) {
-      alert("굿즈 상세 설명 사진을 등록해 주세요.");
-      return;
-    }
-
-    if (!itemList.hasChildNodes()) {
-      alert("상품을 등록해 주세요.");
-      return;
-    }
-    
     if (bankAccountNumberInput.trim() === "") {
         alert("계좌번호를 입력해 주세요.");
         return;
@@ -395,10 +444,10 @@
     if (itemList.hasChildNodes()) {
       const children = itemList.childNodes;
       for (let i = 0; i < children.length; i++) {
-        const listItemName = children[i].getElementsByClassName("listItemName")[0].value;
-        const listItemPrice = children[i].getElementsByClassName("listItemPrice")[0].value;
-        const listItemComposition = children[i].getElementsByClassName("listItemComposition")[0].value;
-        const listItemQuantity = children[i].getElementsByClassName("listItemQuantity")[0].value;
+    	  const listItemName = children[i].querySelector(".listItemName").getAttribute("value");
+    	  const listItemPrice = children[i].querySelector(".listItemPrice").getAttribute("value");
+    	  const listItemComposition = children[i].querySelector(".listItemComposition").getAttribute("value");
+    	  const listItemQuantity = children[i].querySelector(".listItemQuantity").getAttribute("value");
         const itemPayload = {
           itemName: listItemName,
           itemPrice: listItemPrice,
@@ -407,7 +456,7 @@
         };
         itemListPayload.push(itemPayload);
       }
-    }
+    }	
 
     formData.append("itemList", JSON.stringify(itemListPayload));
 
@@ -425,12 +474,12 @@
         window.location.href="http://localhost:8081/main";
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response.data.code);
         // Error, handle the error
+        const url = "http://localhost:8081/error/" + error.response.data.code;
+        window.location.href=url;
       });
   }
 
-//  const registGoodsBtn = document.getElementById("registGoodsBtn");
-//  registGoodsBtn.addEventListener("click", validateForm);
 </script>
 </html>

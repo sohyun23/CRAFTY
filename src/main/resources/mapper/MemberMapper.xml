@@ -12,36 +12,85 @@
  		WHERE member_id = #{memberId}
  	</select>
  	
+ 	<!-- profileEdit -->
+ 	<select id="getProfileEditByMemberId" resultType="crafty.dto.ResponseProfile">
+        SELECT member_id, profile_img, nickname, profile_introduction,
+               email, zone_code, road_address, detail_address
+        FROM MEMBER
+        WHERE member_id = #{memberId}
+    </select>
+ 	
+
  	<!-- signUp, Insert a new member -->
     <insert id="signUp" parameterType="crafty.dto.Member">
     <selectKey keyProperty="memberId" resultType="int" order="BEFORE">
         SELECT member_seq.nextval FROM dual
     </selectKey>
 	    INSERT INTO MEMBER (member_id, name, nickname, login_id, login_pw, phone_num, zone_code, road_address,
-	                        detail_address, profile_img, email, birth, gender, last_login_date,
+	                        detail_address, email, birth, gender, last_login_date,
 	                        position, member_created_at, member_updated_at)
 	    VALUES (#{memberId}, #{name}, #{nickname}, #{loginId}, #{loginPw}, #{phoneNum}, #{zoneCode}, #{roadAddress},
-	            #{detailAddress}, #{profileImg}, #{email}, #{birth}, #{gender}, SYSDATE,
+	            #{detailAddress}, #{email}, #{birth}, #{gender}, SYSDATE,
 	            #{position}, SYSDATE, SYSDATE)
 	</insert>
+
+ 	<!-- signUp, validation-->
+	<!-- nickname -->
+	<select id="isNicknameExists" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM MEMBER 
+	    WHERE NICKNAME = #{nickname}
+	</select>
+	
+	<!-- id -->
+	<select id="isIdExists" resultType="int">
+	    SELECT COUNT(*)
+	    FROM MEMBER 
+	    WHERE LOGIN_ID = #{id}
+	</select>
+	
+	
+	<!-- phoneNum -->
+	<select id="isPhoneNumExists" resultType="int">
+	    SELECT COUNT(*)
+	    FROM MEMBER 
+	    WHERE PHONE_NUM = #{phoneNum}
+	</select>
+	
+	<!-- email -->
+	<select id="isEmailExists" resultType="int">
+	    SELECT COUNT(*)
+		FROM MEMBER 
+		WHERE EMAIL = #{email}
+	</select>
 
 	<!-- login -->    
     <select id="getMemberById" parameterType="map" resultType="crafty.dto.Member">
     	SELECT * FROM member WHERE login_id = #{id}
 	</select>
+	<!-- last login time stamp update -->
+	<update id="updateLastLoginDate">
+	    UPDATE MEMBER
+	    SET last_login_date = #{lastLoginDate}
+	    WHERE member_id = #{memberId}
+	</update>
 
 	<!-- findAccount -->
 	<select id="getMemberByNameAndPhone" resultType="crafty.dto.Member">
-	    SELECT * FROM MEMBER WHERE name = #{name} AND phoneNum = #{phoneNum}
+	    SELECT * FROM MEMBER WHERE name = #{name} AND phone_num = #{phoneNum}
 	</select>
 
 	<select id="getMemberByIdAndPhone" resultType="crafty.dto.Member">
-	    SELECT * FROM MEMBER WHERE loginId = #{loginId} AND phoneNum = #{phoneNum}
+	    SELECT * FROM MEMBER WHERE login_id = #{loginId} AND phone_num = #{phoneNum}
 	</select>
 
 	<update id="updateMemberPassword">
-	    UPDATE MEMBER SET loginPw = #{loginPw} WHERE memberId = #{memberId}
+	    UPDATE MEMBER SET login_pw = #{loginPw} WHERE member_id = #{memberId}
 	</update>
+	
+ 	<select id="getMemberByEmail" parameterType="String" resultType="crafty.dto.Member">
+	    SELECT * FROM MEMBER WHERE email = #{email}
+	</select>
  	
  	<!-- 주문자 정보 -->
  	<select id="getMemberByMemberId" resultType="crafty.dto.RequestPayment">
@@ -49,6 +98,28 @@
  		FROM MEMBER
  		WHERE member_id = #{memberId}
  	</select>
-
  	
+ 	<select id="getMemberEmailInfoByOrderId" resultType="crafty.dto.MemberEmailInfo">
+ 		SELECT m.nickname, m.email, g.goods_name
+ 		FROM ORDERS o
+ 		JOIN MEMBER m ON m.member_id = o.member_id
+ 		JOIN GOODS g ON g.goods_id = o.goods_id
+ 		WHERE o.order_id = #{orderId}
+ 	</select>
+	
+	<!-- 알림 신청한 고객들의 email, 굿즈 이름 -->
+ 	<select id="getAlarmedMemberEmail" resultType="crafty.dto.MemberEmailInfo">
+ 		SELECT m.nickname, m.email, g.goods_name
+		from OPEN_ALARM oa
+		JOIN MEMBER m ON m.member_id = oa.member_id
+		JOIN GOODS g ON g.goods_id = oa.goods_id
+		WHERE TRUNC(oa.send_date) = TRUNC(SYSDATE)
+ 	</select>
+ 	
+ 	<select id="getMemberEmailInfoByGoodsId" resultType="crafty.dto.MemberEmailInfo">
+ 		SELECT m.nickname, m.email, g.goods_name
+ 		FROM GOODS g
+ 		JOIN MEMBER m ON m.member_id = g.member_id
+ 		WHERE g.goods_id = #{goodsId}
+ 	</select>
  </mapper>

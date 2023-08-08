@@ -13,12 +13,23 @@ li{
 /*div{
 	border:1px solid;
 }*/
+
 div.top-row{
     display:flex;
     justify-content: space-between;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+}
+b{
+	 font-weight: 600;
+}
+
+.top-row>hr{
+	width: 580px;
 }
 div.top-left{
     width:400px;
+
 }
 div.top-right{
     width:600px;
@@ -26,13 +37,19 @@ div.top-right{
     margin-left: 20px;
     font-size:22px;
 }
+#goods-info{
+	width: 550px;
+	padding: 10px;
+}
 #goods-name{
 	font-size: 36px;
+	font-weight: 600;
 	margin-bottom: 10px;
 }
 #period {
 	font-size: 18px;
 	margin-bottom: 20px;
+	width: 570px;
 }
 #goods-cart>li{
     margin-left: -40px;
@@ -48,7 +65,7 @@ div.top-right{
 }
 
 #goods-select {
-    width: 600px;
+    width: 560px;
 	height: 40px;
     font-size: 20px;
     border: 1px solid;
@@ -61,7 +78,11 @@ div.top-right{
 }
 
 #select-text {
-    padding-left: 5px;
+    /*
+    padding-left: 5px;*/
+    padding: 8px;
+  	font-size: 16px;
+
 }
 
 .bi {
@@ -69,7 +90,7 @@ div.top-right{
 }
 
 #item-container {
-    width: 600px;
+    width: 550px;
     max-height: 200px;
     overflow-y: scroll;
     display: none;
@@ -83,6 +104,13 @@ div.top-right{
     border-radius: 5px;
     cursor: pointer;
 }
+.item-box:hover{
+	background-color: #ececec;
+}
+#kakao-pay{
+	height: 50px;
+	margin-bottom: 10px;
+}
 
 .item-id {
 	display: none;
@@ -95,7 +123,7 @@ div.top-right{
 }
 
 .item-box{
-    width: 600px;
+    width: 570px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -132,7 +160,8 @@ div.top-right{
 
 #selected-item {
     margin-top: 15px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weght: 1000;
 }
 #thumbnail-box{
 	width:400px;
@@ -140,11 +169,11 @@ div.top-right{
 	display:flex;
 	justify-content:center;
 	align-items: center;
-	overflow:hidden;
+	overflow: hidden;
 }
-#thumbnail{
+.thumbnail{
 	max-width:100%;
-    max-height: 100%;
+    height: auto;
 }
 #detail{
     width: 380px;
@@ -153,8 +182,6 @@ div.top-right{
     border-radius:4px;
     height: 100px;
     text-align: left;
-    border:1px solid #3d56b2;
-    border-radius: 5px;
     padding: 5px;
 }
 #row>#left>#detail{
@@ -165,7 +192,7 @@ div.top-right{
     border:1px solid;
 }*/
 .cal-name{
-    width: 600px;
+    width: 550px;
     height:30px;
     display: block;
     flex-direction: column;
@@ -242,4 +269,8 @@ div.top-right{
 #goods-explanation{
     width: 1000px;
     text-align: center;
+}
+#goods-explanation img {
+	width: 100%;
+	height: auto;
 }

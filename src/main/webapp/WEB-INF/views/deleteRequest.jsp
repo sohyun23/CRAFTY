@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,33 +38,35 @@
             <div class="title">
                	 비공개 신청 굿즈
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <td class="goods-num">굿즈 번호</td>
-                        <td class="goods-name">굿즈명</td>
-                        <td class="goods-applicant">신청자</td>
-                        <td class="request-date">요청일</td>
-                        <td class="request-reason">요청 사유</td>
-                        <td class="allow-btn"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach items="${requestScope.goodsList}" var="goods">
-                    	<tr>
-                    		<td class="goods-num">${goods.goodsId}</td>
-	                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
-	                        <td class="goods-applicant"><a href="/profile/${goods.memberId}">${goods.nickname}</a></td>
-	                        <td class="request-date">${goods.nondisclosureCreatedAt}</td>
-	                        <td class="request-reason">${goods.nondisclosureReason}</td>
-	                        <td class="allow-btn">
-	                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>
-	                            <button class="disallowBtn" onclick="disallow(${goods.goodsId})">불허</button>
-	                        </td>
-                    	</tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+            <div class="table-container">
+	            <table>
+	                <thead>
+	                    <tr>
+	                        <td class="goods-num">굿즈 번호</td>
+	                        <td class="goods-name">굿즈명</td>
+	                        <td class="goods-applicant">신청자</td>
+	                        <td class="request-date">요청일</td>
+	                        <td class="request-reason">요청 사유</td>
+	                        <td class="allow-btn"></td>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                	<c:forEach items="${requestScope.goodsList}" var="goods">
+	                    	<tr>
+	                    		<td class="goods-num">${goods.goodsId}</td>
+		                        <td class="goods-name"><a href="/goods/${goods.goodsId}">${goods.goodsName}</a></td>
+		                        <td class="goods-applicant"><a href="/profile/${goods.memberId}">${goods.nickname}</a></td>
+		                        <td class="request-date"><fmt:formatDate value="${goods.nondisclosureCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		                        <td class="request-reason">${goods.nondisclosureReason}</td>
+		                        <td class="allow-btn">
+		                            <button class="allowBtn" onclick="allow(${goods.goodsId})">허가</button>
+		                            <button class="disallowBtn" onclick="disallow(${goods.goodsId})">불허</button>
+		                        </td>
+	                    	</tr>
+	                    </c:forEach>
+	                </tbody>
+	            </table>
+	        </div>
             <div class="pagination-box">
           		<nav class="pagination-nav">
           			<ul class="pagination">

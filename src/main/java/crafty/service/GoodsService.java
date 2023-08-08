@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import crafty.dto.CustomException;
+import crafty.dto.ErrorCode;
 import crafty.dto.Goods;
 import crafty.dto.GoodsResponse;
 import crafty.dto.ItemResponse;
@@ -30,15 +32,14 @@ public class GoodsService {
 	GoodsMapper goodsMapper;
 	
 	// 메인 굿즈 가져오기. 카테고리, 인기순, 진행상황, 키워드 등 정렬 기준 모두 적용 가능
-	public List<MainCard> getMainGoods(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword, int memberId) {
-				
-		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest, pageProperties, keyword, memberId);
+	public List<MainCard> getMainGoods(PageRequestDTO pageRequest, PageProperties pageProperties, int memberId) {
+		List<MainCard> goodsList = goodsMapper.getMainGoods(pageRequest, pageProperties, memberId);
 		return goodsList;
 	}
 
 	// 메인 굿즈 토탈 카운트 들고 오기
-	public int getMainGoodsTotalCount(PageRequestDTO pageRequest, PageProperties pageProperties, String keyword, int memberId) {
-		int result = goodsMapper.getMainGoodsTotalCount(pageRequest, pageProperties, keyword, memberId);
+	public int getMainGoodsTotalCount(PageRequestDTO pageRequest, PageProperties pageProperties, int memberId) {
+		int result = goodsMapper.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);
 		return result;
 	}
 	
@@ -164,21 +165,21 @@ public class GoodsService {
 		return goodsList;
 	}
 
-	public int getTotalGoodsByMemberId(int memberId) throws SQLException {
+	public int getTotalGoodsByMemberId(int memberId, int ongoing) throws SQLException {
 		
-		int totalCnt = goodsMapper.getTotalGoodsByMemberId(memberId);
+		int totalCnt = goodsMapper.getTotalGoodsByMemberId(memberId, ongoing);
 		
 		return totalCnt;
 	}
 	
 	// 굿즈 등록
 	@Transactional
-	public int registerGoods(GoodsResponse goodsResponse) throws Exception {
+	public int registerGoods(GoodsResponse goodsResponse, int memberId) throws Exception {
 		
 		boolean result = false;
-		
+		System.out.println(memberId);
 		Goods goods = Goods.builder()
-//								.memberId(memberId)
+							.memberId(memberId)
 							.goodsName(goodsResponse.getGoodsName())
 							.startDate(goodsResponse.getStartDate())
 							.endDate(goodsResponse.getEndDate())
@@ -195,14 +196,16 @@ public class GoodsService {
 							.nondisclosureStatus(0)
 							.build();
 
-		
+
 		int res = goodsMapper.registerGoods(goods);
 		int generatedGoodsId = goods.getGoodsId(); 
-		
+
 		if(res != 0) {
+
 			result = true;
 		} else {
-			throw new Exception("굿즈 생성 실패");
+			throw new CustomException("Error", ErrorCode.FAILED_TO_CREATE_GOODS);
+
 		}
 		
 		return generatedGoodsId;

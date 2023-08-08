@@ -12,7 +12,7 @@ public class ResponseGoodsManagement {
 	private String	goodsName;
 	private int		memberId;
 	private String	nickname;
-	private int		amount;
+	private Long	amount;
 	private	Date	adjustmentCreatedAt;
-	private int		lastTotalAmount;
+	private Long	lastTotalAmount;
 }

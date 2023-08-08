@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>Crafty</title>
+	<title>CRAFTY</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
 	<link href="/css/common.css" rel="stylesheet" type="text/css"/>
 	<link href="/css/registeredGoodsDetail.css" rel="stylesheet" type="text/css" />
@@ -40,7 +41,9 @@
 	                <div id="attend-number">
 	                	참여 수 : ${goods.salesNum}
 	                </div>
-	                <button id="delete-popup-btn">삭제 신청</button>
+	                <c:if test="${isEndDateBeforeToday}">
+		                <button id="delete-popup-btn">삭제 신청</button>
+	                </c:if>
 	            </div>
 	        </div>
 	        <div id="bottom">
@@ -56,11 +59,16 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
+	                	<c:if test="${empty requestScope.orderList}">
+	                		<tr>
+	                			<td id="nothing" colspan="6">주문건이 존재하지 않습니다!</td>
+	                		</tr>
+	                	</c:if>
 	                	<c:if test="${not empty requestScope.orderList}">
 		                	<c:forEach items="${requestScope.orderList}" var="order">
 		                		<tr>
 			                        <td class="order-num">${order.orderId}</td>
-			                        <td class="order-date">${order.orderCreatedAt}</td>
+			                        <td class="order-date"><fmt:formatDate value="${order.orderCreatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			                        <td class="order-item">${order.orderItems}</td>
 			                        <td class="order-total-price">${order.totalAmount}</td>
 			                        <td class="order-nickname"><a href="/profile/${order.memberId}">${order.nickname}</a></td>

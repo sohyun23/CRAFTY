@@ -1,7 +1,14 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
 
+html {
+	margin: 0;
+	padding: 0;
+}
+
 header {
-	font-family: "Pretendard Variable";
+	width: 1440px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Header */
@@ -9,13 +16,11 @@ header {
 	display : flex;
 	justify-content: center;
 	align-items: center;
-	
 	background: #FFFFFF;
-	margin : 0 auto;
 	height : 100px;
-	width : 1440px;
-	
 	position: relative;
+	z-index: 2;
+	border-bottom : 2px solid #c0c0c0;
 }
 
 .header a {
@@ -35,17 +40,15 @@ header {
 
 .main-dropdown, .login-container {
  	position: absolute;
- 	
 	display: flex;
 	justify-content: center;
 	align-items: center;
- 	
-	left : 93%;
+	left : 94%;
  	height : 65px;
 }
 
 .login-container {
-	left: 86.5%;
+	left: 88%;
 	width: 150px;
 	height: 45px;
 	flex-direction: row;
@@ -71,7 +74,6 @@ header {
   	border-radius:50%;
   	width: 50px;
   	height: 50px;
-  	
   	overflow: hidden;    
   	cursor:pointer;
 }
@@ -89,7 +91,6 @@ header {
 	background-color:#ffffff;
 	border-radius:5px;
 	box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
-	
 	z-index : 1;
 }
 
@@ -102,7 +103,7 @@ header {
   display : block;
   text-decoration : none;
   color : rgb(37, 37, 37);
-  font-size: 12px;
+  font-size: 14px;
   padding : 12px 20px;
 }
 
@@ -119,20 +120,22 @@ header {
 
 body {
 	font-family: "Pretendard Variable";
-	margin : 0px;
-	background: #FFFFFF;
+	margin : 0;
+	background: linear-gradient(white, #eff1f9d7);
 	padding-bottom: 80px;
 	position: relative;
+	min-height: 960px;
+	display: flex;
+	flex-direction: column;
 }
 
 .main-container {
 	width : 1440px;
-	height: auto;
-	min-height: 100%;
+	min-height: 100vh;
 	display: flex;
     margin: 0 auto;
-    margin-top: 20px;
-	padding-bottom: 80px;
+    padding-bottom: 25px;
+	background-color: white;
 }
 
 #wrap{
@@ -143,17 +146,11 @@ body {
 /* =======================================footer========================================*/
 footer {
 	height: 80px;
-	/* background-color: #FFFFFF;
-	padding-top: 25px;
-	margin-top: 50px;*/
 	text-align: center;
 	text-decoration: none;
 	color: #686868;
 	font-size: 18px;
-	/* position: absolute;
-  	bottom: 0; */
-  	position : fixed;
-  	/* transform : translateY(-100%); */
+  	position : absolute;
   	left: 0;
 	right: 0;
 	bottom: 0;
@@ -165,10 +162,12 @@ footer {
 .footer-container {
 	height: 100%;
 	background-color: #FAFAFA;
+	padding-top: 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	text-align: center;
+	margin: 0 auto;
+	border-top : 1px solid #c0c0c0;
 }
 
 .footer-image {
@@ -179,20 +178,20 @@ footer {
 /* =======================================pagination========================================*/
 /* pagination */
 .pagination-box {
+	height: 50px;
+    text-align: center;
+}
+.pagination-nav {
     display: flex;
     justify-content: center;
 }
-.pagination-nav {
-    margin: auto;
+.pagination {
+	list-style: none;
 }
 
-.pagination>ul {
-    display: inline-block;
-    justify-content: center;
-}
 .pagination>li {
+	display: inline-block;
     color: black;
-    float: left;
     text-decoration: none;
 }
 
@@ -205,9 +204,18 @@ footer {
 }
  
 .pagination a.active {
-    background-color: #D9E6FF;
-    color: black;
-    border: 1px solid #D9E6FF;
+    background-color: #3D56B2;
+    color: white;
+    font-weight: 600;
+    border: 1px solid #3D56B2;
+}
+
+.pagination li.active a {
+    background-color: #3D56B2;
+    color: white;
+    font-weight: 600;
+    border: 1px solid #3D56B2;
+    opacity: 0.9;
 }
 
 .pagination a:hover:not(.active) {border: 1px solid #415F9D;}
@@ -234,10 +242,10 @@ footer {
     margin: 0px;
 }
 .side-menu {
-    width: 220px;
+    width: 200px;
     float: left;
     margin-top: 25px;
-    /* margin-left: 50px; */
+    margin-left: 20px;
 }
 .line {
     width: 0px;
@@ -248,7 +256,7 @@ footer {
     display: block;
     margin-top: 8px;
     margin-bottom: 15px;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 600;
 }
 .menu-container {
@@ -261,13 +269,13 @@ footer {
     list-style: none;
 }
 .menu-container>ul>li {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 8px;
 }
 #current-title {
     font-weight: 700;
-    font-color: #3D56B2;
-    font-size: 22px;
+    color: #3D56B2;
+    font-size: 24px;
 }
 
 
@@ -318,6 +326,10 @@ select {
 
 /* =======================================table========================================*/
 
+.table-container {
+	min-height: 400px;
+}
+
 table {
     border-collapse: collapse;
     text-align: center;
@@ -329,7 +341,7 @@ thead {
     background-color: #3D56B2;
 }
 tbody {
-    font-size: 18px;
+    font-size: 20px;
 }
 td, th {
     border-bottom: 1px solid #444444;
@@ -337,6 +349,15 @@ td, th {
     padding-bottom: 7px;
     padding-left: 3px;
     padding-right: 3px;
+}
+
+tbody>tr>td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#nothing {
+	font-size: 24px;
 }
 
 /* =======================================a========================================*/
@@ -348,4 +369,14 @@ a {
 a:hover {
     color : #3D56B2;
     font-weight: 600;
+}
+
+.nothing {
+	height: 500px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+	font-weigth: 600;
+	color: #999999;
 }
