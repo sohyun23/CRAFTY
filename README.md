@@ -1,6 +1,6 @@
 # CRAFTY
 ### 1. CRAFTY
-상품 구매와 판매가 가능한 펀딩사이트
+펀딩사이트
 
 ### 2. Preview
 ![image](https://github.com/sohyun23/CRAFTY/assets/108653282/d65a7838-ea60-4e6d-bf26-b5d706db9737)
