@@ -16,4 +16,8 @@ public class ResponseGoodsDetail {
 	private Date endDate;
 	private int ongoingStatus;
 	private int registrationStatus;
+	private int likeCnt;
+	private int alarmCnt;
+	private int likeId;
+	private int alarmId;
 }

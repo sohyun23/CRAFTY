@@ -1,12 +1,7 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
 
-.main-total-container {
-	width : 1440px;
-	min-height: 100vh;
-	display: flex;
+.main-container {
 	flex-direction: column;
-    margin: 0 auto;
-	padding-bottom: 80px;
 }
 
 /* search box */
@@ -78,11 +73,11 @@ input#search-bar{
 
 /* category-bar */
 
-.main-search-category-container {
+.main-search-container {
 	width: 1440px;	
 	height : 49px;
 	display : flex;
-	justify-content : center;
+	justify-content : flex-end;
 	background-color : #efefef;
 	padding-top : 10px;
 	padding-bottom : 10px;
@@ -196,4 +191,16 @@ select {
 .nothing {
 	width: 1440px;
 	text-align: center;
+}
+
+.today-most-order-goods, .debut-goods, .open-scheduled-goods {
+	display: flex;
+	flex-direction: column;
+	min-height: 200px;
+}
+.title {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 0 40px;
 }

@@ -86,30 +86,20 @@ public class GoodsController {
 	private String deliveryKey;
 	
 	@GetMapping(value="/main")
-    public String main(Model model, HttpSession session) {    
-        
-        int memberId = 0;
-        if (session.getAttribute("memberId") != null) {
-            memberId = (int)session.getAttribute("memberId");
-            System.out.println(memberId);
-        }
-        
-        PageRequestDTO pageRequest = new PageRequestDTO(1, 8, "");
-        PageProperties pageProperties = new PageProperties("전체", 1, 0); // category, ongoing, order
-        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, memberId);        
-        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);    
-        PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
-        MainCategoryList categoryList = new MainCategoryList();
-        
-        model.addAttribute("pageProperties", pageProperties);
-        model.addAttribute("goodsList", goodsList);
-        model.addAttribute("pageInfo", pageResponse);
-        model.addAttribute("categoryList", categoryList.getCategoryList());
-        
+    public String main(Model model) throws Exception {    
+		
+		List<MainCard> mostOrderGoodsList = goodsService.getMostOrderGoods();
+		List<MainCard> debutGoodsList = goodsService.getDebutGoods();
+		List<MainCard> openScheduledGoodsList = goodsService.getOpenScheduledGoods();
+		
+		model.addAttribute("mostOrderGoodsList", mostOrderGoodsList);
+		model.addAttribute("debutGoodsList", debutGoodsList);
+		model.addAttribute("openScheduledGoodsList", openScheduledGoodsList);
+		
         return "main";
     }
-		
-	//?keyword={keyword}&category={category}&ongoing={ongoing}&order={order}&pageNum={pageNum}&amount={amount}
+
+//?keyword={keyword}&category={category}&ongoing={ongoing}&order={order}&pageNum={pageNum}&amount={amount}
     @GetMapping(value="/main/search")
     public String searchOrderBy(@RequestParam("keyword") String keyword,
                                 @RequestParam("category") String category,
@@ -127,22 +117,28 @@ public class GoodsController {
                 
         PageProperties pageProperties = new PageProperties(category, ongoing, order);
         PageRequestDTO pageRequest = new PageRequestDTO(pageNum, amount, keyword);
-        List<MainCard> goodsList = goodsService.getMainGoods(pageRequest, pageProperties, memberId);    
-        int total = goodsService.getMainGoodsTotalCount(pageRequest, pageProperties, memberId);        
-        PageResponseDTO pageResponse = new PageResponseDTO(total, 5, pageRequest);
         MainCategoryList categoryList = new MainCategoryList();
         
         model.addAttribute("pageProperties", pageProperties);
-        model.addAttribute("goodsList", goodsList);
-        model.addAttribute("pageInfo", pageResponse);
         model.addAttribute("categoryList", categoryList.getCategoryList());
         
         return "main";
     }
 	
 	@GetMapping(value="/goods/{goodsId}")
-	public String goodsDetail(@PathVariable("goodsId") int goodsId, Model model) throws SQLException{
-		ResponseGoodsDetail goods = goodsService.getGoodsByGoodsId(goodsId);
+	public String goodsDetail(HttpSession session, @PathVariable("goodsId") int goodsId, Model model) throws SQLException{
+		int memberId = 0;
+        if (session.getAttribute("memberId") != null) {
+            memberId = (int)session.getAttribute("memberId");
+            System.out.println(memberId);
+        }
+        
+		HashMap<String, Object> hashmap = new HashMap<>();
+		
+		hashmap.put("memberId", memberId);
+		hashmap.put("goodsId", goodsId);
+		
+		ResponseGoodsDetail goods = goodsService.getGoodsByGoodsId(hashmap);
 		String thumbnailImgName = goodsService.getGoodsThumbnailImgNameByGoodsId(goodsId);
 		String contentImgName = goodsService.getGoodsContentImgNameByGoodsId(goodsId);
 		List<Item> itemList = itemService.getItemsByGoodsId(goodsId);

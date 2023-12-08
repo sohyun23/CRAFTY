@@ -36,16 +36,16 @@ public interface GoodsMapper {
 
 	public int getRegisterRequestGoodsCount();
 	
-	// 메인 페이지
-	public List<MainCard> getMainGoods(@Param("pageRequest") PageRequestDTO pageRequest,
-									   @Param("pageProperties") PageProperties pageProperties,
-									   @Param("memberId") int memberId);
-
-	public int getMainGoodsTotalCount(@Param("pageRequest") PageRequestDTO pageRequest,
-								      @Param("pageProperties") PageProperties pageProperties,
-								      @Param("memberId") int memberId);
+	// 메인 - 오늘 가장 많이 팔린 굿즈
+	public List<MainCard> getMostOrderGoods() throws Exception;
 	
-	public ResponseGoodsDetail getGoodsByGoodsId(int goodsId) throws SQLException;
+	// 메인 - 오늘 오픈한 굿즈
+	public List<MainCard> getDebutGoods() throws Exception;
+	
+	// 메인 - 오픈 예정 굿즈
+	public List<MainCard> getOpenScheduledGoods() throws Exception;
+	
+	public ResponseGoodsDetail getGoodsByGoodsId(HashMap<String, Object> hashmap) throws SQLException;
 	
 	public String getGoodsThumbnailImgNameByGoodsId(int goodsId) throws SQLException;
 	

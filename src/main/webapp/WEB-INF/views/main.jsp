@@ -6,195 +6,121 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>main</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
-<link href="/css/common.css" rel="stylesheet" type="text/css">
-<link href="/css/card.css" rel="stylesheet" type="text/css">
-<link href="/css/mainLayout.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="path/to/bootstrap-icons.css">
+	<title>main</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link href="/css/common.css" rel="stylesheet" type="text/css">
+	<link href="/css/card.css" rel="stylesheet" type="text/css">
+	<link href="/css/main.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="path/to/bootstrap-icons.css">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-
-<%@ include file="header.jsp" %>
-
-<!-- ======================================================= -->
-<div class = "main-search-category-container">
-	<div class = "main-search-category-bundle">
-		<div class="main-category">
-			<div class="main-category-list">
-				<c:forEach var="cList" items="${categoryList}"> 
-					<c:if test="${pageProperties.category == cList}">
-						<div class="main-category-cell active">${cList}</div>
-					</c:if>
-					<c:if test="${pageProperties.category != cList}">
-						<div class="main-category-cell">${cList}</div>
-					</c:if>
-				</c:forEach>
-			</div>
-		</div>
+	<%@ include file="header.jsp" %>
 	
+	<!-- ======================================================= -->	<div class="main-search-container">
 		<div class="main-search">
 			<form class="search-container" id="search-container">
-				<c:if test="${pageInfo.pageRequest.keyword == ''}">
-					<input type="text" id="search-bar" placeholder="search">
-				</c:if>
-				<c:if test="${pageInfo.pageRequest.keyword != ''}">
-					<input type="text" id="search-bar" placeholder="${pageInfo.pageRequest.keyword}">
-				</c:if>			
+				<input type="text" id="search-bar" placeholder="search">		
 				<button class="search-bar-BTN"><img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></button>
 			</form>
 		</div>
 	</div>
-</div>
-	
-<!-- ======================================================= -->
-<div class="main-container">
-	<div class = "main-total-container">
-		
-		<div class="main-bar">
-			<div class="main-bar-title"><h1>${pageProperties.category}</h1></div>
-			<div class="main-bar-dropdown-bundle">
-				<select class="main-bar-dropdown main-bar-dropdown-1" onchange="goMain('dropdown1', this.value)">
-					<c:if test="${pageProperties.ongoing == 1}">
-						<option class="main-bar-dropdown-option" selected>진행중</option>
-						<option class="main-bar-dropdown-option">진행 예정</option>
-						<option class="main-bar-dropdown-option">종료</option>				
-					</c:if>
-					<c:if test="${pageProperties.ongoing == 0}">
-						<option class="main-bar-dropdown-option">진행중</option>
-						<option class="main-bar-dropdown-option" selected>진행 예정</option>
-						<option class="main-bar-dropdown-option">종료</option>				
-					</c:if>
-					<c:if test="${pageProperties.ongoing == 2}">
-						<option class="main-bar-dropdown-option">진행중</option>
-						<option class="main-bar-dropdown-option">진행 예정</option>
-						<option class="main-bar-dropdown-option" selected>종료</option>				
-					</c:if>		
-				</select>
-				<select class="main-bar-dropdown main-bar-dropdown-2" onchange="goMain('dropdown2', this.value)">
-					<c:if test="${pageProperties.order == 0}">
-						<option class="main-bar-dropdown-option" selected>인기순</option>
-						<option class="main-bar-dropdown-option">최신순</option>
-					</c:if>
-					<c:if test="${pageProperties.order == 1}">
-						<option class="main-bar-dropdown-option">인기순</option>
-						<option class="main-bar-dropdown-option" selected>최신순</option>
-					</c:if>
-				</select>
-			</div>
-		</div>
 		
 	<!-- ======================================================= -->
-		
-	<div class="cards-container">
-		<c:if test="${empty goodsList}">
-        	<div class="nothing">검색하신 굿즈가 존재하지 않아요!</div>
-       	</c:if>
-		<c:forEach var="card" items="${goodsList}">
-			
-			<div class="card">
-				<div class="card-top"><a href="/goods/${card.goodsId}"><img class="card-image" src="${card.imgPath}/${card.imgName}" /></a></div>
-				<div class="card-bottom">
-					<div class="card-title-container">
-						<div class = "card-title"><a href="/goods/${card.goodsId}">${card.goodsName}</a></div>
-						<!-- 진행중 : 좋아요 버튼 -->
-						<c:if test="${pageProperties.ongoing == 1}">
-							<!-- 좋아요 안한 굿즈: 빈 하트 -->
-							<c:if test="${card.likeId eq 0}">
-	                            <button class="heart-btn" id="like-btn" data-goods-id="${card.goodsId}">
-	                            	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-	                                	<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-	                                </svg>
-	                            </button>
-	                        </c:if>
-	                        <!-- 좋아요한 굿즈: 채워진 하트 -->
-	                        <c:if test="${card.likeId ne 0}">
-	                            <button class="heart-btn" id="unlike-btn" data-like-id="${card.likeId}">
-	                            	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill heart-icon" viewBox="0 0 16 16">
-	                                	<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-	                            	</svg>
-	                            </button>                                
-	                        </c:if>
-						</c:if>
-						<!-- 진행 예정: 알람 버튼 -->
-						<c:if test="${pageProperties.ongoing == 0}">
-							<!-- 알람설정 안한 굿즈: 빈 종 -->
-							<c:if test="${card.alarmId eq 0}">
-	                            <button class="alarm-btn" id="alarm-btn" data-goods-id="${card.goodsId}">
-	                            	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-									  <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
-									</svg>
-	                            </button>
-	                        </c:if>
-	                        <!-- 알람설정한 굿즈: 채워진 종 -->
-	                        <c:if test="${card.alarmId ne 0}">
-	                            <button class="alarm-btn" id="unalarm-btn" data-alarm-id="${card.alarmId}">
-	                            	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell-fill bell-btn" viewBox="0 0 16 16">
-										<path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
-									</svg>
-	                            </button>                                
-	                        </c:if>
-						</c:if>
-					</div>
-					
-					<div class="category-and-rate">
-						<div class="card-category">${card.category}</div>
-						<div class="bar">|</div>
-						<div class="rate">
-							<c:set var="rate" value="${(card.total * 100) / card.targetAmount}" />
-							<%
-							   double rateValue = (double)pageContext.getAttribute("rate");
-							   DecimalFormat decimalFormat = new DecimalFormat("0.00");
-							   String formattedRate = decimalFormat.format(rateValue);
-							%>
-							<c:set var="formattedRate" value="<%= formattedRate %>" />
-							달성률 : ${formattedRate}%
+	<div class="main-container">
+		<div class="banner"><img src="/craftyImg/banner.png"></div>
+		<div class="today-most-order-goods">
+			<div class="title">
+				<h2>오늘 사람들이 가장 많이 참여한 굿즈</h2>
+				<h2 class="order-more">더보기 ></h2>
+			</div>
+			<div class="cards-container">
+				<c:if test="${empty mostOrderGoodsList}"><div class="nothing">오늘은 아무도 참여하지 않았어요!</div></c:if>
+				<c:forEach var="card" items="${mostOrderGoodsList}">
+					<div class="card">
+						<div class="card-top"><a href="/goods/${card.goodsId}"><img class="card-image" src="${card.imgPath}/${card.imgName}" /></a></div>
+						<div class="card-bottom">
+							<div class = "card-title"><a href="/goods/${card.goodsId}">${card.goodsName}</a></div>
+							<div class="category-and-rate">
+								<div class="card-category">${card.category}</div>
+								<div class="bar">|</div>
+								<div class="rate">
+									<c:set var="rate" value="${(card.total * 100) / card.targetAmount}" />
+									<%
+									   double rateValue = (double)pageContext.getAttribute("rate");
+									   DecimalFormat decimalFormat = new DecimalFormat("0.00");
+									   String formattedRate = decimalFormat.format(rateValue);
+									%>
+									<c:set var="formattedRate" value="<%= formattedRate %>" />
+									달성률 : ${formattedRate}%
+								</div>
+							</div>
+							<div class="card-description">${card.introduction}</div>
 						</div>
 					</div>
-					
-					<div class="card-description">${card.introduction}</div>
-				</div>
+				</c:forEach>
 			</div>
-			
-		</c:forEach>
+		</div>
+	
+		<div class="debut-goods">
+			<div class="title">
+				<h2>오늘 오픈한 굿즈</h2>
+				<h2 class="debut-more">더보기 ></h2>
+			</div>
+			<div class="cards-container">
+				<c:if test="${empty debutGoodsList}"><div class="nothing">오늘 오픈한 굿즈가 없어요!</div></c:if>
+				<c:forEach var="card" items="${debutGoodsList}">
+					<div class="card">
+						<div class="card-top"><a href="/goods/${card.goodsId}"><img class="card-image" src="${card.imgPath}/${card.imgName}" /></a></div>
+						<div class="card-bottom">
+							<div class = "card-title"><a href="/goods/${card.goodsId}">${card.goodsName}</a></div>
+							<div class="category-and-rate">
+								<div class="card-category">${card.category}</div>
+								<div class="bar">|</div>
+								<div class="rate">
+									<c:set var="rate" value="${(card.total * 100) / card.targetAmount}" />
+									<%
+									   double rateValue = (double)pageContext.getAttribute("rate");
+									   DecimalFormat decimalFormat = new DecimalFormat("0.00");
+									   String formattedRate = decimalFormat.format(rateValue);
+									%>
+									<c:set var="formattedRate" value="<%= formattedRate %>" />
+									달성률 : ${formattedRate}%
+								</div>
+							</div>
+							<div class="card-description">${card.introduction}</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
 		
-	</div>
-		
-	<!-- ======================================================= -->
-		<div class="pagination-box">
-			<nav class="pagination-nav">
-				<ul class="pagination">
-					
-					<c:if test="${pageInfo.prev}">
-						<li><a aria-label="Previous" class = "paginationBTN Previous">Prev</a></li>
-					</c:if>
-					
-					<c:forEach var="num" begin="${pageInfo.startPage}" end="${pageInfo.endPage}">
-						<c:if test="${pageInfo.pageRequest.pageNum == num}">
-							<li class="paginationBTNList"><a class="paginationBTN page active">${num}</a></li>
-						</c:if>
-						<c:if test="${pageInfo.pageRequest.pageNum != num}">
-							<li class="paginationBTNList"><a class="paginationBTN page">${num}</a></li>
-						</c:if>
-
-					</c:forEach>
-					
-					<c:if test="${pageInfo.next}">
-						<li><a aria-label="next" class = "paginationBTN next">Next</a></li>
-					</c:if>
-				
-				</ul>
-			</nav>
+		<div class="open-scheduled-goods">
+			<div class="title">
+				<h2>오픈 예정 굿즈</h2>
+				<h2 class="schduled-more">더보기 ></h2>
+			</div>
+			<div class="cards-container">
+				<c:if test="${empty openScheduledGoodsList}"><div class="nothing">오픈 예정인 굿즈가 없어요!</div></c:if>
+				<c:forEach var="card" items="${openScheduledGoodsList}">
+					<div class="card">
+						<div class="card-top"><a href="/goods/${card.goodsId}"><img class="card-image" src="${card.imgPath}/${card.imgName}" /></a></div>
+						<div class="card-bottom">
+							<div class = "card-title"><a href="/goods/${card.goodsId}">${card.goodsName}</a></div>
+							<div class="category-and-rate">
+								<div class="card-category">${card.category}</div>
+							</div>
+							<div class="card-description">${card.introduction}</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	</div>
-</div>
-
-
-<%@ include file="footer.jsp" %>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<%@ include file="footer.jsp" %>
+</body>
 <script type="text/javascript">	
 	
 	//==================================== 클릭 할당 함수 및 기능==================================
@@ -202,204 +128,9 @@
 	document.getElementById('search-container').addEventListener('submit', function(event) {
 		event.preventDefault(); // 폼 제출 기본 동작 취소
 		var keyword = document.getElementById('search-bar').value; // 검색어 값 가져오기
-		var url = '/main/search?keyword=' + encodeURIComponent(keyword) +'&category=전체&ongoing=1&order=0&pageNum=1&amount=8'; // URL 동적 구성
+		var url = '/main/search?keyword=' + encodeURIComponent(keyword); // URL 동적 구성
 		window.location.href = url; // 페이지 이동
 	});
 	
-	let elements = document.getElementsByClassName("paginationBTN");
-	for (var i = 0; i < elements.length; i++) {
-		  elements[i].addEventListener("click", goMain);
-		}
-	
-	let categorys= document.getElementsByClassName("main-category-cell");
-	for (var i = 0; i < categorys.length; i++) {
-		categorys[i].addEventListener("click", goMain);
-	}
-	
-	function goMain(state, value){	
-		let keyword = '${pageInfo.pageRequest.keyword}';
-		let category = '${pageProperties.category}';
-		let ongoing = ${pageProperties.ongoing};
-		let order = ${pageProperties.order};
-		let pageNum = ${pageInfo.pageRequest.pageNum};
-		let amount = ${pageInfo.pageRequest.amount};
-		
-		let clickValue = event.target.textContent;
-		
-		if (state == 'dropdown1') {
-			pageNum = 1;
-			if (value == '진행중') {
-				ongoing = 1;
-			} else if (value == '진행 예정') {
-				ongoing = 0;
-			} else {
-				ongoing = 2;
-			}
-		} else if (state == 'dropdown2') {
-			pageNum = 1;
-			if (value == '인기순') {
-				order = 0;
-			} else if (value == '최신순') {
-				order = 1;
-			}
-		} else if (clickValue == "전체" || clickValue == "푸드" || clickValue == "잡화" || clickValue == "뷰티" || clickValue == "유아" || clickValue == "반려동물") {	
-			pageNum = 1;
-			category = clickValue;
-		} else {				
-			if (clickValue == "Next") {
-				pageNum = ${pageInfo.endPage} + 1;
-			} else if (clickValue == "Prev") {
-				pageNum = ${pageInfo.startPage} - 1
-			} else {
-				pageNum = clickValue;
-			}	
-		}
-		
-		let url = '/main/search?keyword=' + keyword +
-					'&category=' + category +
-					'&ongoing=' + ongoing +
-					'&order=' + order +
-					'&pageNum=' + pageNum + 
-					'&amount=' + amount;
-
-		window.location.href = url;	
-	}
-	
-</script>
-
-</body>
-<script>
-	//==================================== like, unlike 함수==================================
-	
-	document.addEventListener("DOMContentLoaded", function() {
-		var likeBtns = document.querySelectorAll("#like-btn");
-		var unlikeBtns = document.querySelectorAll("#unlike-btn");
-		var alarmBtns = document.querySelectorAll("#alarm-btn");
-		var unalarmBtns = document.querySelectorAll("#unalarm-btn");
-		
-		for (var i = 0; i < likeBtns.length; i++) {
-		    likeBtns[i].addEventListener("click", function() {
-		        var goodsId = this.getAttribute("data-goods-id");
-		        like(goodsId);
-		        console.log(goodsId);
-		    });
-		}
-		
-		for (var i = 0; i < unlikeBtns.length; i++) {
-		    unlikeBtns[i].addEventListener("click", function() {
-		        var likeId = this.getAttribute("data-like-id");
-		        unlike(likeId);
-		    });
-		}
-		
-		for (var i = 0; i < alarmBtns.length; i++) {
-			alarmBtns[i].addEventListener("click", function() {
-		        var goodsId = this.getAttribute("data-goods-id");
-		        alarm(goodsId);
-		    });
-		}
-		
-		for (var i = 0; i < unalarmBtns.length; i++) {
-			unalarmBtns[i].addEventListener("click", function() {
-		        var alarmId = this.getAttribute("data-alarm-id");
-		        unalarm(alarmId);
-		    });
-		}
-	});
-	
-	// 좋아요 함수
-	function like(goodsId) {
-	    // 세션에 멤버 아이디 존재하지 않으면 로그인 페이지로 이동
-	    if(!('${sessionScope.memberId}')) {
-	        window.location.href = "/login";
-	    } else {
-	        
-	         var url = "http://localhost:8081/goods/like/" + goodsId;
-	         
-	         axios.get(url)
-	              .then(response => {
-	                  // 좋아요 성공
-	               
-	                  location.reload();
-	              })
-	              .catch(error => {
-	                 // 좋아요 실패
-	                  /* console.error("다시 시도해주세요.", error); */
-	                  confirm(error.response.data);
-	                  location.reload();
-	              });
-	         
-	    }
-	}
-	
-	// 좋아요 취소 함수
-	function unlike(likeId) {
-	 
-		 if(!('${sessionScope.memberId}')) {
-	         window.location.href = "/login";
-	     } else {
-	    	 var url = "http://localhost:8081/goods/unlike/" + likeId;
-			 
-	    	 axios.get(url)
-			      .then(response => {
-			          // 좋아요 성공
-			       
-			          location.reload();
-			       })
-			       .catch(error => {
-			         // 좋아요 실패
-			          console.error("다시 시도해주세요.", error);
-			         
-			          location.reload();
-			       });
-	     }
-	}
-	
-	// 알림 신청 함수
-	function alarm(goodsId) {
-        
-        if(!('${sessionScope.memberId}')) {
-	         window.location.href = "/login";
-	     } else {
-       		 var url = "http://localhost:8081/goods/alarm/" + goodsId;
-	    	 
-       		 axios.get(url)
-             .then(response => {
-                 // 알림신청 성공
-                
-                location.reload();
-              })
-              .catch(error => {
-                // 알림신청 실패
-                 console.error("다시 시도해주세요.", error);
-                
-                 location.reload();
-              });
-	     }
-        
-    }
-	
-	// 알림 취소 함수
-    function unalarm(alarmId) {
-		
-    	if(!('${sessionScope.memberId}')) {
-	         window.location.href = "/login";
-	     } else {
-	        var url = "http://localhost:8081/goods/unalarm/" + alarmId;
-	        
-	        axios.get(url)
-	             .then(response => {
-	            	// 알림신청 취소 성공
-	                
-	                location.reload();
-	              })
-	              .catch(error => {
-	            	// 알림신청 취소 실패
-	                 console.error("다시 시도해주세요.", error);
-	                
-	                 location.reload();
-	              });
-	     }
-    }
 </script>
 </html>
